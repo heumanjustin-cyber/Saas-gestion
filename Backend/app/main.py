@@ -2,6 +2,9 @@ from fastapi import FastAPI
 
 from app.db.database import engine
 from app.api.company import router as company_router
+from app.api.location import router as location_router
+from app.api.employee import router as employee_router
+from app.api.service import router as service_router
 
 app = FastAPI()
 
@@ -30,3 +33,6 @@ def db_test():
 
 
 app.include_router(company_router)
+app.include_router(location_router)
+app.include_router(employee_router)
+app.include_router(service_router)
