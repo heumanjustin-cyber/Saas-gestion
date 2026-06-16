@@ -10,7 +10,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base, TimestampMixin
 
 if TYPE_CHECKING:
+    from app.models.company import Company
     from app.models.employee import Employee
+    from app.models.membership import CompanyMembership
 
 
 class User(Base, TimestampMixin):
@@ -35,7 +37,7 @@ class User(Base, TimestampMixin):
     )
 
     full_name: Mapped[str] = mapped_column(
-        String(150),
+        String(255),
         nullable=False,
     )
 
@@ -45,10 +47,15 @@ class User(Base, TimestampMixin):
         default=True,
     )
 
-    is_verified: Mapped[bool] = mapped_column(
-        Boolean,
-        nullable=False,
-        default=False,
+    companies: Mapped[list["Company"]] = relationship(
+        "Company",
+        back_populates="owner",
+    )
+
+    memberships: Mapped[list["CompanyMembership"]] = relationship(
+        "CompanyMembership",
+        back_populates="user",
+        cascade="all, delete-orphan",
     )
 
     employee_profile: Mapped["Employee | None"] = relationship(

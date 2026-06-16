@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
-from sqlalchemy import Boolean, String
+from sqlalchemy import Boolean, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -15,6 +15,9 @@ if TYPE_CHECKING:
     from app.models.employee import Employee
     from app.models.location import Location
     from app.models.service import Service
+    from app.models.user import User
+    from app.models.membership import CompanyMembership
+    from app.models.role import Role
 
 
 class Company(Base, TimestampMixin):
@@ -26,7 +29,16 @@ class Company(Base, TimestampMixin):
         default=uuid4,
     )
 
-    name: Mapped[str] = mapped_column(String(150), nullable=False)
+    owner_user_id: Mapped[UUID | None] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+
+    name: Mapped[str] = mapped_column(
+        String(150),
+        nullable=False,
+    )
 
     slug: Mapped[str] = mapped_column(
         String(120),
@@ -41,7 +53,9 @@ class Company(Base, TimestampMixin):
         default="active",
     )
 
-    country: Mapped[str | None] = mapped_column(String(80))
+    country: Mapped[str | None] = mapped_column(
+        String(80)
+    )
 
     timezone: Mapped[str] = mapped_column(
         String(80),
@@ -71,6 +85,23 @@ class Company(Base, TimestampMixin):
         Boolean,
         nullable=False,
         default=True,
+    )
+
+    owner: Mapped["User | None"] = relationship(
+        "User",
+        back_populates="companies",
+    )
+
+    memberships: Mapped[list["CompanyMembership"]] = relationship(
+        "CompanyMembership",
+        back_populates="company",
+        cascade="all, delete-orphan",
+    )
+
+    roles: Mapped[list["Role"]] = relationship(
+        "Role",
+        back_populates="company",
+        cascade="all, delete-orphan",
     )
 
     locations: Mapped[list["Location"]] = relationship(
