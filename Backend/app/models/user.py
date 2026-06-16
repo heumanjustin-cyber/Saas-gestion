@@ -47,6 +47,12 @@ class User(Base, TimestampMixin):
         default=True,
     )
 
+    is_verified: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        default=True,
+    )
+
     companies: Mapped[list["Company"]] = relationship(
         "Company",
         back_populates="owner",

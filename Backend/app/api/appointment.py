@@ -213,8 +213,8 @@ def get_agenda(
             {
                 "id": str(a.id),
                 "employee_id": str(a.employee_id),
-                "client_id": str(a.client_id),
-                "service_id": str(a.service_id),
+                "client_id": str(a.client_id) if a.client_id else None,
+                "service_id": str(a.service_id) if a.service_id else None,
                 "starts_at": a.starts_at.isoformat(),
                 "ends_at": a.ends_at.isoformat(),
                 "status": a.status,

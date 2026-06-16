@@ -1,4 +1,3 @@
-from datetime import datetime
 from uuid import UUID
 
 from fastapi import APIRouter, Depends
@@ -21,15 +20,9 @@ def create_blocked_time(
     db: Session = Depends(get_db)
 ):
     new_block = BlockedTime(
-        employee_id=UUID(
-            blocked_time.employee_id
-        ),
-        starts_at=datetime.fromisoformat(
-            blocked_time.starts_at
-        ),
-        ends_at=datetime.fromisoformat(
-            blocked_time.ends_at
-        ),
+        employee_id=blocked_time.employee_id,
+        starts_at=blocked_time.starts_at,
+        ends_at=blocked_time.ends_at,
         reason=blocked_time.reason,
     )
 

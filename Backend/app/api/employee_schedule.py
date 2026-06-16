@@ -20,7 +20,7 @@ def create_employee_schedule(
     db: Session = Depends(get_db)
 ):
     new_schedule = EmployeeSchedule(
-        employee_id=UUID(schedule.employee_id),
+        employee_id=schedule.employee_id,
         weekday=schedule.weekday,
         start_time=schedule.start_time,
         end_time=schedule.end_time,

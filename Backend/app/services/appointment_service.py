@@ -47,9 +47,13 @@ def check_schedule(
     starts_at: datetime,
     ends_at: datetime,
 ) -> bool:
-    weekday = starts_at.weekday()
-    slot_start = starts_at.time()
-    slot_end = ends_at.time()
+    from zoneinfo import ZoneInfo
+    tz = ZoneInfo("Europe/Madrid")
+    local_start = starts_at.astimezone(tz)
+    local_end = ends_at.astimezone(tz)
+    weekday = local_start.weekday()
+    slot_start = local_start.time().replace(tzinfo=None)
+    slot_end = local_end.time().replace(tzinfo=None)
     return db.query(EmployeeSchedule).filter(
         EmployeeSchedule.employee_id == employee_id,
         EmployeeSchedule.weekday == weekday,
