@@ -27,6 +27,31 @@ class AppointmentCreate(BaseModel):
         return v
 
 
+class AppointmentUpdate(BaseModel):
+    employee_id: UUID | None = None
+    service_id: UUID | None = None
+    starts_at: datetime | None = None
+    ends_at: datetime | None = None
+    final_price: Decimal | None = None
+    notes: str | None = None
+
+
+class AppointmentCancel(BaseModel):
+    reason: str | None = None
+
+
+class AppointmentReschedule(BaseModel):
+    starts_at: datetime
+    ends_at: datetime
+
+    @field_validator("ends_at")
+    @classmethod
+    def ends_after_starts(cls, v, info):
+        if "starts_at" in info.data and v <= info.data["starts_at"]:
+            raise ValueError("ends_at must be after starts_at")
+        return v
+
+
 class AppointmentResponse(BaseModel):
     id: UUID
     company_id: UUID
@@ -41,5 +66,6 @@ class AppointmentResponse(BaseModel):
     booking_channel: str
     final_price: Decimal | None
     notes: str | None
+    cancelled_reason: str | None
 
     model_config = {"from_attributes": True}
