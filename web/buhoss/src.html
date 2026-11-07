@@ -1,0 +1,1111 @@
+<title>BUHOSS</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Diseño: arriba la noche (lo que BUHOSS hace mientras el negocio cierra), abajo el día (cómo se monta).
+   El centro de la página es el selector «¿Qué negocio tienes?» con su demo en un móvil. */
+:root {
+  --paper: #F3F5F9; --card: #FFFFFF; --ink: #101828; --muted: #566176; --line: #D9DFE8; --soft: #E9EEF5;
+  --night: #0E1828; --night-2: #16233A; --night-ink: #EAF0F8; --night-muted: #97A4BB; --night-line: #27364F;
+  --amber: #EFA03A; --amber-deep: #B9700E; --on-amber: #2A1800; --ok: #178A55; --ok-soft: #E2F3EA; --bad: #C2410C;
+  --display: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --body: "Atkinson Hyperlegible", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 10px 30px rgba(16, 24, 40, .08);
+  --r-lg: 22px; --r-md: 14px; --r-sm: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0A101B; --card: #111A2A; --ink: #E7ECF4; --muted: #9AA5B8; --line: #24314A; --soft: #172238;
+    --night: #060B14; --night-2: #0F1828; --night-ink: #EAF0F8; --night-muted: #8F9CB4; --night-line: #1E2B44;
+    --amber: #F2AA45; --amber-deep: #F5BC6B; --on-amber: #241500; --ok: #3CC487; --ok-soft: #0E2A1D; --bad: #FB923C;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 12px 32px rgba(0, 0, 0, .35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0A101B; --card: #111A2A; --ink: #E7ECF4; --muted: #9AA5B8; --line: #24314A; --soft: #172238;
+  --night: #060B14; --night-2: #0F1828; --night-ink: #EAF0F8; --night-muted: #8F9CB4; --night-line: #1E2B44;
+  --amber: #F2AA45; --amber-deep: #F5BC6B; --on-amber: #241500; --ok: #3CC487; --ok-soft: #0E2A1D; --bad: #FB923C;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 12px 32px rgba(0, 0, 0, .35);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--night); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.05; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+h2 { font-size: clamp(1.9rem, 4.6vw, 3rem); font-weight: 750; }
+h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: -.01em; }
+p { margin: 0; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; border-radius: 6px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 600 .78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--amber-deep); }
+.night .eyebrow { color: var(--amber); }
+.lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; }
+.band { padding-block: clamp(56px, 9vw, 104px); }
+.sec-head { display: grid; gap: 14px; margin-bottom: 36px; max-width: 760px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 12px 22px; border-radius: 999px;
+       border: 1px solid var(--line); background: var(--card); color: var(--ink); font-weight: 700; text-decoration: none; transition: transform .15s; }
+.btn:active { transform: scale(.98); }
+.btn.amber { background: var(--amber); border-color: var(--amber); color: var(--on-amber); }
+.night .btn:not(.amber) { background: transparent; color: var(--night-ink); border-color: var(--night-line); }
+
+/* Cabecera */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--night); color: var(--night-ink); border-bottom: 1px solid var(--night-line); }
+.top .wrap { display: flex; align-items: center; gap: 14px; min-height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 800 1.25rem/1 var(--display); letter-spacing: .02em; }
+.brand svg { width: 38px; height: 30px; }
+.nav { display: flex; gap: 4px; margin-left: auto; }
+.nav a { text-decoration: none; padding: 8px 12px; border-radius: 999px; color: var(--night-muted); font-weight: 700; font-size: .92rem; }
+.nav a:hover { color: var(--night-ink); background: var(--night-2); }
+.top .btn { min-height: 42px; padding: 8px 16px; font-size: .92rem; }
+@media (max-width: 860px) { .nav { display: none; } .top .btn { margin-left: auto; } }
+
+/* Ojos del búho */
+.eye-pupil { transition: transform .5s ease; }
+.owl.look .eye-pupil { transform: translateX(2.2px); }
+.owl.blink .lid { transform: scaleY(1); }
+.lid { transform: scaleY(0); transform-origin: center; transform-box: fill-box; transition: transform .12s; }
+
+/* Portada: la noche */
+.night { background: var(--night); color: var(--night-ink); }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(28px, 5vw, 64px); align-items: center; padding-block: clamp(44px, 7vw, 88px); }
+.hero h1 { font-size: clamp(2.6rem, 7.2vw, 5.1rem); font-weight: 800; letter-spacing: -.035em; }
+.hero h1 em { font-style: normal; color: var(--amber); }
+.hero .lead { color: var(--night-muted); margin-top: 18px; }
+.hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.sectors-mini { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 26px; }
+.sectors-mini a { font-size: .86rem; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--night-line); color: var(--night-muted); text-decoration: none; }
+.sectors-mini a:hover { color: var(--night-ink); border-color: var(--night-muted); }
+.tonight { background: var(--night-2); border: 1px solid var(--night-line); border-radius: var(--r-lg); padding: 22px; box-shadow: 0 30px 60px rgba(0, 0, 0, .35); }
+.tonight header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.tonight header b { font-family: var(--display); font-size: 1.15rem; }
+.tonight header span { font: 500 .8rem/1 var(--mono); color: var(--night-muted); }
+.tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.tl li { display: grid; grid-template-columns: 52px 30px minmax(0, 1fr); gap: 10px; align-items: start; padding: 12px; border-radius: var(--r-md);
+         background: rgba(255, 255, 255, .03); border: 1px solid transparent; transition: background .4s, border-color .4s; }
+.tl li.now { background: rgba(239, 160, 58, .10); border-color: rgba(239, 160, 58, .45); }
+.tl time { font: 600 .9rem/1.6 var(--mono); color: var(--amber); }
+.tl .ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--night); color: var(--night-ink); }
+.tl .ic svg { width: 17px; height: 17px; }
+.tl p { font-size: .97rem; }
+.tl small { display: block; color: var(--night-muted); font-size: .84rem; }
+.tonight footer { margin-top: 12px; color: var(--night-muted); font-size: .8rem; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
+
+/* Selector de negocio */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; min-height: 48px; border-radius: 999px; border: 1px solid var(--line);
+        background: var(--card); font-weight: 700; font-size: .95rem; }
+.chip svg { width: 18px; height: 18px; color: var(--amber-deep); flex-shrink: 0; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip[aria-pressed="true"] svg { color: var(--amber); }
+@media (max-width: 700px) {
+  .chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: -16px; padding: 4px 16px 10px; scroll-padding-inline: 16px; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex-shrink: 0; scroll-snap-align: start; }
+}
+.panel { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); grid-template-areas: "title demo" "story demo";
+         column-gap: clamp(24px, 4vw, 56px); row-gap: 22px; margin-top: 28px; align-items: start; }
+.panel-title { grid-area: title; font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 800; letter-spacing: -.025em; }
+.story { grid-area: story; display: grid; gap: 22px; min-width: 0; }
+.demo { grid-area: demo; }
+@media (max-width: 900px) { .panel { grid-template-columns: 1fr; grid-template-areas: "title" "demo" "story"; } .demo { position: static !important; } }
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 560px) { .cols2 { grid-template-columns: 1fr; } }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.box h4 { margin: 0; font: 600 .76rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.list li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; }
+.list .mk { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 700 .8rem/1 var(--mono); margin-top: 2px; }
+.list.pain .mk { background: color-mix(in srgb, var(--bad) 14%, transparent); color: var(--bad); }
+.list.fix .mk { background: var(--ok-soft); color: var(--ok); }
+.list b { display: block; }
+.list small { color: var(--muted); font-size: .92rem; display: block; }
+.day { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 14px; }
+.day::before { content: ""; position: absolute; left: 51px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+.day li { display: grid; grid-template-columns: 44px 16px minmax(0, 1fr); gap: 8px; align-items: start; }
+.day time { font: 600 .88rem/1.5 var(--mono); color: var(--amber-deep); }
+.day i { width: 12px; height: 12px; border-radius: 50%; background: var(--amber); margin-top: 5px; position: relative; z-index: 1; box-shadow: 0 0 0 4px var(--paper); }
+
+/* Móvil de demostración */
+.demo { position: sticky; top: 88px; display: grid; justify-items: center; gap: 12px; }
+.phone { width: min(100%, 330px); aspect-ratio: 9 / 18.5; max-height: 680px; border-radius: 44px; padding: 12px; background: #0B0F17;
+         box-shadow: 0 0 0 1px #2A3344, 0 40px 80px rgba(16, 24, 40, .28); position: relative; }
+.phone::before { content: ""; position: absolute; top: 20px; left: 50%; width: 92px; height: 24px; border-radius: 99px; background: #0B0F17; transform: translateX(-50%); z-index: 2; }
+.screen { height: 100%; border-radius: 34px; overflow: hidden auto; background: #FAFBFD; color: #111827; font-size: 15px; line-height: 1.4;
+          padding: 52px 16px 18px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; }
+.screen::-webkit-scrollbar { display: none; }
+.demo-cap { font-size: .86rem; color: var(--muted); text-align: center; max-width: 34ch; }
+.demo-cap button { border: 0; background: none; color: var(--amber-deep); font-weight: 700; text-decoration: underline; padding: 4px; }
+/* Componentes dentro del móvil (colores fijos: es una pantalla de ejemplo) */
+.ph-head { display: flex; align-items: center; gap: 10px; }
+.ph-logo { width: 36px; height: 36px; border-radius: 11px; background: #111827; color: #F3B04B; display: grid; place-items: center; font: 800 1rem/1 var(--display); flex-shrink: 0; }
+.ph-head b { display: block; font-family: var(--display); font-size: 1.05rem; }
+.ph-head small { color: #6B7280; font-size: .8rem; }
+.ph-label { font: 600 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #6B7280; margin-top: 6px; }
+.ph-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 12px; border-radius: 14px; border: 1px solid #E5E7EB;
+          background: #fff; text-align: left; color: #111827; }
+.ph-row small { display: block; color: #6B7280; font-size: .78rem; }
+.ph-row em { font-style: normal; font-weight: 700; white-space: nowrap; }
+.ph-row.on { border-color: #E59A2F; background: #FFF7EA; }
+.ph-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ph-chip { padding: 8px 11px; border-radius: 99px; border: 1px solid #E5E7EB; background: #fff; font-size: .82rem; font-weight: 700; color: #111827; }
+.ph-chip.on { background: #111827; border-color: #111827; color: #fff; }
+.ph-chip:disabled { opacity: .4; text-decoration: line-through; cursor: not-allowed; }
+.ph-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.ph-btn { width: 100%; min-height: 46px; border-radius: 14px; border: 0; background: #E59A2F; color: #231400; font-weight: 800; margin-top: auto; }
+.ph-btn.dark { background: #111827; color: #fff; }
+.ph-btn:disabled { opacity: .45; }
+.ph-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 14px; display: grid; gap: 6px; }
+.ph-ok { width: 54px; height: 54px; border-radius: 50%; background: #DCF3E6; color: #137A49; display: grid; place-items: center; font-size: 1.6rem; margin: 6px auto 0; }
+.ph-center { text-align: center; display: grid; gap: 6px; }
+.ph-big { font: 800 2.6rem/1 var(--display); letter-spacing: -.03em; }
+.ph-muted { color: #6B7280; font-size: .82rem; }
+.ph-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: .72rem; font-weight: 700; color: #9CA3AF; text-align: center; }
+.ph-steps span::before { content: ""; display: block; height: 5px; border-radius: 9px; background: #E5E7EB; margin-bottom: 6px; }
+.ph-steps span.done { color: #137A49; } .ph-steps span.done::before { background: #22A565; }
+.ph-steps span.now { color: #B66A0B; } .ph-steps span.now::before { background: #E59A2F; }
+.ph-bar { position: sticky; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 14px; background: #111827;
+          color: #fff; font-weight: 800; border: 0; width: 100%; margin-top: auto; }
+.ph-chat { display: grid; gap: 8px; }
+.bub { max-width: 86%; padding: 9px 12px; border-radius: 14px; font-size: .88rem; }
+.bub.in { background: #fff; border: 1px solid #E5E7EB; border-top-left-radius: 4px; }
+.bub.out { background: #DCF8C6; justify-self: end; border-top-right-radius: 4px; }
+.bub small { display: block; color: #6B7280; font-size: .7rem; text-align: right; margin-top: 2px; }
+.ph-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.ph-tile { aspect-ratio: 1; border-radius: 12px; background: repeating-linear-gradient(45deg, #EEF0F4, #EEF0F4 6px, #E4E7EC 6px, #E4E7EC 12px); display: grid; place-items: center; color: #6B7280; font-size: .72rem; font-weight: 700; }
+.ph-flow { display: grid; gap: 8px; }
+.ph-flow .st { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 8px; align-items: start; padding: 10px; border-radius: 12px; background: #fff; border: 1px solid #E5E7EB; opacity: .45; transition: opacity .3s; }
+.ph-flow .st.on { opacity: 1; border-color: #E59A2F; }
+.ph-flow .st.done { opacity: 1; }
+.ph-flow .st i { width: 26px; height: 26px; border-radius: 50%; background: #F3F4F6; display: grid; place-items: center; font-style: normal; font: 700 .75rem/1 var(--mono); }
+.ph-flow .st.done i { background: #DCF3E6; color: #137A49; }
+.ph-mono { font: 500 .78rem/1.5 var(--mono); background: #F3F4F6; border-radius: 10px; padding: 8px 10px; display: grid; gap: 2px; }
+.ph-alert { background: #FFF4E5; border: 1px solid #F3C27A; color: #7A4A06; border-radius: 12px; padding: 10px; font-size: .84rem; font-weight: 700; }
+.ph-range { width: 100%; accent-color: #E59A2F; }
+
+/* Piezas */
+.pieces { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
+.piece { grid-column: span 2; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.piece.wide { grid-column: span 3; }
+.piece.w4 { grid-column: span 4; }
+.piece p { color: var(--muted); font-size: .97rem; }
+.piece .art { margin-top: auto; padding-top: 6px; }
+.piece .add { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 1px dashed var(--line);
+              background: transparent; font-weight: 700; font-size: .88rem; color: var(--muted); }
+.piece .add[aria-pressed="true"] { border-style: solid; border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
+@media (max-width: 1000px) { .pieces { grid-template-columns: repeat(2, minmax(0, 1fr)); } .piece, .piece.wide, .piece.w4 { grid-column: span 1; } }
+@media (max-width: 620px) { .pieces { grid-template-columns: 1fr; } }
+.art-search { border: 1px solid var(--line); border-radius: var(--r-md); padding: 12px 14px; background: var(--paper); display: grid; gap: 3px; }
+.art-search small { color: var(--ok); font-size: .82rem; }
+.art-search b { color: #1A56DB; font-weight: 700; }
+:root[data-theme="dark"] .art-search b { color: #7AA7FF; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .art-search b { color: #7AA7FF; } }
+.art-search span { color: var(--muted); font-size: .86rem; }
+.art-slots { display: flex; flex-wrap: wrap; gap: 6px; }
+.art-slots span { font: 600 .84rem/1 var(--mono); padding: 9px 11px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--paper); }
+.art-slots span.taken { opacity: .45; text-decoration: line-through; }
+.art-slots span.pick { background: var(--amber); border-color: var(--amber); color: var(--on-amber); }
+.art-bubble { background: var(--ok-soft); border-radius: 14px 14px 14px 4px; padding: 12px 14px; font-size: .93rem; max-width: 34ch; }
+.art-bubble small { display: block; color: var(--muted); font: 500 .75rem/1.6 var(--mono); text-align: right; }
+.art-sticker { display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); border-radius: var(--r-md); padding: 12px; background: var(--paper); }
+.qr { width: 74px; height: 74px; display: grid; grid-template-columns: repeat(11, 1fr); gap: 1px; padding: 5px; background: #fff; border-radius: 8px; flex-shrink: 0; }
+.qr i { background: #0F172A; border-radius: 1px; }
+.qr i.o { background: transparent; }
+.art-sticker b { font-family: var(--display); font-size: 1.3rem; display: block; }
+.art-sticker small { color: var(--muted); }
+.art-ticket { font: 500 .8rem/1.55 var(--mono); background: #FFFDF8; color: #1F2937; border-radius: 6px; padding: 12px 14px; border: 1px solid #EDE6D6;
+              box-shadow: 0 1px 0 #EDE6D6; max-width: 280px; }
+.art-ticket .r { display: flex; justify-content: space-between; gap: 10px; }
+.art-ticket .big { font-weight: 600; font-size: .95rem; }
+.art-ticket .no { color: #B42318; font-weight: 600; }
+.art-ticket hr { border: 0; border-top: 1px dashed #CFC7B4; margin: 6px 0; }
+.art-chain { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font: 500 .74rem/1.3 var(--mono); }
+.art-chain span { padding: 8px 10px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--paper); }
+.art-chain b { color: var(--amber-deep); font-weight: 600; }
+.art-twin { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.art-twin span { text-align: center; padding: 11px 8px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--paper); font-weight: 700; font-size: .86rem; }
+.art-spark svg { width: 100%; height: 76px; display: block; }
+.art-spark small { color: var(--muted); font-size: .8rem; }
+.art-flow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: .84rem; font-weight: 700; }
+.art-flow span { padding: 7px 11px; border-radius: 999px; background: var(--soft); }
+.art-flow i { color: var(--amber-deep); font-style: normal; }
+
+/* Propuesta */
+.proposal-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+                pointer-events: none; display: flex; justify-content: center; }
+.proposal-bar button { pointer-events: auto; display: inline-flex; align-items: center; gap: 12px; min-height: 54px; padding: 10px 14px 10px 20px; border-radius: 999px; border: 0;
+                       background: var(--ink); color: var(--paper); font-weight: 700; box-shadow: var(--shadow); max-width: 100%; }
+.proposal-bar b { background: var(--amber); color: var(--on-amber); border-radius: 999px; padding: 4px 12px; white-space: nowrap; }
+.sheet { position: fixed; inset: 0; z-index: 40; display: grid; place-items: end center; background: rgba(5, 10, 20, .55); padding: 16px; }
+.sheet > div { width: min(100%, 620px); max-height: 86vh; overflow: auto; background: var(--card); color: var(--ink); border-radius: 24px; padding: 24px; display: grid; gap: 16px;
+               margin-bottom: env(safe-area-inset-bottom, 0px); }
+.sheet h3 { font-size: 1.5rem; }
+.sheet ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+.sheet pre { white-space: pre-wrap; font: 500 .84rem/1.5 var(--mono); background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md); padding: 12px; margin: 0; }
+.sheet .row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+
+/* Calculadora */
+.calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+@media (max-width: 860px) { .calc { grid-template-columns: 1fr; } }
+.calc .inputs { display: grid; gap: 22px; }
+.field { display: grid; gap: 8px; }
+.field label { display: flex; justify-content: space-between; gap: 12px; font-weight: 700; }
+.field output { font: 600 1rem/1.3 var(--mono); color: var(--amber-deep); white-space: nowrap; }
+.field input[type=range] { width: 100%; accent-color: var(--amber); height: 28px; }
+.results { background: var(--night); color: var(--night-ink); border-radius: var(--r-lg); padding: clamp(20px, 3vw, 32px); display: grid; gap: 18px; align-content: start; }
+.results .n { font: 600 clamp(2.2rem, 6vw, 3.4rem)/1 var(--mono); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.results .n.amber { color: var(--amber); }
+.results .lbl { color: var(--night-muted); font-size: .95rem; }
+.results .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.results hr { border: 0; border-top: 1px solid var(--night-line); margin: 0; }
+.results small { color: var(--night-muted); }
+
+/* Empresas */
+.biz { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 900px) { .biz { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .biz { grid-template-columns: 1fr; } }
+.biz div { border: 1px solid var(--night-line); border-radius: var(--r-lg); padding: 20px; display: grid; gap: 8px; align-content: start; background: rgba(255, 255, 255, .02); }
+.biz div p { color: var(--night-muted); font-size: .96rem; }
+.proof { margin-top: 44px; border-top: 1px solid var(--night-line); padding-top: 28px; display: grid; gap: 18px; }
+.proof ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 960px) { .proof ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.proof li b { display: block; font: 600 clamp(1.5rem, 3.5vw, 2.2rem)/1.1 var(--mono); color: var(--amber); letter-spacing: -.02em; }
+.proof li span { color: var(--night-muted); font-size: .9rem; }
+.proof > p { color: var(--night-muted); font-size: .86rem; }
+
+/* Pasos */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+.steps li { counter-increment: s; border-top: 3px solid var(--ink); padding-top: 16px; display: grid; gap: 8px; align-content: start; }
+.steps li::before { content: counter(s, decimal-leading-zero); font: 600 .9rem/1 var(--mono); color: var(--amber-deep); }
+.steps li p { color: var(--muted); }
+
+/* Preguntas */
+.faq { display: grid; gap: 10px; max-width: 860px; }
+.faq details { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); padding: 4px 18px; }
+.faq summary { cursor: pointer; font-weight: 700; padding: 14px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font: 600 1.2rem/1 var(--mono); color: var(--amber-deep); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding-bottom: 16px; color: var(--muted); max-width: 70ch; }
+
+/* Contacto */
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+@media (max-width: 860px) { .contact { grid-template-columns: 1fr; } }
+.form { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px; display: grid; gap: 14px; }
+.form label { display: grid; gap: 6px; font-weight: 700; font-size: .95rem; }
+.form input, .form textarea { font: inherit; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 12px 14px; min-height: 50px; }
+.form textarea { min-height: 100px; resize: vertical; }
+.form [aria-invalid="true"] { border-color: var(--bad); box-shadow: 0 0 0 3px color-mix(in srgb, var(--bad) 20%, transparent); }
+.msg-out { font: 500 .88rem/1.5 var(--mono); background: var(--paper); border: 1px dashed var(--line); border-radius: var(--r-sm); padding: 12px; white-space: pre-wrap; }
+.wa { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.wa code { font: 600 1.05rem/1 var(--mono); user-select: all; }
+.note-in { color: var(--muted); font-size: .92rem; }
+
+.foot { background: var(--night); color: var(--night-muted); }
+.foot .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-block: 34px calc(90px + env(safe-area-inset-bottom, 0px)); font-size: .9rem; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 14px; }
+.foot a { text-decoration: none; }
+.foot a:hover { color: var(--night-ink); }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></symbol>
+    <symbol id="i-razor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 14 10"/><path d="M12 4h8v5l-6 3-3-3z"/></symbol>
+    <symbol id="i-plate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v7a3 3 0 0 0 3 3v8M6 3v7M9 3v7"/><path d="M18 21V3c-2 0-4 2-4 6v4h4"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 2v3M12 2v3"/></symbol>
+    <symbol id="i-skewer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M7 6c0-1 2-2 5-2s5 1 5 2l-1.5 12c-.3 1.5-1.8 2-3.5 2s-3.2-.5-3.5-2z"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1 14H6z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></symbol>
+    <symbol id="i-hammer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 10-9 9a2 2 0 0 0 3 3l9-9"/><path d="m12 6 6 6 4-4-2-2-2 1-3-3 1-2-2-2z"/></symbol>
+    <symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5l8-3v19M12 9h8v12M3 21h18M8 7v.01M8 11v.01M8 15v.01M16 13v.01M16 17v.01"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-receipt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.7 7.1L4 20.5l1.4-5.1A8 8 0 1 1 21 12z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M6 16l4-5 3 3 5-7"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="BUHOSS, inicio">
+      <svg class="owl" id="owl" viewBox="0 0 38 30" aria-hidden="true">
+        <path d="M5 4 9 8M33 4l-4 4" stroke="#EFA03A" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="12" cy="15" r="9" fill="#EAF0F8"/><circle cx="26" cy="15" r="9" fill="#EAF0F8"/>
+        <circle class="eye-pupil" cx="12" cy="15" r="4.2" fill="#EFA03A"/><circle class="eye-pupil" cx="26" cy="15" r="4.2" fill="#EFA03A"/>
+        <rect class="lid" x="3" y="6" width="18" height="18" rx="9" style="fill:var(--night)"/><rect class="lid" x="17" y="6" width="18" height="18" rx="9" style="fill:var(--night)"/>
+        <path d="M17 24h4l-2 4z" fill="#EFA03A"/>
+      </svg>
+      BUHOSS
+    </a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#negocios">Tu negocio</a><a href="#piezas">Qué se monta</a><a href="#calculadora">Calculadora</a><a href="#empresas">Empresas</a><a href="#preguntas">Preguntas</a>
+    </nav>
+    <a class="btn amber" href="#contacto">Hablemos</a>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="night hero" aria-labelledby="h-hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Sistemas para negocios que atienden</p>
+        <h1 id="h-hero" style="margin-top:16px">Tú atiendes.<br><em>BUHOSS</em> se encarga del resto.</h1>
+        <p class="lead">Reservas, pedidos, cobros y avisos que funcionan solos, de día y de noche. Para peluquerías, bares, restaurantes, clínicas, tiendas y cualquier negocio que viva de atender bien.</p>
+        <div class="ctas">
+          <a class="btn amber" href="#negocios">¿Qué negocio tienes?</a>
+          <a class="btn" href="#piezas">Ver qué se monta</a>
+        </div>
+        <div class="sectors-mini" aria-label="Accesos directos por negocio" id="sectors-mini"></div>
+      </div>
+      <div class="tonight" aria-label="Ejemplo de una noche con BUHOSS">
+        <header><b>Esta noche, mientras cierras</b><span>ejemplo</span></header>
+        <ol class="tl" id="tonight">
+          <li><time>23:48</time><span class="ic"><svg><use href="#i-receipt"/></svg></span><p>Cierre de caja hecho<small>47 tickets · cuadra al céntimo</small></p></li>
+          <li><time>01:15</time><span class="ic"><svg><use href="#i-plate"/></svg></span><p>Pedido programado para mañana a las 14:00<small>2 menús del día · para recoger</small></p></li>
+          <li><time>03:12</time><span class="ic"><svg><use href="#i-calendar"/></svg></span><p>Nueva cita: sábado 10:30<small>Corte y barba · con Leo</small></p></li>
+          <li><time>07:30</time><span class="ic"><svg><use href="#i-bell"/></svg></span><p>Recordatorios enviados<small>9 clientes de hoy · 1 ha cambiado su hora</small></p></li>
+          <li><time>09:00</time><span class="ic"><svg><use href="#i-chart"/></svg></span><p>Resumen de ayer en tu móvil<small>Ticket medio 11,40 € · lo más vendido: menú dürüm</small></p></li>
+        </ol>
+        <footer>Mientras duermes, el sistema sigue atendiendo.</footer>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="negocios" aria-labelledby="h-neg">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Para tu caso</p>
+        <h2 id="h-neg">¿Qué negocio tienes?</h2>
+        <p class="lead">Elige el tuyo: verás lo que hoy te quita tiempo, lo que te montamos y cómo lo vería tu cliente en su móvil.</p>
+      </div>
+      <div class="chips" role="group" aria-label="Tipo de negocio" id="chips"></div>
+      <div class="panel">
+        <h3 class="panel-title" id="s-title" aria-live="polite"></h3>
+        <div class="story">
+          <div class="cols2">
+            <div class="box"><h4>Lo que hoy se come tu tiempo</h4><ul class="list pain" id="s-hoy"></ul></div>
+            <div class="box"><h4>Lo que te montamos</h4><ul class="list fix" id="s-con"></ul></div>
+          </div>
+          <div class="box"><h4>Un día con BUHOSS</h4><ol class="day" id="s-dia"></ol></div>
+        </div>
+        <div class="demo">
+          <div class="phone"><div class="screen" id="screen" aria-live="polite"></div></div>
+          <p class="demo-cap" id="demo-cap"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="piezas" aria-labelledby="h-pie" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Las piezas</p>
+        <h2 id="h-pie">Lo que se monta, pieza a pieza</h2>
+        <p class="lead">Cada negocio se lleva solo lo que le sirve. Marca las que encajan y al final tienes la propuesta lista para enviar.</p>
+      </div>
+      <div class="pieces" id="pieces"></div>
+    </div>
+  </section>
+
+  <section class="band" id="calculadora" aria-labelledby="h-calc" style="background:var(--soft)">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Con tus números</p>
+        <h2 id="h-calc">¿Cuánto te cuesta hacerlo a mano?</h2>
+        <p class="lead" id="calc-lead">Mueve las barras con los datos de tu negocio. El cálculo es tuyo, no una promesa nuestra.</p>
+      </div>
+      <div class="calc">
+        <div class="inputs" id="calc-inputs"></div>
+        <div class="results" aria-live="polite">
+          <div class="pair">
+            <div><div class="n" id="r-horas">0 h</div><div class="lbl" id="r-horas-lbl">al mes en esto</div></div>
+            <div><div class="n" id="r-euros">0 €</div><div class="lbl" id="r-euros-lbl">al mes que se escapan</div></div>
+          </div>
+          <hr>
+          <div class="field">
+            <label for="c-pct" style="color:var(--night-ink)">Parte que se automatiza <output id="o-pct">50 %</output></label>
+            <input type="range" id="c-pct" min="10" max="90" step="5" value="50">
+          </div>
+          <div><div class="n amber" id="r-gana">0 h · 0 €</div><div class="lbl">que recuperas cada mes</div></div>
+          <small>Cuenta 26 días de apertura al mes. Ajusta el porcentaje a lo que te parezca realista.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="night band" id="empresas" aria-labelledby="h-emp">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Más allá del mostrador</p>
+        <h2 id="h-emp">Si se repite cada semana, se puede automatizar.</h2>
+        <p class="lead" style="color:var(--night-muted)">Las mismas piezas que mueven un local sirven para una oficina, un almacén o una empresa con varios centros.</p>
+      </div>
+      <div class="biz">
+        <div><h3>Facturas que se apuntan solas</h3><p>Llega el PDF por correo, se leen proveedor, fecha e importe y se guardan donde toca.</p></div>
+        <div><h3>Informes que llegan sin pedirlos</h3><p>Cada lunes, las cifras de la semana en tu correo o en tu WhatsApp, sin abrir un Excel.</p></div>
+        <div><h3>Programas que se hablan</h3><p>Web, TPV, almacén y contabilidad conectados: lo que entra en uno aparece en los demás.</p></div>
+        <div><h3>Avisos a tiempo</h3><p>Stock que se acaba, un cobro que no llega, un precio que sube: te enteras antes de que sea un problema.</p></div>
+        <div><h3>Asistentes con IA</h3><p>Contestan lo repetitivo, ordenan el correo y te pasan solo lo que necesita a una persona.</p></div>
+        <div><h3>Cambiar de sistema sin perder nada</h3><p>Se migran clientes, productos y históricos desde lo que uses hoy.</p></div>
+      </div>
+      <div class="proof">
+        <h3 style="font-size:1.35rem">Lo que hay debajo, medido</h3>
+        <ul>
+          <li><b>1,5 s</b><span>del móvil del cliente a la pantalla de cocina</span></li>
+          <li><b>15 KB</b><span>pesa una carta completa con 42 platos</span></li>
+          <li><b>53</b><span>pruebas automáticas antes de cada cambio</span></li>
+          <li><b>1 comando</b><span>para traer una carta entera desde otro sistema</span></li>
+          <li><b>SHA-256</b><span>huella encadenada en cada ticket, como pide Verifactu</span></li>
+        </ul>
+        <p>Medido con la carta real de un kebab de 42 platos montada en BUHOSS.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="empezar" aria-labelledby="h-emp2">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Cómo empezamos</p>
+        <h2 id="h-emp2">De la charla a funcionando</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Te lo enseño en tu local</h3><p>Veinte minutos, con tus servicios o tu carta ya cargados para que lo veas con lo tuyo.</p></li>
+        <li><h3>Lo monto con tus datos</h3><p>Precios, horarios, personal, fotos y mesas. Si ya tienes otro sistema, se trae lo que sirva.</p></li>
+        <li><h3>Lo dejamos funcionando</h3><p>QR en las mesas, tablet, impresora y una hora para enseñarte a ti y a tu equipo.</p></li>
+        <li><h3>Lo mejoramos cada mes</h3><p>Miramos qué funciona y qué no con tus números, y se ajusta.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band" id="preguntas" aria-labelledby="h-faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><p class="eyebrow">Preguntas</p><h2 id="h-faq">Lo que se suele preguntar</h2></div>
+      <div class="faq">
+        <details><summary>¿Tengo que comprar ordenadores o un TPV nuevo?</summary><p>No. Funciona en el navegador del móvil, la tablet o el ordenador que ya tengas. Si hace falta imprimir tickets, te recomiendo una impresora térmica y un cajón que se conectan a lo que ya tienes.</p></details>
+        <details><summary>¿Mis clientes tienen que descargarse una app?</summary><p>No. Escanean un QR o abren un enlace y ya están reservando o pidiendo.</p></details>
+        <details><summary>¿Y lo de Verifactu?</summary><p>Los tickets salen numerados, encadenados con su huella y con el QR tributario. La obligación empieza el 1 de enero de 2027 para sociedades y el 1 de julio de 2027 para autónomos: lo dejamos preparado antes.</p></details>
+        <details><summary>¿Funciona en otros idiomas?</summary><p>La carta y las reservas pueden ir en español, inglés y francés, y se abren en el idioma del móvil de cada cliente.</p></details>
+        <details><summary>Ya tengo web u otro programa. ¿Lo pierdo?</summary><p>Se aprovecha lo que funcione y se trae lo demás. Una carta de 42 platos con todas sus opciones pasó de otro sistema a BUHOSS con un solo comando.</p></details>
+        <details><summary>¿Cuánto cuesta?</summary><p>Depende de las piezas que necesites. Después de verlo contigo te doy un precio cerrado.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="contacto" aria-labelledby="h-con" style="background:var(--soft)">
+    <div class="wrap contact">
+      <div class="sec-head" style="margin:0">
+        <p class="eyebrow">Hablemos</p>
+        <h2 id="h-con">¿Te lo enseño en tu negocio?</h2>
+        <p class="lead">En veinte minutos lo ves funcionando con tus precios y tus horarios. Si tienes una empresa y algo se repite cada semana, cuéntamelo también.</p>
+        <div class="wa" id="wa-direct" hidden>
+          <span class="note-in">WhatsApp:</span><code id="wa-num"></code>
+          <button class="btn" type="button" id="wa-copy" style="min-height:40px;padding:6px 14px">Copiar</button>
+        </div>
+      </div>
+      <form class="form" id="form" novalidate>
+        <label for="f-nombre">Tu nombre<input id="f-nombre" name="nombre" autocomplete="name" maxlength="80" placeholder="Ej.: Marta"></label>
+        <label for="f-negocio">Tu negocio<input id="f-negocio" name="negocio" maxlength="120" placeholder="Ej.: peluquería en el centro"></label>
+        <label for="f-texto">¿Qué te gustaría quitarte de encima?<textarea id="f-texto" name="texto" maxlength="600" placeholder="Ej.: contestar el WhatsApp para dar citas mientras corto"></textarea></label>
+        <button class="btn amber" type="submit" id="f-send">Preparar mensaje</button>
+        <div id="f-out" hidden>
+          <div class="msg-out" id="f-msg"></div>
+          <div class="wa" style="margin-top:10px">
+            <a class="btn amber" id="f-wa" href="#" target="_blank" rel="noopener" hidden>Enviar por WhatsApp</a>
+            <button class="btn" type="button" id="f-copy">Copiar mensaje</button>
+          </div>
+          <p class="note-in" id="f-note" style="margin-top:8px"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span><b style="color:var(--night-ink);font-family:var(--display)">BUHOSS</b> · sistemas para negocios que atienden</span>
+    <nav aria-label="Pie"><a href="#negocios">Tu negocio</a><a href="#piezas">Qué se monta</a><a href="#calculadora">Calculadora</a><a href="#empresas">Empresas</a><a href="#contacto">Contacto</a></nav>
+  </div>
+</footer>
+
+<div class="proposal-bar" id="pbar" hidden><button type="button" id="pbar-btn"><span id="pbar-txt">Propuesta</span><b id="pbar-n">0</b></button></div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-h"><div id="sheet-in"></div></div>
+
+<script>
+(() => {
+  "use strict";
+  /* Contacto: número de WhatsApp con prefijo de país, solo cifras (p. ej. "34600111222"). */
+  const WHATSAPP = "";
+
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const eur = (n) => n.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("buhoss:" + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem("buhoss:" + k, JSON.stringify(v)); } catch (e) { /* sin almacenamiento */ } },
+  };
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let timers = [];
+  const later = (fn, ms) => { const t = setTimeout(fn, ms); timers.push(t); return t; };
+  const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
+
+  /* ------------------------------------------------------------------ negocios */
+  const S = {
+    peluqueria: {
+      nombre: "Peluquería y estética", corto: "Peluquería", icon: "i-scissors", para: "Para tu peluquería", marca: "Tu peluquería", demo: "booking",
+      hoy: ["El teléfono suena con las manos en un tinte.", "Huecos vacíos porque alguien no vino y no avisó.", "La agenda en papel o en tu WhatsApp personal."],
+      con: [["Reservas 24 h", "Tus clientas eligen servicio, profesional y hora desde el móvil, también de madrugada."], ["Recordatorios", "Un aviso el día antes con opción de cambiar la cita: menos huecos vacíos."], ["Agenda por profesional", "Cada una ve su día y tú ves el de todas."], ["Cobro y caja", "Servicios y productos en el mismo ticket, y la caja cuadra al cerrar."]],
+      dia: [["08:55", "La agenda del día ya está llena desde anoche."], ["11:20", "Una clienta cambia su cita desde el recordatorio y el hueco se ofrece a otra."], ["16:40", "Ves qué servicios dejan más por hora."], ["20:30", "Cierras caja en dos minutos."]],
+      servicios: [["Corte y peinado", 45, 25], ["Tinte", 90, 42], ["Manicura", 40, 18], ["Tratamiento de keratina", 120, 70]], pros: ["Cualquiera", "Ana", "Sara"],
+      calc: { a: ["Llamadas y mensajes al día para dar citas", 15, 0, 80], b: ["Minutos por cada uno", 3, 1, 10], c: ["Citas perdidas al mes (no vienen o no se cogió el teléfono)", 8, 0, 60], d: ["Ticket medio", 30, 5, 200] },
+      piezas: ["web", "reservas", "recordatorios", "tpv", "resenas", "numeros"],
+    },
+    barberia: {
+      nombre: "Barbería", corto: "Barbería", icon: "i-razor", para: "Para tu barbería", marca: "Tu barbería", demo: "booking",
+      hoy: ["Cortas con el móvil vibrando en el bolsillo.", "Clientes que se van porque no saben si hay hueco.", "Quien reserva y no viene te deja media hora muerta."],
+      con: [["Reserva en 20 segundos", "Servicio, barbero y hora desde el móvil, sin llamar."], ["Recordatorio por WhatsApp", "El día antes, con botón para cambiar la hora."], ["Agenda de cada barbero", "Su día en su móvil; tú ves el de todos."], ["Reseñas en Google", "Al terminar, un botón para dejar opinión: más clientes nuevos."]],
+      dia: [["09:00", "Llegas y la mañana ya está reservada."], ["12:10", "Un cliente cambia su hora desde el aviso; otro coge el hueco."], ["17:30", "Tres reseñas nuevas en Google esta semana."], ["21:00", "Cierras y ves lo que ha hecho cada barbero."]],
+      servicios: [["Corte", 30, 15], ["Corte y barba", 45, 20], ["Arreglo de barba", 20, 10], ["Corte infantil", 25, 12]], pros: ["Cualquiera", "Leo", "Iván"],
+      calc: { a: ["Llamadas y mensajes al día para dar citas", 20, 0, 80], b: ["Minutos por cada uno", 2, 1, 10], c: ["Citas perdidas al mes", 10, 0, 60], d: ["Ticket medio", 17, 5, 100] },
+      piezas: ["web", "reservas", "recordatorios", "resenas", "tpv", "numeros"],
+    },
+    restaurante: {
+      nombre: "Restaurante", corto: "Restaurante", icon: "i-plate", para: "Para tu restaurante", marca: "Tu restaurante", demo: "menu",
+      hoy: ["Mesas esperando a que alguien les tome nota.", "Comandas a mano que se pierden entre la sala y la cocina.", "Turistas que no entienden la carta."],
+      con: [["Carta QR en tres idiomas", "Con fotos, alérgenos y precios siempre al día."], ["Pedido desde la mesa", "Entra directo en cocina con la mesa y lo que se quita."], ["Cocina en pantalla", "Cada comanda con su tiempo: nada se queda olvidado."], ["TPV y Verifactu", "La mesa se cobra en un toque y la caja cuadra sola."]],
+      dia: [["13:05", "La carta ya marca el plato que se acabó ayer."], ["14:20", "La mesa 6 pide el segundo vino sin levantar la mano."], ["15:40", "Cobras la mesa 3 con todo lo que pidió desde el QR."], ["00:10", "Cierre Z con las ventas por plato y por camarero."]],
+      carta: [["Menú del día", 14.5, "Primero, segundo, postre y bebida", [["Primero", ["Ensalada de la casa", "Crema de verduras"]], ["Segundo", ["Merluza a la plancha", "Carrillera al vino"]]], []], ["Croquetas caseras (8)", 9, "Jamón ibérico", [], []], ["Secreto ibérico", 16, "Con patatas y pimientos", [["Punto", ["Al punto", "Hecho"]]], ["Sin pimientos"]]],
+      calc: { a: ["Comandas al día que podrían entrar solas", 60, 0, 300], b: ["Minutos por comanda (tomar nota, pasarla, cobrar)", 2, 1, 10], c: ["Mesas o pedidos perdidos al mes", 15, 0, 120], d: ["Ticket medio por mesa", 38, 5, 200] },
+      piezas: ["web", "carta", "cocina", "tpv", "verifactu", "resenas", "numeros"],
+    },
+    bar: {
+      nombre: "Bar y cafetería", corto: "Bar", icon: "i-cup", para: "Para tu bar", marca: "Tu bar", demo: "bar",
+      hoy: ["La terraza llena y nadie pide la segunda ronda.", "Cuentas de mesa que no cuadran a última hora.", "El cambio y los tickets, todo a mano."],
+      con: [["QR en cada mesa", "Repetir ronda o pedir algo de picar sin esperar al camarero."], ["Cuenta por mesa", "Todo lo de la mesa en un ticket, también si se paga a medias."], ["TPV rápido", "Botones grandes, cambio calculado y cierre de caja en dos minutos."], ["Oferta del día", "Cambias la tapa del día y sale en todas las mesas al momento."]],
+      dia: [["08:30", "Los desayunos salen desde la barra en un toque."], ["13:45", "La terraza repite ronda desde el QR."], ["19:10", "Cambias la tapa del día desde el móvil."], ["01:00", "Cierras caja y sabes qué mesa y qué hora rinden más."]],
+      calc: { a: ["Rondas o pedidos al día", 80, 0, 400], b: ["Minutos por cada uno (ir, apuntar, cobrar)", 2, 1, 6], c: ["Rondas que no se piden al mes por no ver al camarero", 40, 0, 300], d: ["Importe medio por ronda", 7, 2, 40] },
+      piezas: ["carta", "tpv", "verifactu", "numeros", "resenas"],
+    },
+    kebab: {
+      nombre: "Kebab y comida rápida", corto: "Kebab", icon: "i-skewer", para: "Para tu kebab", marca: "Tu kebab", demo: "menu",
+      hoy: ["Pedidos por teléfono mal apuntados en hora punta.", "Clientes esperando sin saber si lo suyo va o no.", "La carta de la pared solo en español."],
+      con: [["Pide en tres toques", "Carne, salsa y lo que se quita con botones, sin escribir."], ["¿Lo hacemos menú?", "Al pedir un kebab se ofrece el menú con patatas y bebida."], ["Aviso de listo", "El cliente ve en su móvil cuándo puede recogerlo."], ["Domicilio con mínimo", "Envío y pedido mínimo calculados solos."]],
+      dia: [["13:30", "Abres y ya hay pedidos programados para recoger."], ["21:15", "Hora punta: los pedidos entran en cocina con número 001, 002, 003…"], ["21:40", "La cocina va a tope: pausas los pedidos online 15 minutos."], ["01:30", "Cierre de caja con lo más vendido de la noche."]],
+      carta: [["Kebab", 5, "En pan de pita con ensalada y salsa", [["Carne", ["Pollo", "Ternera", "Mixto"]], ["Salsa", ["Blanca", "Picante", "Las dos"]]], ["Sin cebolla", "Sin tomate"]], ["Dürüm", 6, "Enrollado con ensalada y salsa", [["Carne", ["Pollo", "Ternera", "Mixto"]], ["Salsa", ["Blanca", "Picante", "Las dos"]]], ["Sin cebolla", "Sin tomate"]], ["Menú kebab", 7, "Con patatas y bebida", [["Carne", ["Pollo", "Ternera", "Mixto"]], ["Bebida", ["Refresco", "Agua"]]], []]],
+      calc: { a: ["Pedidos por teléfono al día", 25, 0, 150], b: ["Minutos por pedido", 3, 1, 8], c: ["Pedidos perdidos al mes (comunicando o mal apuntados)", 20, 0, 150], d: ["Ticket medio", 11, 4, 40] },
+      piezas: ["carta", "cocina", "tpv", "verifactu", "resenas", "numeros"],
+    },
+    clinica: {
+      nombre: "Clínica, fisio y salud", corto: "Clínica", icon: "i-cross", para: "Para tu clínica", marca: "Tu clínica", demo: "reminder",
+      hoy: ["Pacientes que olvidan la cita y el hueco se pierde.", "Recepción atada al teléfono para cambiar horas.", "Fichas y bonos repartidos en papel y hojas de cálculo."],
+      con: [["Recordatorio con respuesta", "El día antes: confirma con un 1 o pide otra hora con un 2."], ["Lista de espera", "Si alguien cancela, el hueco se ofrece solo al siguiente."], ["Reservas por profesional", "Cada uno con sus horarios y su tipo de sesión."], ["Bonos y cobros", "Sesiones que quedan, pagos y facturas en el mismo sitio."]],
+      dia: [["07:30", "Salen los recordatorios de las citas de hoy."], ["10:05", "Una paciente cancela y el hueco pasa a la lista de espera."], ["10:07", "Otro paciente lo acepta desde su móvil."], ["19:30", "Ves las sesiones hechas, cobradas y pendientes."]],
+      calc: { a: ["Llamadas al día para dar o cambiar citas", 25, 0, 120], b: ["Minutos por llamada", 4, 1, 10], c: ["Citas perdidas al mes", 12, 0, 80], d: ["Precio medio de la sesión", 40, 10, 200] },
+      piezas: ["web", "reservas", "recordatorios", "tpv", "numeros", "amedida"],
+    },
+    tienda: {
+      nombre: "Tienda y comercio", corto: "Tienda", icon: "i-bag", para: "Para tu tienda", marca: "Tu tienda", demo: "catalog",
+      hoy: ["Te preguntan por WhatsApp si te queda algo en stock.", "Gente que no entra porque no sabe qué tienes.", "Inventario que nunca cuadra con lo vendido."],
+      con: [["Catálogo con stock", "Lo que tienes, con precio y unidades, en tu web."], ["Reservar y recoger", "El cliente aparta el producto y pasa a por él."], ["TPV con inventario", "Cada venta descuenta del stock; avisa cuando algo se acaba."], ["Web que sale en Google", "Te encuentran cuando buscan lo que vendes cerca."]],
+      dia: [["10:00", "Una clienta reserva unas zapatillas desde casa."], ["12:30", "Aviso: quedan 2 unidades del más vendido."], ["17:15", "Pasa a recoger lo reservado; cobro en un toque."], ["20:30", "Cierre con lo vendido por familia de producto."]],
+      calc: { a: ["Mensajes al día preguntando precio o stock", 12, 0, 80], b: ["Minutos por mensaje", 3, 1, 10], c: ["Ventas perdidas al mes por no contestar a tiempo", 10, 0, 100], d: ["Ticket medio", 35, 5, 300] },
+      piezas: ["web", "tpv", "verifactu", "numeros", "amedida"],
+    },
+    reformas: {
+      nombre: "Reformas y servicios a domicilio", corto: "Reformas", icon: "i-hammer", para: "Para tu empresa de reformas", marca: "Tus reformas", demo: "quote",
+      hoy: ["Presupuestos que se piden por teléfono y se quedan en el aire.", "Visitas sin fotos ni medidas: vas a ciegas.", "Clientes que llaman para saber cómo va su obra."],
+      con: [["Presupuesto con fotos", "El cliente cuenta qué quiere, pone medidas y sube fotos desde el móvil."], ["Seguimiento de obra", "Fases, fotos del día y próximos pasos en un enlace para el cliente."], ["Agenda de visitas", "Las visitas se reservan en tus huecos libres."], ["Facturas y cobros", "Del presupuesto aceptado a la factura sin teclear dos veces."]],
+      dia: [["08:00", "Tres peticiones de presupuesto con fotos desde anoche."], ["11:30", "Visita reservada sola en tu hueco de las 12:00."], ["18:00", "Subes las fotos del día y el cliente las ve en su enlace."], ["20:00", "El presupuesto aceptado pasa a obra con un toque."]],
+      calc: { a: ["Llamadas al día por presupuestos y dudas de obra", 8, 0, 60], b: ["Minutos por llamada", 8, 1, 30], c: ["Presupuestos que se enfrían al mes", 4, 0, 40], d: ["Margen medio por obra", 600, 50, 5000] },
+      piezas: ["web", "reservas", "recordatorios", "numeros", "amedida"],
+    },
+    academia: {
+      nombre: "Gimnasio, academia y clases", corto: "Academia", icon: "i-dumbbell", para: "Para tu centro", marca: "Tu centro", demo: "classes",
+      hoy: ["Clases llenas a mano en una libreta o un grupo de WhatsApp.", "Gente que reserva plaza y no viene.", "Cuotas que se cobran tarde o no se cobran."],
+      con: [["Reserva de plaza", "Cada alumno reserva su clase y ve las plazas que quedan."], ["Lista de espera", "Si alguien se borra, la plaza pasa al siguiente."], ["Cuotas y bonos", "Quién está al día y quién no, sin perseguir a nadie."], ["Avisos", "Cambios de horario y recordatorios por WhatsApp."]],
+      dia: [["07:00", "La clase de las 19:00 ya está llena."], ["15:20", "Alguien se borra y la plaza pasa a la lista de espera."], ["19:00", "Pasas lista desde el móvil."], ["21:00", "Ves quién no ha pagado la cuota de este mes."]],
+      calc: { a: ["Mensajes al día para apuntarse o borrarse", 20, 0, 120], b: ["Minutos por mensaje", 2, 1, 10], c: ["Plazas vacías al mes por no avisar", 25, 0, 200], d: ["Valor de cada plaza", 8, 2, 60] },
+      piezas: ["web", "reservas", "recordatorios", "tpv", "numeros"],
+    },
+    empresa: {
+      nombre: "Empresa u oficina", corto: "Empresa", icon: "i-building", para: "Para tu empresa", marca: "Tu empresa", demo: "automation",
+      hoy: ["Horas copiando datos de un programa a otro.", "Informes que alguien hace a mano cada semana.", "Errores que se descubren tarde, cuando ya cuestan dinero."],
+      con: [["Datos que se mueven solos", "Correo, facturas, ERP, CRM y hojas de cálculo conectados."], ["Informes automáticos", "Cada lunes en tu correo, sin abrir un Excel."], ["Avisos a tiempo", "Si algo se sale de lo normal, te enteras en el momento."], ["IA donde ahorra", "Leer documentos, clasificar correos y contestar lo repetitivo."]],
+      dia: [["08:00", "El informe semanal ya está en tu correo."], ["09:40", "Llegan 14 facturas y se apuntan solas."], ["11:15", "Aviso: un proveedor ha subido precios un 8 %."], ["17:00", "Nadie ha copiado y pegado nada en todo el día."]],
+      calc: { a: ["Veces al día que se hace una tarea a mano", 30, 0, 300], b: ["Minutos cada vez", 5, 1, 30], c: ["Errores al mes por copiar a mano", 6, 0, 60], d: ["Coste de cada error", 60, 5, 2000] },
+      piezas: ["amedida", "numeros", "recordatorios", "web"],
+    },
+  };
+  const ORDER = ["peluqueria", "barberia", "restaurante", "bar", "kebab", "clinica", "tienda", "reformas", "academia", "empresa"];
+
+  /* ------------------------------------------------------------------ piezas */
+  const qrHtml = () => {
+    let seed = 42; const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+    const cells = [];
+    for (let y = 0; y < 11; y++) for (let x = 0; x < 11; x++) {
+      const corner = (x < 3 && y < 3) || (x > 7 && y < 3) || (x < 3 && y > 7);
+      const gap = (x === 3 && (y < 4 || y > 6)) || (y === 3 && (x < 4 || x > 6)) || (x === 7 && y < 4) || (y === 7 && x < 4);
+      cells.push(corner ? 1 : gap ? 0 : rnd() > .5 ? 1 : 0);
+    }
+    return `<span class="qr" aria-hidden="true">${cells.map((c) => `<i class="${c ? "" : "o"}"></i>`).join("")}</span>`;
+  };
+  const P = {
+    web: { t: "Web que sale en Google", d: "Tu negocio con horario, precios y botón de reservar o pedir. Rápida en el móvil y con los datos que Google entiende.", span: "w4",
+      art: `<div class="art-search"><small>tunegocio.es</small><b>Tu negocio · Abierto hasta las 21:00</b><span>Reserva online · Ver precios · Cómo llegar</span></div>` },
+    reservas: { t: "Reservas 24 horas", d: "Servicio, profesional y hora desde el móvil. Sin llamadas y sin dobles reservas.",
+      art: `<div class="art-slots"><span class="taken">10:00</span><span>10:30</span><span class="pick">11:00</span><span>11:30</span><span class="taken">12:00</span></div>` },
+    recordatorios: { t: "Recordatorios por WhatsApp", d: "El día antes, con opción de confirmar o cambiar. El hueco libre se ofrece a otro.",
+      art: `<div class="art-bubble">Te esperamos mañana a las 10:30. Responde 1 para confirmar o 2 para cambiar la hora.<small>07:30 ✓✓</small></div>` },
+    carta: { t: "Carta QR y pedidos", d: "Cada mesa con su QR. El cliente pide, elige opciones y sigue su pedido en vivo. En tres idiomas.",
+      art: `<div class="art-sticker">${qrHtml()}<div><b>Mesa 3</b><small>Escanea y pide · Scan to order</small></div></div>` },
+    cocina: { t: "Cocina en pantalla", d: "Los pedidos entran solos con su número, su mesa y lo que se quita. Suena al llegar uno nuevo.",
+      art: `<div class="art-ticket"><div class="r big"><span>023 · Mesa 3</span><span>4 min</span></div><hr><div>2 × Dürüm mixto</div><div>Salsa picante</div><div class="no">SIN CEBOLLA</div></div>` },
+    tpv: { t: "TPV y caja", d: "Cobro en efectivo con cambio, tarjeta o Bizum. Cierre de caja con arqueo en dos minutos.", span: "wide",
+      art: `<div class="art-ticket"><div class="r"><span>FACTURA SIMPLIFICADA</span></div><div>Nº T1-2026-000124</div><hr><div class="r"><span>2 × Menú dürüm</span><span>15,00 €</span></div><div class="r"><span>1 × Agua</span><span>1,00 €</span></div><hr><div class="r big"><span>TOTAL</span><span>16,00 €</span></div><div class="r"><span>Entregado 20,00 €</span><span>Cambio 4,00 €</span></div></div>` },
+    verifactu: { t: "Verifactu preparado", d: "Cada ticket lleva la huella del anterior y su QR tributario. Nadie puede tocar uno sin que se note.", span: "wide",
+      art: `<div class="art-chain"><span>T1-000122</span>→<span>T1-000123</span>→<span>T1-000124 · <b>3C46…2F60</b></span></div>` },
+    resenas: { t: "Reseñas en Google", d: "Dos botones iguales: opinar en Google o escribirte en privado. Sin filtrar, como piden las normas de Google.",
+      art: `<div class="art-twin"><span>Opinar en Google</span><span>Comentario privado</span></div>` },
+    numeros: { t: "Tus números, claros", d: "Ventas por día, lo más vendido, las horas fuertes y qué canal trae más clientes.",
+      art: `<div class="art-spark"><svg viewBox="0 0 200 70" role="img" aria-label="Gráfica de ejemplo de ventas semanales"><polyline fill="none" style="stroke:var(--line)" stroke-width="1" points="0,69 200,69"/><polygon style="fill:color-mix(in srgb, var(--amber) 22%, transparent)" points="0,52 33,46 66,49 100,34 133,38 166,22 196,14 196,69 0,69"/><polyline fill="none" style="stroke:var(--amber)" stroke-width="2.5" stroke-linejoin="round" points="0,52 33,46 66,49 100,34 133,38 166,22 196,14"/><circle cx="196" cy="14" r="4" style="fill:var(--amber)"/></svg><small>Ejemplo: ventas por semana</small></div>` },
+    amedida: { t: "Automatizaciones a medida", d: "Si algo se repite cada semana, se automatiza: facturas, informes, avisos, IA.",
+      art: `<div class="art-flow"><span>Llega un correo</span><i>→</i><span>se lee</span><i>→</i><span>se apunta</span><i>→</i><span>te avisa si algo no cuadra</span></div>` },
+  };
+  const P_ORDER = ["web", "reservas", "recordatorios", "carta", "cocina", "tpv", "verifactu", "resenas", "numeros", "amedida"];
+
+  /* ------------------------------------------------------------------ estado */
+  let sector = "peluqueria";
+  let picked = new Set(store.get("picked", []).filter((k) => P[k]));
+
+  /* ------------------------------------------------------------------ pintar el selector */
+  $("#chips").innerHTML = ORDER.map((k) => `<button class="chip" type="button" data-s="${k}" aria-pressed="false"><svg><use href="#${S[k].icon}"/></svg>${esc(S[k].nombre)}</button>`).join("");
+  $("#sectors-mini").innerHTML = ORDER.map((k) => `<a href="#${k}">${esc(S[k].corto)}</a>`).join("");
+
+  function setSector(k, scroll) {
+    if (!S[k]) return;
+    sector = k;
+    const s = S[k];
+    $$("#chips .chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.s === k)));
+    const active = $(`#chips [data-s="${k}"]`);
+    if (active && active.scrollIntoView && matchMedia("(max-width: 700px)").matches) active.scrollIntoView({ block: "nearest", inline: "center", behavior: reduced ? "auto" : "smooth" });
+    $("#s-title").textContent = s.para;
+    $("#s-hoy").innerHTML = s.hoy.map((t) => `<li><span class="mk">✕</span><span>${esc(t)}</span></li>`).join("");
+    $("#s-con").innerHTML = s.con.map(([t, d]) => `<li><span class="mk">✓</span><span><b>${esc(t)}</b><small>${esc(d)}</small></span></li>`).join("");
+    $("#s-dia").innerHTML = s.dia.map(([h, t]) => `<li><time>${h}</time><i></i><span>${esc(t)}</span></li>`).join("");
+    const f = $("#f-negocio"); if (f && !f.dataset.touched) f.value = s.nombre;
+    renderPieces(); renderCalc(); startDemo();
+    if (scroll) $("#negocios").scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+  }
+  let quietHash = false;
+  $("#chips").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-s]"); if (!b) return;
+    setSector(b.dataset.s, false);
+    if (location.hash !== "#" + b.dataset.s) { quietHash = true; location.hash = b.dataset.s; }
+  });
+  addEventListener("hashchange", () => {
+    if (quietHash) { quietHash = false; return; }
+    const k = decodeURIComponent(location.hash.slice(1));
+    if (S[k]) setSector(k, true);
+  });
+
+  /* ------------------------------------------------------------------ demos en el móvil */
+  const screen = $("#screen");
+  const head = (s, sub) => `<div class="ph-head"><span class="ph-logo">${esc(s.marca.split(" ").pop()[0].toUpperCase())}</span><div><b>${esc(s.marca)}</b><small>${esc(sub)}</small></div></div>`;
+
+  const demos = {
+    booking(s) {
+      const st = { step: 0, serv: null, pro: s.pros[0], day: 0, hour: null };
+      const days = ["Hoy", "Mañana", "Sábado"];
+      const hours = [["10:00", "10:30", "11:00", "11:30", "12:00", "12:30"], ["09:30", "10:00", "10:30", "16:00", "16:30", "17:00"], ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"]];
+      const taken = [["10:00", "11:30"], ["10:30", "16:00"], ["09:00", "09:30"]];
+      function draw() {
+        if (st.step === 0) {
+          screen.innerHTML = head(s, "Reservar cita") + `<p class="ph-label">Elige servicio</p>` +
+            s.servicios.map((x, i) => `<button class="ph-row" data-serv="${i}"><span><b>${esc(x[0])}</b><small>${x[1]} min</small></span><em>${eur(x[2])}</em></button>`).join("") +
+            `<p class="ph-muted" style="margin-top:auto">Reservas abiertas las 24 horas</p>`;
+        } else if (st.step === 1) {
+          const sv = s.servicios[st.serv];
+          screen.innerHTML = head(s, sv[0] + " · " + eur(sv[2])) +
+            `<p class="ph-label">Con quién</p><div class="ph-chips">${s.pros.map((p) => `<button class="ph-chip ${p === st.pro ? "on" : ""}" data-pro="${esc(p)}">${esc(p)}</button>`).join("")}</div>
+             <p class="ph-label">Cuándo</p><div class="ph-chips">${days.map((d, i) => `<button class="ph-chip ${i === st.day ? "on" : ""}" data-day="${i}">${d}</button>`).join("")}</div>
+             <div class="ph-grid">${hours[st.day].map((h) => `<button class="ph-chip ${h === st.hour ? "on" : ""}" data-hour="${h}" ${taken[st.day].includes(h) ? "disabled" : ""}>${h}</button>`).join("")}</div>
+             <button class="ph-btn" data-ok ${st.hour ? "" : "disabled"}>Confirmar cita</button><button class="ph-chip" data-back style="align-self:start">← Servicios</button>`;
+        } else {
+          const sv = s.servicios[st.serv];
+          screen.innerHTML = head(s, "Cita confirmada") + `<div class="ph-ok">✓</div>
+            <div class="ph-center"><b style="font-size:1.15rem">${days[st.day]} a las ${st.hour}</b><span>${esc(sv[0])} · ${esc(st.pro === s.pros[0] ? "con quien esté libre" : "con " + st.pro)}</span><b>${eur(sv[2])}</b></div>
+            <div class="ph-card"><b>Te avisamos el día antes por WhatsApp</b><span class="ph-muted">Con un botón para cambiar la hora si te surge algo.</span></div>
+            <button class="ph-btn dark" data-restart>Reservar otra</button>`;
+        }
+      }
+      screen.onclick = (e) => {
+        const t = e.target.closest("button"); if (!t || t.disabled) return;
+        if (t.dataset.serv) { st.serv = Number(t.dataset.serv); st.step = 1; st.hour = null; }
+        else if (t.dataset.pro) st.pro = t.dataset.pro;
+        else if (t.dataset.day) { st.day = Number(t.dataset.day); st.hour = null; }
+        else if (t.dataset.hour) st.hour = t.dataset.hour;
+        else if ("ok" in t.dataset) st.step = 2;
+        else if ("back" in t.dataset) st.step = 0;
+        else if ("restart" in t.dataset) { st.step = 0; st.hour = null; }
+        draw();
+      };
+      draw();
+      return "Pruébalo: elige servicio, persona y hora, como haría tu cliente.";
+    },
+
+    menu(s) {
+      const st = { step: 0, item: null, sel: {}, rm: new Set(), cart: [], track: 0 };
+      const mesa = s.demo === "menu" && sector === "kebab" ? "Para recoger" : "Mesa 3";
+      function total() { return st.cart.reduce((a, l) => a + l.p, 0); }
+      function draw() {
+        if (st.step === 0) {
+          screen.innerHTML = head(s, mesa + " · Carta") + `<p class="ph-label">Lo más pedido</p>` +
+            s.carta.map((x, i) => `<button class="ph-row" data-item="${i}"><span><b>${esc(x[0])}</b><small>${esc(x[2])}</small></span><em>${eur(x[1])}</em></button>`).join("") +
+            (st.cart.length ? `<button class="ph-bar" data-cart><span>Ver pedido · ${st.cart.length}</span><span>${eur(total())}</span></button>` : `<p class="ph-muted" style="margin-top:auto">Toca un plato para pedirlo</p>`);
+        } else if (st.step === 1) {
+          const it = s.carta[st.item];
+          const groups = it[3].map(([g, ops]) => `<p class="ph-label">${esc(g)}</p><div class="ph-chips">${ops.map((o) => `<button class="ph-chip ${st.sel[g] === o ? "on" : ""}" data-g="${esc(g)}" data-o="${esc(o)}">${esc(o)}</button>`).join("")}</div>`).join("");
+          const rms = it[4].length ? `<p class="ph-label">¿Le quitamos algo?</p><div class="ph-chips">${it[4].map((r) => `<button class="ph-chip ${st.rm.has(r) ? "on" : ""}" data-rm="${esc(r)}">${esc(r)}</button>`).join("")}</div>` : "";
+          const missing = it[3].some(([g]) => !st.sel[g]);
+          const upsell = sector === "kebab" && st.item === 0 ? `<button class="ph-row on" data-upsell><span><b>¿Lo hacemos menú? +2,00 €</b><small>Con patatas y bebida, misma carne</small></span><em>→</em></button>` : "";
+          screen.innerHTML = head(s, it[0]) + groups + rms + upsell + `<button class="ph-btn" data-add ${missing ? "disabled" : ""}>${missing ? "Elige las opciones" : "Añadir · " + eur(it[1])}</button><button class="ph-chip" data-back style="align-self:start">← Carta</button>`;
+        } else if (st.step === 2) {
+          screen.innerHTML = head(s, mesa + " · Tu pedido") + st.cart.map((l) => `<div class="ph-row"><span><b>${esc(l.n)}</b><small>${esc(l.d)}</small></span><em>${eur(l.p)}</em></div>`).join("") +
+            `<div class="ph-row" style="font-weight:800"><span>Total</span><em>${eur(total())}</em></div><button class="ph-btn" data-send>Enviar a cocina</button><button class="ph-chip" data-back style="align-self:start">← Seguir pidiendo</button>`;
+        } else {
+          const labels = ["Recibido", "En cocina", "¡Listo!"];
+          screen.innerHTML = head(s, "Pedido enviado") + `<div class="ph-center" style="margin-top:8px"><span class="ph-muted">Tu número</span><span class="ph-big">023</span><b>${labels[st.track]}${sector === "kebab" ? "" : " · " + mesa}</b></div>
+            <div class="ph-steps">${labels.map((l, i) => `<span class="${i < st.track ? "done" : i === st.track ? (i === 2 ? "done" : "now") : ""}">${l}</span>`).join("")}</div>
+            <div class="ph-card"><span class="ph-muted">${st.track < 2 ? "Se actualiza solo, no hace falta recargar." : sector === "kebab" ? "Ya puedes pasar a recogerlo por la barra." : "Te lo llevamos a la mesa."}</span></div>
+            <button class="ph-btn dark" data-restart>Volver a la carta</button>`;
+        }
+      }
+      screen.onclick = (e) => {
+        const t = e.target.closest("button"); if (!t || t.disabled) return;
+        if (t.dataset.item) { st.item = Number(t.dataset.item); st.sel = {}; st.rm = new Set(); st.step = 1; }
+        else if (t.dataset.g) st.sel[t.dataset.g] = t.dataset.o;
+        else if (t.dataset.rm) { st.rm.has(t.dataset.rm) ? st.rm.delete(t.dataset.rm) : st.rm.add(t.dataset.rm); }
+        else if ("upsell" in t.dataset) { const carne = st.sel.Carne; st.item = 2; st.sel = carne ? { Carne: carne } : {}; st.rm = new Set(); }
+        else if ("add" in t.dataset) { const it = s.carta[st.item]; st.cart.push({ n: it[0], p: it[1], d: Object.values(st.sel).concat([...st.rm]).join(", ") || it[2] }); st.step = 0; }
+        else if ("cart" in t.dataset) st.step = 2;
+        else if ("back" in t.dataset) st.step = 0;
+        else if ("send" in t.dataset) { st.step = 3; st.track = 0; later(() => { st.track = 1; draw(); }, 1800); later(() => { st.track = 2; draw(); }, 4200); }
+        else if ("restart" in t.dataset) { clearTimers(); st.cart = []; st.step = 0; }
+        draw();
+      };
+      draw();
+      return sector === "kebab" ? "Pruébalo: pide un kebab con su carne y su salsa y mira cómo avanza el pedido." : "Pruébalo: pide desde la mesa como haría tu cliente y sigue el pedido en vivo.";
+    },
+
+    bar(s) {
+      const st = { step: 0, sent: 0 };
+      function draw() {
+        if (st.step === 0) {
+          screen.innerHTML = head(s, "Mesa 5 · Terraza") + `<button class="ph-row on" data-round><span><b>Repetir ronda</b><small>2 cañas · 1 vermú</small></span><em>${eur(7.4)}</em></button>
+            <p class="ph-label">Algo de picar</p>` + [["Bravas", 5.5], ["Croquetas (6)", 7], ["Tabla de ibéricos", 12]].map(([n, p]) => `<button class="ph-row" data-tapa="${esc(n)}"><span><b>${esc(n)}</b></span><em>${eur(p)}</em></button>`).join("") +
+            `<button class="ph-btn dark" data-bill style="margin-top:auto">Pedir la cuenta</button>`;
+        } else if (st.step === 1) {
+          screen.innerHTML = head(s, "Mesa 5 · Terraza") + `<div class="ph-ok">✓</div><div class="ph-center"><b style="font-size:1.1rem">${st.sent === 1 ? "En camino" : "Enviado a la barra"}</b><span class="ph-muted">${esc(st.what)}</span></div>
+            <button class="ph-btn dark" data-restart>Volver</button>`;
+        } else {
+          screen.innerHTML = head(s, "Mesa 5 · Cuenta") + [["4 cañas", 8], ["2 vermús", 6.8], ["Bravas", 5.5]].map(([n, p]) => `<div class="ph-row"><span>${esc(n)}</span><em>${eur(p)}</em></div>`).join("") +
+            `<div class="ph-row" style="font-weight:800"><span>Total mesa 5</span><em>${eur(20.3)}</em></div><div class="ph-card"><b>El camarero ya lo sabe</b><span class="ph-muted">Te trae el datáfono o pagas en efectivo. El ticket sale del TPV con todo lo de la mesa.</span></div><button class="ph-btn dark" data-restart>Volver</button>`;
+        }
+      }
+      screen.onclick = (e) => {
+        const t = e.target.closest("button"); if (!t) return;
+        if ("round" in t.dataset || t.dataset.tapa) { st.what = t.dataset.tapa || "2 cañas · 1 vermú"; st.step = 1; st.sent = 0; later(() => { st.sent = 1; draw(); }, 1600); }
+        else if ("bill" in t.dataset) st.step = 2;
+        else if ("restart" in t.dataset) { clearTimers(); st.step = 0; }
+        draw();
+      };
+      draw();
+      return "Pruébalo: repite la ronda o pide la cuenta desde la mesa.";
+    },
+
+    reminder(s) {
+      const st = { step: 0 };
+      const intro = `<div class="bub in">Hola, Marta. Te recordamos tu sesión de fisioterapia mañana, jueves, a las 18:00.<br>Responde <b>1</b> para confirmar o <b>2</b> para cambiarla.<small>07:30</small></div>`;
+      function draw() {
+        let chat = intro, actions = "";
+        if (st.step === 0) actions = `<div class="ph-grid" style="grid-template-columns:1fr 1fr"><button class="ph-btn" data-r="1">1 · Confirmo</button><button class="ph-btn dark" data-r="2">2 · Cambiar</button></div>`;
+        if (st.step === 1) chat += `<div class="bub out">1<small>07:41 ✓✓</small></div><div class="bub in">¡Gracias! Te esperamos mañana a las 18:00.<small>07:41</small></div>`;
+        if (st.step >= 2) {
+          chat += `<div class="bub out">2<small>07:41 ✓✓</small></div><div class="bub in">Sin problema. Estos huecos están libres:<small>07:41</small></div>`;
+          if (st.step === 2) actions = `<div class="ph-chips">${["Vie 10:00", "Vie 17:30", "Lun 09:00"].map((h) => `<button class="ph-chip" data-h="${h}">${h}</button>`).join("")}</div>`;
+          if (st.step === 3) chat += `<div class="bub out">${esc(st.h)}<small>07:42 ✓✓</small></div><div class="bub in">Hecho: te cambiamos al ${esc(st.h)}. El hueco del jueves ya se ha ofrecido a la lista de espera.<small>07:42</small></div>`;
+        }
+        if (st.step === 1 || st.step === 3) actions = `<button class="ph-btn dark" data-restart>Ver otra vez</button>`;
+        screen.innerHTML = head(s, "WhatsApp") + `<div class="ph-chat">${chat}</div><div style="margin-top:auto;display:grid;gap:8px">${actions}</div>`;
+      }
+      screen.onclick = (e) => {
+        const t = e.target.closest("button"); if (!t) return;
+        if (t.dataset.r) st.step = t.dataset.r === "1" ? 1 : 2;
+        else if (t.dataset.h) { st.h = t.dataset.h; st.step = 3; }
+        else if ("restart" in t.dataset) st.step = 0;
+        draw();
+      };
+      draw();
+      return "Pruébalo: responde al recordatorio como lo haría un paciente.";
+    },
+
+    catalog(s) {
+      const items = [["Zapatillas urbanas", 59.9, 3], ["Mochila impermeable", 34.5, 7], ["Gorra bordada", 19, 0]];
+      const st = { step: 0, i: 0 };
+      function draw() {
+        if (st.step === 0) {
+          screen.innerHTML = head(s, "Catálogo") + items.map((x, i) => `<button class="ph-row" data-i="${i}" ${x[2] ? "" : "disabled"}><span><b>${esc(x[0])}</b><small>${x[2] ? "Quedan " + x[2] : "Agotado · avísame cuando llegue"}</small></span><em>${eur(x[1])}</em></button>`).join("") +
+            `<p class="ph-muted" style="margin-top:auto">El stock se actualiza con cada venta del TPV</p>`;
+        } else if (st.step === 1) {
+          const x = items[st.i];
+          screen.innerHTML = head(s, x[0]) + `<div class="ph-tiles"><span class="ph-tile">Foto</span><span class="ph-tile">Foto</span><span class="ph-tile">Foto</span></div>
+            <div class="ph-card"><b>${eur(x[1])}</b><span class="ph-muted">Quedan ${x[2]} unidades en tienda</span></div>
+            <p class="ph-label">Talla</p><div class="ph-chips">${["38", "40", "42", "44"].map((t) => `<button class="ph-chip ${st.t === t ? "on" : ""}" data-t="${t}">${t}</button>`).join("")}</div>
+            <button class="ph-btn" data-res ${st.t ? "" : "disabled"}>Reservar y recoger hoy</button><button class="ph-chip" data-back style="align-self:start">← Catálogo</button>`;
+        } else {
+          screen.innerHTML = head(s, "Reserva hecha") + `<div class="ph-ok">✓</div><div class="ph-center"><b style="font-size:1.1rem">Te lo guardamos hasta las 20:30</b><span>${esc(items[st.i][0])} · talla ${st.t}</span><span class="ph-muted">Código de recogida</span><span class="ph-big" style="font-size:2rem">R-48</span></div>
+            <button class="ph-btn dark" data-restart>Volver al catálogo</button>`;
+        }
+      }
+      screen.onclick = (e) => {
+        const t = e.target.closest("button"); if (!t || t.disabled) return;
+        if (t.dataset.i) { st.i = Number(t.dataset.i); st.t = null; st.step = 1; }
+        else if (t.dataset.t) st.t = t.dataset.t;
+        else if ("res" in t.dataset) st.step = 2;
+        else if ("back" in t.dataset || "restart" in t.dataset) st.step = 0;
+        draw();
+      };
+      draw();
+      return "Pruébalo: reserva un producto para recogerlo en tienda.";
+    },
+
+    quote(s) {
+      const st = { step: 0, tipo: "Baño", m2: 6 };
+      function draw() {
+        if (st.step === 0) {
+          screen.innerHTML = head(s, "Pedir presupuesto") + `<p class="ph-label">¿Qué quieres reformar?</p><div class="ph-chips">${["Baño", "Cocina", "Fachada", "Tejado", "Integral"].map((t) => `<button class="ph-chip ${st.tipo === t ? "on" : ""}" data-tipo="${t}">${t}</button>`).join("")}</div>
+            <p class="ph-label">Metros aproximados: <b id="qm">${st.m2} m²</b></p><input class="ph-range" type="range" min="2" max="120" value="${st.m2}" data-m2 aria-label="Metros cuadrados">
+            <p class="ph-label">Fotos</p><div class="ph-tiles"><span class="ph-tile">Foto 1</span><span class="ph-tile">Foto 2</span><span class="ph-tile">+ Añadir</span></div>
+            <button class="ph-btn" data-send>Pedir presupuesto</button>`;
+        } else if (st.step === 1) {
+          screen.innerHTML = head(s, "Recibido") + `<div class="ph-ok">✓</div><div class="ph-center"><b style="font-size:1.1rem">Te llamamos en menos de 24 horas</b><span class="ph-muted">${esc(st.tipo)} · ${st.m2} m² · 2 fotos</span></div>
+            <div class="ph-card"><span class="ph-muted">Si aceptas el presupuesto, tendrás un enlace para seguir la obra.</span></div><button class="ph-btn dark" data-next>Ver el seguimiento de obra</button>`;
+        } else {
+          const fases = ["Retirada de lo antiguo", "Fontanería", "Alicatado", "Sanitarios", "Limpieza y entrega"];
+          screen.innerHTML = head(s, "Tu obra · " + st.tipo) + `<div class="ph-flow">${fases.map((f, i) => `<div class="st ${i < 2 ? "done" : i === 2 ? "on" : ""}"><i>${i < 2 ? "✓" : i + 1}</i><span><b>${f}</b>${i === 2 ? '<br><span class="ph-muted">En curso · 3 fotos de hoy</span>' : ""}</span></div>`).join("")}</div>
+            <button class="ph-btn dark" data-restart>Volver a empezar</button>`;
+        }
+      }
+      screen.oninput = (e) => { if (e.target.dataset.m2 !== undefined) { st.m2 = Number(e.target.value); const q = $("#qm", screen); if (q) q.textContent = st.m2 + " m²"; } };
+      screen.onclick = (e) => {
+        const t = e.target.closest("button"); if (!t) return;
+        if (t.dataset.tipo) st.tipo = t.dataset.tipo;
+        else if ("send" in t.dataset) st.step = 1;
+        else if ("next" in t.dataset) st.step = 2;
+        else if ("restart" in t.dataset) st.step = 0;
+        draw();
+      };
+      draw();
+      return "Pruébalo: pide un presupuesto con medidas y fotos, y mira cómo seguiría la obra el cliente.";
+    },
+
+    classes(s) {
+      const clases = [["Lun 19:00", "Spinning", 3], ["Mar 09:30", "Pilates", 1], ["Mar 20:00", "Funcional", 0], ["Jue 18:30", "Yoga", 6]];
+      const st = { mine: null, wait: null };
+      function draw() {
+        screen.innerHTML = head(s, "Clases de esta semana") + clases.map((c, i) => {
+          const full = c[2] === 0;
+          const mine = st.mine === i, wait = st.wait === i;
+          const right = mine ? "Reservada ✓" : wait ? "En espera · 2º" : full ? "Lista de espera" : `Quedan ${c[2]}`;
+          return `<button class="ph-row ${mine || wait ? "on" : ""}" data-c="${i}"><span><b>${esc(c[1])}</b><small>${c[0]}</small></span><em>${right}</em></button>`;
+        }).join("") + `<div class="ph-card" style="margin-top:auto"><span class="ph-muted">${st.mine !== null ? "Si no puedes venir, bórrate y tu plaza pasa al siguiente de la lista." : "Toca una clase para reservar tu plaza."}</span></div>`;
+      }
+      screen.onclick = (e) => {
+        const t = e.target.closest("[data-c]"); if (!t) return;
+        const i = Number(t.dataset.c);
+        if (clases[i][2] === 0) st.wait = st.wait === i ? null : i; else st.mine = st.mine === i ? null : i;
+        draw();
+      };
+      draw();
+      return "Pruébalo: reserva una plaza o apúntate a la lista de espera.";
+    },
+
+    automation(s) {
+      const st = { step: 0 };
+      const pasos = ["Llega una factura por correo", "Se leen proveedor, fecha e importe", "Se apunta en tu contabilidad", "Te avisa si algo no cuadra"];
+      function draw() {
+        const flow = `<div class="ph-flow">${pasos.map((p, i) => `<div class="st ${i < st.step ? "done" : i === st.step && st.step > 0 && st.step < 4 ? "on" : ""}"><i>${i < st.step ? "✓" : i + 1}</i><span><b>${p}</b></span></div>`).join("")}</div>`;
+        let extra = "";
+        if (st.step >= 2) extra += `<div class="ph-mono"><span>Proveedor: Bebidas del Norte S.L.</span><span>Factura: F-2291 · 03/11/2026</span><span>Base 398,60 € · IVA 21 % 83,71 €</span><span><b>Total 482,31 €</b></span></div>`;
+        if (st.step >= 4) extra += `<div class="ph-alert">Aviso: el barril sube un 8 % respecto al mes pasado.</div>`;
+        const btn = st.step === 0 ? `<button class="ph-btn" data-go>Procesar la factura</button>` : st.step >= 4 ? `<button class="ph-btn dark" data-restart>Ver otra vez</button>` : "";
+        screen.innerHTML = head(s, "Facturas de proveedores") + `<div class="ph-row"><span><b>Factura F-2291</b><small>de facturas@bebidasdelnorte.es · PDF</small></span><em>09:40</em></div>` + flow + extra + `<div style="margin-top:auto">${btn}</div>`;
+      }
+      screen.onclick = (e) => {
+        const t = e.target.closest("button"); if (!t) return;
+        if ("go" in t.dataset) { st.step = 1; [2, 3, 4].forEach((n, k) => later(() => { st.step = n; draw(); }, 900 * (k + 1))); }
+        else if ("restart" in t.dataset) { clearTimers(); st.step = 0; }
+        draw();
+      };
+      draw();
+      return "Pruébalo: mira cómo una factura se procesa sola de principio a fin (datos de ejemplo).";
+    },
+  };
+
+  function startDemo() {
+    clearTimers();
+    screen.onclick = null; screen.oninput = null;
+    const s = S[sector];
+    const cap = demos[s.demo](s);
+    $("#demo-cap").innerHTML = `${esc(cap)} <button type="button" id="demo-reset">Reiniciar</button>`;
+  }
+  $("#demo-cap").addEventListener("click", (e) => { if (e.target.id === "demo-reset") startDemo(); });
+
+  /* ------------------------------------------------------------------ piezas y propuesta */
+  function renderPieces() {
+    const rec = new Set(S[sector].piezas);
+    $("#pieces").innerHTML = P_ORDER.map((k) => {
+      const p = P[k];
+      const on = picked.has(k);
+      return `<article class="piece ${p.span || ""}"><div style="display:flex;justify-content:space-between;gap:10px;align-items:start"><h3>${esc(p.t)}</h3>${rec.has(k) ? `<span class="eyebrow" style="font-size:.66rem;white-space:nowrap">Para ${esc(S[sector].corto.toLowerCase())}</span>` : ""}</div>
+        <p>${esc(p.d)}</p><div class="art">${p.art}</div>
+        <button class="add" type="button" data-p="${k}" aria-pressed="${on}">${on ? "✓ En la propuesta" : "+ Añadir a la propuesta"}</button></article>`;
+    }).join("");
+    renderBar();
+  }
+  function renderBar() {
+    const n = picked.size;
+    $("#pbar").hidden = n === 0;
+    $("#pbar-n").textContent = String(n);
+    $("#pbar-txt").textContent = n === 1 ? "Propuesta: 1 pieza" : `Propuesta: ${n} piezas`;
+  }
+  $("#pieces").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-p]"); if (!b) return;
+    const k = b.dataset.p;
+    picked.has(k) ? picked.delete(k) : picked.add(k);
+    store.set("picked", [...picked]);
+    b.setAttribute("aria-pressed", String(picked.has(k)));
+    b.textContent = picked.has(k) ? "✓ En la propuesta" : "+ Añadir a la propuesta";
+    renderBar();
+  });
+  function proposalText() {
+    const s = S[sector];
+    const negocio = ($("#f-negocio").value || s.nombre).trim();
+    const lines = P_ORDER.filter((k) => picked.has(k)).map((k) => `• ${P[k].t}: ${P[k].d}`);
+    return `Propuesta BUHOSS para ${negocio}\n\n${lines.join("\n")}\n\nSiguiente paso: lo monto con tus datos y te lo enseño funcionando.`;
+  }
+  function openSheet() {
+    const txt = proposalText();
+    $("#sheet-in").innerHTML = `<h3 id="sheet-h">Tu propuesta</h3><p class="note-in">Para ${esc(($("#f-negocio").value || S[sector].nombre).trim())}. Cópiala y mándala por WhatsApp al cliente.</p>
+      <pre id="sheet-txt">${esc(txt)}</pre><p class="note-in" id="sheet-msg" role="status"></p>
+      <div class="row"><button class="btn" type="button" data-clear>Vaciar</button><button class="btn" type="button" data-close>Cerrar</button><button class="btn amber" type="button" data-copy>Copiar propuesta</button></div>`;
+    $("#sheet").hidden = false;
+    $("[data-copy]", $("#sheet")).focus();
+  }
+  $("#pbar-btn").addEventListener("click", openSheet);
+  $("#sheet").addEventListener("click", async (e) => {
+    if (e.target.id === "sheet" || e.target.closest("[data-close]")) { $("#sheet").hidden = true; return; }
+    if (e.target.closest("[data-clear]")) { picked.clear(); store.set("picked", []); $("#sheet").hidden = true; renderPieces(); return; }
+    if (e.target.closest("[data-copy]")) copy(proposalText(), $("#sheet-msg"), $("#sheet-txt"));
+  });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) $("#sheet").hidden = true; });
+
+  async function copy(text, msgEl, selectEl) {
+    try { await navigator.clipboard.writeText(text); msgEl.textContent = "Copiado."; return true; }
+    catch (err) {
+      msgEl.textContent = "No se pudo copiar solo: ya está seleccionado, cópialo a mano.";
+      if (selectEl) { const r = document.createRange(); r.selectNodeContents(selectEl); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+      return false;
+    }
+  }
+
+  /* ------------------------------------------------------------------ calculadora */
+  const calcVals = {};
+  function renderCalc() {
+    const c = S[sector].calc;
+    const fields = [["a", c.a, ""], ["b", c.b, " min"], ["c", c.c, ""], ["d", c.d, " €"]];
+    $("#calc-inputs").innerHTML = fields.map(([k, [label, def, min, max], unit]) => {
+      calcVals[k] = def;
+      const step = max > 1000 ? 50 : max > 300 ? 5 : 1;
+      return `<div class="field"><label for="c-${k}">${esc(label)} <output id="o-${k}">${def}${unit}</output></label><input type="range" id="c-${k}" data-k="${k}" data-unit="${unit}" min="${min}" max="${max}" step="${step}" value="${def}"></div>`;
+    }).join("");
+    $("#r-horas-lbl").textContent = sector === "empresa" ? "al mes en tareas a mano" : "al mes en esto";
+    $("#r-euros-lbl").textContent = sector === "empresa" ? "al mes en errores" : "al mes que se escapan";
+    calc();
+  }
+  function calc() {
+    const horas = (calcVals.a * calcVals.b * 26) / 60;
+    const euros = calcVals.c * calcVals.d;
+    const pct = Number($("#c-pct").value) / 100;
+    $("#o-pct").textContent = Math.round(pct * 100) + " %";
+    $("#r-horas").textContent = Math.round(horas).toLocaleString("es-ES") + " h";
+    $("#r-euros").textContent = Math.round(euros).toLocaleString("es-ES") + " €";
+    $("#r-gana").textContent = `${Math.round(horas * pct).toLocaleString("es-ES")} h · ${Math.round(euros * pct).toLocaleString("es-ES")} €`;
+  }
+  $("#calc-inputs").addEventListener("input", (e) => {
+    const i = e.target.closest("input[data-k]"); if (!i) return;
+    calcVals[i.dataset.k] = Number(i.value);
+    $("#o-" + i.dataset.k).textContent = i.value + i.dataset.unit;
+    calc();
+  });
+  $("#c-pct").addEventListener("input", calc);
+
+  /* ------------------------------------------------------------------ contacto */
+  const wa = WHATSAPP.replace(/\D/g, "");
+  if (wa) {
+    $("#wa-direct").hidden = false;
+    $("#wa-num").textContent = "+" + wa;
+    $("#wa-copy").addEventListener("click", async (e) => {
+      const ok = await copy("+" + wa, { textContent: "" }, $("#wa-num"));
+      e.target.textContent = ok ? "Copiado" : "Selecciónalo";
+    });
+  }
+  $("#f-negocio").addEventListener("input", (e) => { e.target.dataset.touched = "1"; });
+  $("#form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nombre = $("#f-nombre").value.trim(), negocio = $("#f-negocio").value.trim(), texto = $("#f-texto").value.trim();
+    if (!texto) { $("#f-texto").focus(); $("#f-texto").setAttribute("aria-invalid", "true"); return; }
+    $("#f-texto").removeAttribute("aria-invalid");
+    const extra = picked.size ? `\nMe interesan: ${P_ORDER.filter((k) => picked.has(k)).map((k) => P[k].t).join(", ")}.` : "";
+    const quien = nombre ? `Hola, soy ${nombre}` : "Hola";
+    const msg = `${quien}${negocio ? " (" + negocio + ")" : ""}. He visto BUHOSS y me gustaría quitarme de encima esto: ${texto}${/[.!?]$/.test(texto) ? "" : "."}${extra}`;
+    $("#f-msg").textContent = msg;
+    $("#f-out").hidden = false;
+    const link = $("#f-wa");
+    if (wa) { link.hidden = false; link.href = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`; $("#f-note").textContent = "Se abre WhatsApp con el mensaje escrito: solo tienes que enviarlo."; }
+    else { link.hidden = true; $("#f-note").textContent = "Cópialo y envíamelo por WhatsApp o en persona."; }
+  });
+  $("#f-copy").addEventListener("click", () => copy($("#f-msg").textContent, $("#f-note"), $("#f-msg")));
+
+  /* ------------------------------------------------------------------ la noche y el búho */
+  const items = $$("#tonight li");
+  let now = 0;
+  items[0].classList.add("now");
+  if (!reduced) {
+    setInterval(() => { items[now].classList.remove("now"); now = (now + 1) % items.length; items[now].classList.add("now"); }, 2600);
+    const owl = $("#owl");
+    setInterval(() => { owl.classList.add("blink"); setTimeout(() => owl.classList.remove("blink"), 140); }, 5200);
+    setInterval(() => owl.classList.toggle("look"), 3700);
+  }
+
+  /* ------------------------------------------------------------------ arranque */
+  const initial = decodeURIComponent(location.hash.slice(1));
+  setSector(S[initial] ? initial : "peluqueria", false);
+  if (S[initial]) setTimeout(() => $("#negocios").scrollIntoView(), 50);
+})();
+</script>
