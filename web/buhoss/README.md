@@ -38,3 +38,14 @@ La web es una guía de 8 pasos: 1 Tu negocio · 2 Cómo se ve · 3 Las piezas ·
   paso 8 tienes la propuesta escrita, lista para copiar y mandar por WhatsApp.
 - Al pasar a otro local: Índice → «Empezar de cero» borra las piezas marcadas y el formulario. Todo
   se guarda solo en tu navegador.
+
+## Lo que se mueve solo
+
+- Portada: en el móvil del dueño pasa la noche (llegan los avisos, amanece y el búho se duerme).
+- Paso 2: la demo del cliente se usa sola con un dedo virtual; si alguien toca la pantalla, se para y
+  sigue a mano («Verla sola» la vuelve a poner). La pantalla del equipo se mueve en directo: pedidos que
+  pasan de columna, citas que se llenan, mesas que piden, stock que baja.
+- Las cifras cuentan hasta su valor, los tickets de Verifactu se encadenan y las secciones aparecen al
+  bajar.
+- «Pausar animaciones», debajo del móvil de la portada, lo para todo. Con «reducir movimiento» activado
+  en el móvil o el ordenador, la web sale quieta.

@@ -9,7 +9,7 @@
 :root {
   --paper: #F3F5F9; --card: #FFFFFF; --ink: #101828; --muted: #566176; --line: #D9DFE8; --soft: #E9EEF5;
   --night: #0E1828; --night-2: #16233A; --night-ink: #EAF0F8; --night-muted: #97A4BB; --night-line: #27364F;
-  --amber: #EFA03A; --amber-deep: #B9700E; --on-amber: #2A1800; --ok: #178A55; --ok-soft: #E2F3EA; --bad: #C2410C;
+  --amber: #EFA03A; --amber-deep: #B9700E; --amber-hi: #FFE2B0; --on-amber: #2A1800; --ok: #178A55; --ok-soft: #E2F3EA; --bad: #C2410C;
   --display: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --body: "Atkinson Hyperlegible", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -79,7 +79,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .progress i { display: block; height: 100%; width: 0; background: var(--amber); transition: width .2s; }
 
 /* Ojos del búho */
-.eye-pupil { transition: transform .5s ease; }
+.eye-pupil { transition: transform .25s ease-out; }
 .owl.look .eye-pupil { transform: translateX(2.2px); }
 .owl.blink .lid { transform: scaleY(1); }
 .lid { transform: scaleY(0); transform-origin: center; transform-box: fill-box; transition: transform .12s; }
@@ -89,24 +89,77 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(28px, 5vw, 64px); align-items: center; padding-block: clamp(44px, 7vw, 84px); }
 .hero h1 { font-size: clamp(2.6rem, 7.2vw, 5.1rem); font-weight: 800; letter-spacing: -.035em; margin-top: 16px; }
 .hero h1 em { font-style: normal; color: var(--amber); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero h1 em { background: linear-gradient(100deg, var(--amber) 0 40%, var(--amber-hi) 50%, var(--amber) 60% 100%); background-size: 300% 100%;
+                -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 7s ease-in-out 1.6s infinite; }
+}
+@keyframes shimmer { 0%, 55% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+.hero h1 .ln { display: block; }
+.hero .eyebrow, .hero h1 .ln, .hero .lead, .hero .ctas, .hero .hint, .np-wrap { animation: rise .9s cubic-bezier(.2, .8, .2, 1) both; }
+.hero h1 .ln:nth-child(1) { animation-delay: .08s; }
+.hero h1 .ln:nth-child(2) { animation-delay: .2s; }
+.hero .lead { animation-delay: .34s; }
+.hero .ctas { animation-delay: .46s; }
+.hero .hint { animation-delay: .56s; }
+.np-wrap { animation-delay: .25s; animation-duration: 1.3s; }
+@keyframes rise { from { opacity: 0; translate: 0 22px; } }
 .hero .lead { color: var(--night-muted); margin-top: 18px; }
 .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 .hero .hint { margin-top: 14px; color: var(--night-muted); font-size: .9rem; }
-.tonight { background: var(--night-2); border: 1px solid var(--night-line); border-radius: var(--r-lg); padding: 22px; box-shadow: 0 30px 60px rgba(0, 0, 0, .35); }
-.tonight header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-.tonight header b { font-family: var(--display); font-size: 1.15rem; }
-.tonight header span { font: 500 .8rem/1 var(--mono); color: var(--night-muted); }
-.tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.tl li { display: grid; grid-template-columns: 52px 30px minmax(0, 1fr); gap: 10px; align-items: start; padding: 12px; border-radius: var(--r-md);
-         background: rgba(255, 255, 255, .03); border: 1px solid transparent; transition: background .4s, border-color .4s; }
-.tl li.now { background: rgba(239, 160, 58, .10); border-color: rgba(239, 160, 58, .45); }
-.tl time { font: 600 .9rem/1.6 var(--mono); color: var(--amber); }
-.tl .ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--night); color: var(--night-ink); }
-.tl .ic svg { width: 17px; height: 17px; }
-.tl p { font-size: .97rem; }
-.tl small { display: block; color: var(--night-muted); font-size: .84rem; }
-.tonight footer { margin-top: 12px; color: var(--night-muted); font-size: .8rem; }
-@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
+/* El móvil del dueño: pasa la noche y BUHOSS trabaja (colores fijos: es una escena, igual en los dos temas) */
+.hero { position: relative; overflow: hidden; isolation: isolate; }
+.hero::before { content: ""; position: absolute; z-index: -1; top: -30%; right: -12%; width: min(78vw, 860px); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+                background: radial-gradient(closest-side, color-mix(in srgb, var(--amber) 15%, transparent), transparent); animation: drift 18s ease-in-out infinite alternate; }
+@keyframes drift { to { translate: -8% 10%; scale: 1.1; } }
+.sky { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.sky .st { position: absolute; width: var(--s); height: var(--s); border-radius: 50%; background: var(--night-ink); opacity: var(--o);
+           animation: twinkle var(--t) ease-in-out var(--dl) infinite alternate; }
+@keyframes twinkle { to { opacity: .08; } }
+.sky .shoot { position: absolute; top: 14%; left: 72%; width: 130px; height: 2px; border-radius: 2px; opacity: 0; transform: rotate(-24deg);
+              background: linear-gradient(90deg, var(--night-ink), transparent); animation: shoot 12s linear 4s infinite; }
+@keyframes shoot { 0% { opacity: 0; translate: 0 0; } 1.5% { opacity: .9; } 8% { opacity: 0; translate: -300px 134px; } 100% { opacity: 0; translate: -300px 134px; } }
+.np-wrap { margin: 0; display: grid; justify-items: center; gap: 16px; min-width: 0; perspective: 1400px; }
+.np-float { width: 100%; display: grid; justify-items: center; animation: float 7s ease-in-out infinite; }
+@keyframes float { 50% { translate: 0 -10px; } }
+.phone.np { width: min(100%, 300px); transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)); transition: transform .4s ease-out;
+            box-shadow: 0 0 0 1px #2A3344, 0 50px 90px rgba(0, 0, 0, .5), 0 0 140px color-mix(in srgb, var(--amber) 16%, transparent); }
+.np-screen { --dawn: 0; position: relative; height: 100%; border-radius: 34px; overflow: hidden; color: #fff; }
+.np-sky, .np-sky i { position: absolute; inset: 0; }
+.np-sky { background: linear-gradient(180deg, #060B1C 0%, #111D45 55%, #2A2C62 100%); }
+.np-sky .np-dawn { background: linear-gradient(180deg, #24346E 0%, #B0607A 55%, #F2A65C 100%); opacity: var(--dawn); transition: opacity 2.6s ease; }
+.np-sky .np-stars { inset: 0 0 35% 0; opacity: calc(.95 - var(--dawn) * 1.3); transition: opacity 2.6s ease;
+                    background-image: radial-gradient(1.4px 1.4px at 14% 12%, #fff 60%, transparent 70%), radial-gradient(1px 1px at 33% 25%, #fff 60%, transparent 70%),
+                      radial-gradient(1.6px 1.6px at 70% 8%, #fff 60%, transparent 70%), radial-gradient(1px 1px at 87% 31%, #fff 60%, transparent 70%),
+                      radial-gradient(1.2px 1.2px at 55% 19%, #fff 60%, transparent 70%), radial-gradient(1px 1px at 22% 47%, #fff 60%, transparent 70%),
+                      radial-gradient(1.3px 1.3px at 91% 55%, #fff 60%, transparent 70%), radial-gradient(1px 1px at 7% 66%, #fff 60%, transparent 70%),
+                      radial-gradient(1.1px 1.1px at 46% 58%, #fff 60%, transparent 70%); }
+.np-sky .np-moon { inset: 22px 20px auto auto; width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle at 36% 34%, #FFF8E4, #EADBB0 62%, #CDBB8C);
+                   box-shadow: 0 0 36px 10px rgba(255, 236, 190, .2); opacity: calc(1 - var(--dawn)); translate: calc(var(--dawn) * 30px) calc(var(--dawn) * -50px); transition: opacity 2.6s ease, translate 2.6s ease; }
+.np-sky .np-sun { inset: auto auto -46px 50%; width: 92px; height: 92px; margin-left: -46px; border-radius: 50%; background: radial-gradient(circle, #FFF2C8, #F6AE4C 70%);
+                  box-shadow: 0 0 80px 30px rgba(246, 174, 76, .45); translate: 0 calc((1 - var(--dawn)) * 120px); transition: translate 2.6s ease; }
+.np-clock { position: absolute; inset: 52px 0 auto; display: grid; justify-items: center; gap: 2px; text-shadow: 0 2px 14px rgba(0, 0, 0, .3); }
+.np-clock span { font-size: .8rem; font-weight: 700; opacity: .85; }
+.np-clock b { font: 300 4rem/1 var(--display); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.np-clock b.tick { animation: clockIn .7s cubic-bezier(.2, .8, .2, 1); }
+@keyframes clockIn { from { opacity: .1; translate: 0 10px; filter: blur(6px); } }
+.np-list { position: absolute; inset: 160px 10px auto; display: grid; gap: 8px; }
+.np-n { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; grid-template-areas: "ap t tm" "ap s s"; column-gap: 10px; row-gap: 1px; align-items: center;
+        padding: 10px 12px; border-radius: 18px; background: rgba(255, 255, 255, .15); -webkit-backdrop-filter: blur(16px) saturate(1.5); backdrop-filter: blur(16px) saturate(1.5);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, .18); transition: opacity .7s, translate .7s; }
+.np-n .ap { grid-area: ap; align-self: start; width: 32px; height: 32px; border-radius: 9px; background: #0E1828; display: grid; place-items: center; }
+.np-n .ap svg { width: 24px; height: 19px; }
+.np-n b { grid-area: t; font-size: .82rem; line-height: 1.25; min-width: 0; }
+.np-n time { grid-area: tm; align-self: start; padding-top: 3px; font: 500 .66rem/1 var(--mono); opacity: .7; }
+.np-n small { grid-area: s; font-size: .74rem; line-height: 1.3; opacity: .82; }
+.np-list.out .np-n { opacity: 0; translate: 0 -14px; }
+.np-owl { position: absolute; right: 8px; bottom: 14px; width: 80px; height: auto; overflow: visible; }
+.np-owl .lid { transform: scaleY(clamp(0, calc((var(--dawn) - .55) * 2.4), 1)); transform-origin: 50% 0; transition: transform 1.1s ease; }
+.np-owl.blink .lid { transform: scaleY(1); transition-duration: .12s; }
+.np-owl .zz { font: 700 9px/1 var(--display); fill: #fff; opacity: clamp(0, calc((var(--dawn) - .8) * 5), 1); transition: opacity 1.2s ease .8s; }
+.np-cap { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px; color: var(--night-muted); font-size: .86rem; text-align: center; }
+.still-btn { min-height: 36px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--night-line); background: transparent; color: var(--night-ink); font-weight: 700; font-size: .8rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } .phone.np { width: min(100%, 280px); } }
 
 /* Índice de la guía */
 .toc { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
@@ -396,8 +449,10 @@ body.guide .guidebar .gb-exit { display: inline-flex; align-items: center; }
 /* Modo guía: un paso cada vez */
 body.guide .hero, body.guide #indice, body.guide .foot, body.guide .progress { display: none; }
 body.guide .chapter { display: none; }
-body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); padding-top: clamp(32px, 5vw, 64px) !important; padding-bottom: 120px; animation: stepIn .35s ease both; }
-@keyframes stepIn { from { opacity: .4; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); padding-top: clamp(32px, 5vw, 64px) !important; padding-bottom: 120px; animation: stepIn .5s cubic-bezier(.2, .8, .2, 1) both; }
+body.guide { --from: 40px; }
+body.guide[data-dir="prev"] { --from: -40px; }
+@keyframes stepIn { from { opacity: 0; transform: translateX(var(--from)); } to { opacity: 1; transform: none; } }
 
 /* Ventana (índice y propuesta) */
 .sheet { position: fixed; inset: 0; z-index: 40; display: grid; place-items: end center; background: rgba(5, 10, 20, .55); padding: 16px; }
@@ -410,6 +465,78 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
 .sheet .toc a { padding: 12px; }
 @media (min-width: 720px) { .sheet .toc { grid-template-columns: 1fr 1fr; } }
 .linkish { border: 0; background: none; padding: 2px; color: var(--amber-deep); font-weight: 700; text-decoration: underline; }
+
+/* Aparecer al hacer scroll: solo con CSS y desde un estado visible (sin soporte, todo se ve quieto) */
+@keyframes rv { from { opacity: 0; translate: 0 34px; } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes fadeIn { from { opacity: 0; } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rv { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% entry 90%; }
+    .art-spark .ln { stroke-dasharray: 1; animation: draw linear both; animation-timeline: view(); animation-range: entry 20% entry 100%; }
+    .art-spark .ar { animation: fadeIn linear both; animation-timeline: view(); animation-range: entry 50% entry 100%; }
+  }
+}
+/* Cambio de negocio y de pantalla */
+.swap { animation: swapIn .5s cubic-bezier(.2, .8, .2, 1); }
+@keyframes swapIn { from { opacity: 0; translate: 0 10px; } }
+.stage > .phone:not([hidden]), .stage > .tablet:not([hidden]) { animation: devIn .55s cubic-bezier(.2, .8, .2, 1); }
+@keyframes devIn { from { opacity: 0; translate: 0 16px; scale: .97; } }
+/* Demo que se usa sola: un dedo que toca la pantalla */
+.finger { position: absolute; z-index: 5; left: 0; top: 0; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; pointer-events: none;
+          background: rgba(255, 255, 255, .55); border: 2px solid rgba(17, 24, 39, .4); box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+          opacity: 0; transform: translate(var(--fx, 165px), var(--fy, 600px)); transition: transform .6s cubic-bezier(.3, .7, .2, 1), opacity .3s; }
+.finger.on { opacity: 1; }
+.finger.tap { animation: press .34s ease; }
+.finger::after { content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 2px solid #E59A2F; opacity: 0; }
+.finger.tap::after { animation: ripple .55s ease-out; }
+@keyframes press { 45% { scale: .8; } }
+@keyframes ripple { from { opacity: .9; scale: .7; } to { opacity: 0; scale: 2.1; } }
+.cap-btns { display: inline-flex; flex-wrap: wrap; gap: 2px; }
+/* Pantallas del equipo y del dueño, en directo */
+.tm-head .live { display: inline-flex; align-items: center; gap: 6px; }
+.tm-head .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #22A565; animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .3; } }
+.tm-item.flash { animation: flash 1.4s ease-out; }
+@keyframes flash { from { background: #4A3B17; box-shadow: 0 0 0 2px rgba(243, 176, 75, .75); } to { background: #222938; box-shadow: 0 0 0 2px rgba(243, 176, 75, 0); } }
+.tm-bar i { transition: width 1.2s cubic-bezier(.2, .8, .2, 1); }
+.ph-bars i { transform-origin: 50% 100%; animation: grow .9s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 70ms + .1s); }
+@keyframes grow { from { transform: scaleY(0); } }
+.ph-alert.pop { animation: rise .6s cubic-bezier(.2, .8, .2, 1) .75s both; }
+/* Las piezas también se mueven */
+.art-sticker .qr { position: relative; overflow: hidden; }
+.art-sticker .qr::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--amber);
+                          box-shadow: 0 0 10px 2px color-mix(in srgb, var(--amber) 60%, transparent); animation: scan 2.8s ease-in-out infinite; }
+@keyframes scan { 0%, 100% { translate: 0 4px; } 50% { translate: 0 66px; } }
+.art-slots span.pick { animation: pickPulse 2.4s ease-in-out infinite; }
+@keyframes pickPulse { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--amber) 22%, transparent); } }
+.art-flow span { animation: flowStep 4s ease-in-out infinite; }
+.art-flow span:nth-of-type(2) { animation-delay: 1s; }
+.art-flow span:nth-of-type(3) { animation-delay: 2s; }
+.art-flow span:nth-of-type(4) { animation-delay: 3s; }
+@keyframes flowStep { 0%, 30%, 100% { background: var(--soft); color: var(--ink); } 8%, 22% { background: var(--amber); color: var(--on-amber); } }
+.art-chain i { font-style: normal; color: var(--muted); }
+/* Punto que vuela al contador y botón que invita a empezar */
+.fly { position: fixed; left: 0; top: 0; z-index: 60; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; pointer-events: none;
+       background: var(--amber); box-shadow: 0 0 0 4px color-mix(in srgb, var(--amber) 30%, transparent); }
+.bump { animation: bump .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes bump { 40% { scale: 1.45; } }
+.guidebar { transition: translate .45s cubic-bezier(.2, .8, .2, 1), opacity .3s, visibility 0s; }
+.guidebar.away { translate: 0 calc(100% + 40px); opacity: 0; visibility: hidden; transition: translate .45s cubic-bezier(.2, .8, .2, 1), opacity .3s, visibility 0s .45s; }
+/* Cinta de la portada */
+.ticker { border-top: 1px solid var(--night-line); overflow: hidden; padding-block: 16px;
+          -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.tk-track { display: flex; width: max-content; animation: tick 70s linear infinite; }
+.ticker:hover .tk-track { animation-play-state: paused; }
+.tk-track span { display: inline-flex; align-items: center; gap: 8px; padding-right: 40px; color: var(--night-muted); font-size: .92rem; white-space: nowrap; }
+.tk-track b { color: var(--night-ink); font-weight: 700; }
+.tk-track svg { width: 16px; height: 16px; color: var(--amber); flex-shrink: 0; }
+.tk-track .tk-lbl { font: 600 .74rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--amber); }
+@keyframes tick { to { translate: -50% 0; } }
+/* Fuera de la vista o con «Pausar animaciones», lo que se mueve solo se para (en reposo todo se ve) */
+.hero.off::before, .hero.off .sky i, .hero.off .np-float, .hero.off .tk-track, .hero.off h1 em { animation-play-state: paused; }
+body.still .hero::before, body.still .sky i, body.still .np-float, body.still .tk-track, body.still .hero h1 em,
+body.still .art-sticker .qr::after, body.still .art-slots .pick, body.still .art-flow span, body.still .tm-head .live::before { animation: none !important; }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
 </style>
@@ -431,6 +558,7 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M6 16l4-5 3 3 5-7"/></symbol>
     <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+    <symbol id="i-owl" viewBox="0 0 38 30"><path d="M5 4 9 8M33 4l-4 4" stroke="#EFA03A" stroke-width="2.4" stroke-linecap="round" fill="none"/><circle cx="12" cy="15" r="9" fill="#EAF0F8"/><circle cx="26" cy="15" r="9" fill="#EAF0F8"/><circle cx="12" cy="15" r="4.2" fill="#EFA03A"/><circle cx="26" cy="15" r="4.2" fill="#EFA03A"/><path d="M17 24h4l-2 4z" fill="#EFA03A"/></symbol>
   </defs>
 </svg>
 
@@ -455,10 +583,11 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
 
 <main id="inicio">
   <section class="night hero" aria-labelledby="h-hero">
+    <div class="sky" id="sky" aria-hidden="true"></div>
     <div class="wrap">
       <div>
         <p class="eyebrow">Sistemas para negocios que atienden</p>
-        <h1 id="h-hero">Tú atiendes.<br><em>BUHOSS</em> se encarga del resto.</h1>
+        <h1 id="h-hero"><span class="ln">Tú atiendes.</span> <span class="ln"><em>BUHOSS</em> se encarga del resto.</span></h1>
         <p class="lead">Reservas, pedidos, cobros y avisos que funcionan solos, de día y de noche. Para peluquerías, bares, restaurantes, clínicas, tiendas y cualquier negocio que viva de atender bien.</p>
         <div class="ctas">
           <button class="btn amber" type="button" id="start-guide">Empezar la guía, paso a paso</button>
@@ -466,18 +595,37 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
         </div>
         <p class="hint">Ocho pasos cortos. Puedes saltar a cualquiera desde el índice.</p>
       </div>
-      <div class="tonight" aria-label="Ejemplo de una noche con BUHOSS">
-        <header><b>Esta noche, mientras cierras</b><span>ejemplo</span></header>
-        <ol class="tl" id="tonight">
-          <li><time>23:48</time><span class="ic"><svg><use href="#i-receipt"/></svg></span><p>Cierre de caja hecho<small>47 tickets · cuadra al céntimo</small></p></li>
-          <li><time>01:15</time><span class="ic"><svg><use href="#i-plate"/></svg></span><p>Pedido programado para mañana a las 14:00<small>2 menús del día · para recoger</small></p></li>
-          <li><time>03:12</time><span class="ic"><svg><use href="#i-calendar"/></svg></span><p>Nueva cita: sábado 10:30<small>Corte y barba · con Leo</small></p></li>
-          <li><time>07:30</time><span class="ic"><svg><use href="#i-bell"/></svg></span><p>Recordatorios enviados<small>9 clientes de hoy · 1 ha cambiado su hora</small></p></li>
-          <li><time>09:00</time><span class="ic"><svg><use href="#i-chart"/></svg></span><p>Resumen de ayer en tu móvil<small>Ticket medio 11,40 € · lo más vendido: menú dürüm</small></p></li>
+      <figure class="np-wrap">
+        <div class="np-float">
+          <div class="phone np" id="np">
+            <div class="np-screen" id="np-screen" aria-hidden="true">
+              <div class="np-sky"><i class="np-dawn"></i><i class="np-stars"></i><i class="np-moon"></i><i class="np-sun"></i></div>
+              <div class="np-clock"><span id="np-date">sábado, 7 de noviembre</span><b id="np-time">03:12</b></div>
+              <div class="np-list" id="np-list"></div>
+              <svg class="np-owl" viewBox="0 -10 64 70">
+                <path d="M2 56C18 51 40 53 62 47" fill="none" stroke="#1A1630" stroke-width="4" stroke-linecap="round"/>
+                <path d="M20 52C12 42 13 24 20 17L18 7l8 6c3-1 9-1 12 0l8-6-2 10c7 7 8 25 0 35z" fill="#0A0F21"/>
+                <circle cx="26" cy="25" r="6.6" fill="#F3B04B"/><circle cx="38" cy="25" r="6.6" fill="#F3B04B"/>
+                <circle class="eye-pupil" cx="26" cy="25" r="2.9" fill="#0A0F21"/><circle class="eye-pupil" cx="38" cy="25" r="2.9" fill="#0A0F21"/>
+                <rect class="lid" x="19" y="18" width="14" height="14" rx="7" fill="#0A0F21"/><rect class="lid" x="31" y="18" width="14" height="14" rx="7" fill="#0A0F21"/>
+                <path d="M30 31h4l-2 4z" fill="#F3B04B"/>
+                <path d="M25 52v3M29 52v3M35 52v3M39 52v3" stroke="#F3B04B" stroke-width="1.6" stroke-linecap="round"/>
+                <text class="zz" x="48" y="6">z</text><text class="zz" x="55" y="-2" style="font-size:7px">z</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <figcaption class="np-cap"><span>El móvil del dueño esta noche · ejemplo</span><button type="button" class="still-btn" id="still-btn">Pausar animaciones</button></figcaption>
+        <ol class="sr-only">
+          <li>23:48. Cierre de caja hecho: 47 tickets, cuadra al céntimo.</li>
+          <li>01:15. Pedido programado: 2 menús del día para mañana a las 14:00.</li>
+          <li>03:12. Nueva cita: sábado 10:30, corte y barba con Leo.</li>
+          <li>07:30. Recordatorios enviados a 9 clientes de hoy; 1 ha cambiado su hora.</li>
+          <li>09:00. Resumen de ayer: ticket medio 11,40 €; lo más vendido, el menú dürüm.</li>
         </ol>
-        <footer>Mientras duermes, el sistema sigue atendiendo.</footer>
-      </div>
+      </figure>
     </div>
+    <div class="ticker" aria-hidden="true"><div class="tk-track" id="tk"></div></div>
   </section>
 
   <section class="band" id="indice" aria-labelledby="h-idx">
@@ -595,9 +743,9 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
       <div class="proof">
         <h3 style="font-size:1.35rem">Lo que hay debajo, medido</h3>
         <ul>
-          <li><b>1,5 s</b><span>del móvil del cliente a la pantalla de cocina</span></li>
-          <li><b>15 KB</b><span>pesa una carta completa con 42 platos</span></li>
-          <li><b>53</b><span>pruebas automáticas antes de cada cambio</span></li>
+          <li><b data-count>1,5 s</b><span>del móvil del cliente a la pantalla de cocina</span></li>
+          <li><b data-count>15 KB</b><span>pesa una carta completa con 42 platos</span></li>
+          <li><b data-count>53</b><span>pruebas automáticas antes de cada cambio</span></li>
           <li><b>1 comando</b><span>para traer una carta entera desde otro sistema</span></li>
           <li><b>SHA-256</b><span>huella encadenada en cada ticket, como pide Verifactu</span></li>
         </ul>
@@ -709,6 +857,41 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
   let timers = [];
   const later = (fn, ms) => { const t = setTimeout(fn, ms); timers.push(t); return t; };
   const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
+
+  /* ------------------------------------------------------------------ movimiento */
+  // Lo que se mueve solo se para con «Pausar animaciones» o con la preferencia de movimiento reducido.
+  const motionOK = () => !reduced && !document.body.classList.contains("still");
+  const replay = (el, cls) => { if (!el) return; el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
+  const flashEl = (el) => replay(el, "flash");
+  const inView = (el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.bottom > 0 && r.top < innerHeight; };
+  const fmtN = (v, dec = 0) => { const [i, d] = Math.abs(v).toFixed(dec).split("."); return (v < 0 ? "-" : "") + i.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (d ? "," + d : ""); };
+  // Cuenta desde 0 hasta la cifra del texto («1.043 €», «92 %», «7,40 €») y deja el texto tal cual al acabar.
+  function countUp(el, dur = 900) {
+    const txt = el.textContent;
+    const m = txt.match(/^(\D*?)(\d{1,3}(?:\.\d{3})+|\d+)(,\d+)?(\D*)$/);
+    if (!m || !motionOK()) return;
+    const dec = m[3] ? m[3].length - 1 : 0;
+    const target = Number(m[2].replace(/\./g, "") + (m[3] ? "." + m[3].slice(1) : ""));
+    const t0 = performance.now();
+    const step = (t) => {
+      const p = Math.min(1, (t - t0) / dur), k = 1 - Math.pow(1 - p, 3);
+      el.textContent = p < 1 ? m[1] + fmtN(target * k, dec) + m[4] : txt;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  // FLIP: lo que cambia de sitio se desliza hasta su nueva posición; lo nuevo aparece.
+  function flip(root, mutate, sel = ".tm-item", enter) {
+    const before = new Map($$(sel, root).map((el) => [el, el.getBoundingClientRect()]));
+    mutate();
+    if (!motionOK()) return;
+    $$(sel, root).forEach((el) => {
+      const a = before.get(el);
+      if (!a) { el.animate(enter || [{ opacity: 0, transform: "scale(.94)" }, { opacity: 1, transform: "none" }], { duration: 480, easing: "cubic-bezier(.2,.8,.2,1)" }); return; }
+      const b = el.getBoundingClientRect(), dx = a.left - b.left, dy = a.top - b.top;
+      if (Math.abs(dx) + Math.abs(dy) > .5) el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], { duration: 560, easing: "cubic-bezier(.2,.8,.2,1)" });
+    });
+  }
 
   /* ------------------------------------------------------------------ los 8 pasos */
   const CH = [
@@ -857,11 +1040,11 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     tpv: { t: "TPV y caja", d: "Cobro en efectivo con cambio, tarjeta o Bizum. Cierre de caja con arqueo en dos minutos.", span: "wide",
       art: `<div class="art-ticket"><div class="r"><span>FACTURA SIMPLIFICADA</span></div><div>Nº T1-2026-000124</div><hr><div class="r"><span>2 × Menú dürüm</span><span>15,00 €</span></div><div class="r"><span>1 × Agua</span><span>1,00 €</span></div><hr><div class="r big"><span>TOTAL</span><span>16,00 €</span></div><div class="r"><span>Entregado 20,00 €</span><span>Cambio 4,00 €</span></div></div>` },
     verifactu: { t: "Verifactu preparado", d: "Cada ticket lleva la huella del anterior y su QR tributario. Nadie puede tocar uno sin que se note.", span: "wide",
-      art: `<div class="art-chain"><span>T1-000122</span>→<span>T1-000123</span>→<span>T1-000124 · <b>3C46…2F60</b></span></div>` },
+      art: `<div class="art-chain"><span>T1-000122</span><i>→</i><span>T1-000123</span><i>→</i><span>T1-000124 · <b>3C46…2F60</b></span></div>` },
     resenas: { t: "Reseñas en Google", d: "Dos botones iguales: opinar en Google o escribirte en privado. Sin filtrar, como piden las normas de Google.",
       art: `<div class="art-twin"><span>Opinar en Google</span><span>Comentario privado</span></div>` },
     numeros: { t: "Tus números, claros", d: "Ventas por día, lo más vendido, las horas fuertes y qué canal trae más clientes.",
-      art: `<div class="art-spark"><svg viewBox="0 0 200 70" role="img" aria-label="Gráfica de ejemplo de ventas semanales"><polyline fill="none" style="stroke:var(--line)" stroke-width="1" points="0,69 200,69"/><polygon style="fill:color-mix(in srgb, var(--amber) 22%, transparent)" points="0,52 33,46 66,49 100,34 133,38 166,22 196,14 196,69 0,69"/><polyline fill="none" style="stroke:var(--amber)" stroke-width="2.5" stroke-linejoin="round" points="0,52 33,46 66,49 100,34 133,38 166,22 196,14"/><circle cx="196" cy="14" r="4" style="fill:var(--amber)"/></svg><small>Ejemplo: ventas por semana</small></div>` },
+      art: `<div class="art-spark"><svg viewBox="0 0 200 70" role="img" aria-label="Gráfica de ejemplo de ventas semanales"><polyline fill="none" style="stroke:var(--line)" stroke-width="1" points="0,69 200,69"/><polygon class="ar" style="fill:color-mix(in srgb, var(--amber) 22%, transparent)" points="0,52 33,46 66,49 100,34 133,38 166,22 196,14 196,69 0,69"/><polyline class="ln" pathLength="1" fill="none" style="stroke:var(--amber)" stroke-width="2.5" stroke-linejoin="round" points="0,52 33,46 66,49 100,34 133,38 166,22 196,14"/><circle cx="196" cy="14" r="4" style="fill:var(--amber)"/></svg><small>Ejemplo: ventas por semana</small></div>` },
     amedida: { t: "Automatizaciones a medida", d: "Si algo se repite cada semana, se automatiza: facturas, informes, avisos, IA.",
       art: `<div class="art-flow"><span>Llega un correo</span><i>→</i><span>se lee</span><i>→</i><span>se apunta</span><i>→</i><span>te avisa si algo no cuadra</span></div>` },
   };
@@ -873,9 +1056,10 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
   let picked = new Set(store.get("picked", []).filter((k) => P[k]));
   let current = -1;  // paso activo (-1 = portada)
   let guide = false;
+  let booted = false;  // después del arranque, los cambios se animan
 
   /* ------------------------------------------------------------------ índice, barra y pie */
-  const tocHtml = () => CH.map((c, i) => `<a href="#${c.id}" data-go="${i}"><i>${i + 1}</i><b>${esc(c.t)}</b><span>${esc(c.d)}</span></a>`).join("");
+  const tocHtml = () => CH.map((c, i) => `<a class="rv" href="#${c.id}" data-go="${i}"><i>${i + 1}</i><b>${esc(c.t)}</b><span>${esc(c.d)}</span></a>`).join("");
   $("#toc").innerHTML = tocHtml();
   $("#rail").innerHTML = CH.slice(0, -1).map((c, i) => `<a href="#${c.id}" data-go="${i}"><i>${i + 1}</i>${esc(c.t)}</a>`).join("");
   $("#foot-nav").innerHTML = CH.map((c) => `<a href="#${c.id}">${esc(c.t)}</a>`).join("");
@@ -898,6 +1082,7 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
   function goTo(i, opts = {}) {
     i = Math.max(0, Math.min(CH.length - 1, i));
     if (guide) {
+      document.body.dataset.dir = i < current ? "prev" : "next";
       setCurrent(i);
       scrollTo({ top: 0, behavior: "auto" });
       if (location.hash !== "#" + CH[i].id) { quietHash = true; location.hash = CH[i].id; }
@@ -908,6 +1093,7 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
   }
   function enterGuide(i = 0) {
     guide = true; document.body.classList.add("guide");
+    barAway();
     goTo(i);
   }
   function exitGuide() {
@@ -916,6 +1102,7 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     chapters.forEach((el) => el.classList.remove("active"));
     setCurrent(i);
     chapters[i].scrollIntoView({ behavior: "auto" });
+    barAway();
   }
   $("#start-guide").addEventListener("click", () => enterGuide(0));
   $("#gb-exit").addEventListener("click", exitGuide);
@@ -955,10 +1142,12 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     const hero = new IntersectionObserver((entries) => { if (!guide && entries[0].isIntersecting) setCurrent(-1); }, { rootMargin: "-45% 0px -50% 0px" });
     hero.observe($(".hero"));
   }
-  const prog = $("#prog");
+  const prog = $("#prog"), bar = $("#guidebar"), heroBox = $(".hero");
+  const barAway = () => bar.classList.toggle("away", !guide && heroBox.getBoundingClientRect().bottom > innerHeight * .55);
   addEventListener("scroll", () => {
     const max = document.documentElement.scrollHeight - innerHeight;
     prog.style.width = max > 0 ? Math.min(100, (scrollY / max) * 100) + "%" : "0";
+    barAway();
   }, { passive: true });
 
   /* ------------------------------------------------------------------ ventana: índice y propuesta */
@@ -992,6 +1181,7 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     closeSheet();
     if (guide) exitGuide();
     view = "cliente";
+    auto.want = !reduced;
     setSector("peluqueria");
     scrollTo({ top: 0 });
   }
@@ -1016,6 +1206,7 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     $("#s-dia").innerHTML = s.dia.map(([h, t]) => `<li><time>${h}</time><i></i><span>${esc(t)}</span></li>`).join("");
     const f = $("#f-negocio"); if (f && !f.dataset.touched) f.value = s.nombre;
     store.set("sector", k);
+    if (booted && motionOK()) ["#s-title", "#s-hoy", "#s-con", "#s-dia"].forEach((sel) => replay($(sel), "swap"));
     renderPieces(); renderCalc(); setView(view);
   }
   let quietHash = false;
@@ -1049,10 +1240,11 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     $("#dev-phone").hidden = v !== "cliente";
     $("#dev-tablet").hidden = v !== "equipo";
     $("#dev-owner").hidden = v !== "tu";
+    stopAuto(); clearTimers();
     if (v === "cliente") startDemo();
-    else { clearTimers(); $("#demo-cap").textContent = "Datos de ejemplo."; }
-    if (v === "equipo") $("#screen-team").innerHTML = teamHtml(s);
-    if (v === "tu") $("#screen-owner").innerHTML = ownerHtml(s);
+    else $("#demo-cap").textContent = v === "equipo" && motionOK() ? "Datos de ejemplo. Se mueve sola, como en tu local." : "Datos de ejemplo.";
+    if (v === "equipo") { $("#screen-team").innerHTML = teamHtml(s); if (motionOK() && stageOn) startTeamLive(s); }
+    if (v === "tu") { $("#screen-owner").innerHTML = ownerHtml(s); if (stageOn) $$("#screen-owner .ph-kpis b").forEach((b) => countUp(b)); }
   }
   $("#vtabs").addEventListener("click", (e) => { const b = e.target.closest("[data-v]"); if (b) setView(b.dataset.v); });
   $("#vtabs").addEventListener("keydown", (e) => {
@@ -1064,7 +1256,7 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
 
   function teamHtml(s) {
     const T = s.equipo;
-    const head = `<div class="tm-head"><b>${esc(T.titulo)}</b><span>en directo · ejemplo</span></div>`;
+    const head = `<div class="tm-head"><b>${esc(T.titulo)}</b><span class="live">en directo · ejemplo</span></div>`;
     if (T.tipo === "agenda") {
       return head + `<div class="tm-cols" style="--n:${T.cols.length}">${T.cols.map(([n, items]) => `<div class="tm-col"><b>${esc(n)}</b>${items.map(([h, t, c]) => `<div class="tm-item ${c}"><time>${h}</time><span>${esc(t)}</span></div>`).join("")}</div>`).join("")}</div>
         <div class="tm-legend"><span style="--c:#22A565">Confirmada</span><span style="--c:#F3B04B">Reservada esta noche</span><span style="--c:#3B455A">Libre</span></div>`;
@@ -1091,8 +1283,130 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     return `<div class="ph-head"><span class="ph-logo">${esc(s.marca.split(" ").pop()[0].toUpperCase())}</span><div><b>Resumen de hoy</b><small>${esc(s.marca)}</small></div></div>
       <div class="ph-kpis">${T.kpis.map(([v, l]) => `<div><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("")}</div>
       <p class="ph-label">Esta semana</p>
-      <div class="ph-bars">${T.bars.map((v, i) => `<span class="${i === today ? "today" : ""}"><i style="height:${Math.max(4, Math.round((v / max) * 60))}px"></i>${days[i]}</span>`).join("")}</div>
-      <div class="ph-alert">${esc(T.aviso)}</div><p class="ph-tag">Datos de ejemplo</p>`;
+      <div class="ph-bars">${T.bars.map((v, i) => `<span class="${i === today ? "today" : ""}"><i style="height:${Math.max(4, Math.round((v / max) * 60))}px;--i:${i}"></i>${days[i]}</span>`).join("")}</div>
+      <div class="ph-alert pop">${esc(T.aviso)}</div><p class="ph-tag">Datos de ejemplo</p>`;
+  }
+
+  /* ------------------------------------------------------------------ pantallas del equipo, en directo */
+  function startTeamLive(s) {
+    const run = { cocina: liveCocina, agenda: liveAgenda, mesas: liveMesas, lista: liveLista, obras: liveObras, registro: liveRegistro }[s.equipo.tipo];
+    if (run) run($("#screen-team"));
+  }
+  function rerenderTeam(root, fn) {
+    root.innerHTML = teamHtml(S[sector]);
+    if (motionOK()) root.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400 });
+    fn(root);
+  }
+  function liveCocina(root) {
+    const cols = $$(".tm-col", root);
+    const pool = sector === "kebab"
+      ? [["Recoger · Ana", "Kebab de pollo · salsa blanca", ""], ["Domicilio", "2 × Dürüm mixto", "SIN TOMATE"], ["Mesa 4", "Menú kebab ternera", ""], ["Recoger · Luis", "Pedrata grande", ""], ["Mesa 1", "2 × Patatas grandes", ""]]
+      : [["Mesa 5", "2 × Menú del día", ""], ["Mesa 7", "Secreto · al punto", "SIN PIMIENTOS"], ["Terraza 1", "Croquetas caseras", ""], ["Mesa 2", "2 × Tarta de queso", ""]];
+    let num = Math.max(0, ...$$(".n", root).map((n) => parseInt(n.textContent, 10) || 0)) + 1, k = 0;
+    const count = (col) => { const b = col.firstElementChild; b.textContent = b.textContent.replace(/\d+$/, String(col.querySelectorAll(".tm-item").length)); };
+    function tick() {
+      const [nuevos, cocina, listos] = cols;
+      flip(root, () => {
+        const done = listos.querySelectorAll(".tm-item");
+        if (done.length >= 3) done[done.length - 1].remove();
+        const cook = cocina.querySelector(".tm-item");
+        if (cook) { cook.className = "tm-item ok"; listos.firstElementChild.after(cook); }
+        const fresh = nuevos.querySelector(".tm-item");
+        if (fresh) { fresh.className = "tm-item"; cocina.append(fresh); }
+        const [where, what, no] = pool[k++ % pool.length];
+        nuevos.firstElementChild.insertAdjacentHTML("afterend", `<div class="tm-item new flash"><span class="n">${String(num++).padStart(3, "0")} · ${esc(where)}</span><span>${esc(what)}</span>${no ? `<span class="no">${esc(no)}</span>` : ""}</div>`);
+        cols.forEach(count);
+      });
+      later(tick, 3200);
+    }
+    later(tick, 1600);
+  }
+  function liveAgenda(root) {
+    const pool = {
+      peluqueria: ["Laura · Tinte · reservada ahora", "Sofía · Corte · reservada ahora"],
+      barberia: ["Rubén · Corte · reservada ahora", "Hugo · Barba · reservada ahora"],
+      clinica: ["Irene · Fisioterapia · desde la web", "Tomás · desde la lista de espera"],
+      academia: ["Pilates · 3/12 · clase nueva", "Yoga · 1/14 · clase nueva"],
+    }[sector] || ["Reservada ahora"];
+    let k = 0;
+    function tick() {
+      const free = $$(".tm-item.free", root);
+      if (!free.length) { later(() => rerenderTeam(root, liveAgenda), 4200); return; }
+      const it = free[0];
+      it.className = "tm-item new";
+      const sp = it.querySelector("span");
+      if (sp) sp.textContent = pool[k++ % pool.length];
+      flashEl(it);
+      later(tick, 2800);
+    }
+    later(tick, 1500);
+  }
+  function liveMesas(root) {
+    const flow = [["free", "Libre"], ["new", ""], ["ok", "Tomando"], ["alert", "Pide la cuenta"]];
+    const orders = ["Ronda: 2 cañas", "Pedido: bravas", "Pedido: 2 vermús", "Ronda: 3 cañas", "Pedido: croquetas"];
+    let k = 0;
+    function tick() {
+      const items = $$(".tm-item", root);
+      const it = items[Math.floor(Math.random() * items.length)];
+      const cur = flow.findIndex(([c]) => it.classList.contains(c));
+      const [c, t] = flow[(cur + 1) % flow.length];
+      it.className = "tm-item " + c;
+      it.querySelectorAll("span")[1].textContent = c === "new" ? orders[k++ % orders.length] : t;
+      flashEl(it);
+      later(tick, 1800);
+    }
+    later(tick, 1200);
+  }
+  function liveLista(root) {
+    const [res, stock] = $$(".tm-col", root);
+    const pool = [["Gorra bordada · avisar al llegar", "Aviso pedido"], ["Zapatillas urbanas · talla 42", "Hasta 20:30"], ["Mochila impermeable", "Hasta 19:30"]];
+    let code = 49, k = 0;
+    function tick() {
+      flip(root, () => {
+        const items = res.querySelectorAll(".tm-item");
+        if (items.length >= 3) items[items.length - 1].remove();
+        const [t, sub] = pool[k++ % pool.length];
+        res.firstElementChild.insertAdjacentHTML("afterend", `<div class="tm-item new flash"><span class="n">R-${code++}</span><span>${esc(t)}</span><small>${esc(sub)}</small></div>`);
+      });
+      const low = stock.querySelector(".tm-item small");
+      const m = low && low.textContent.match(/Quedan (\d+)/);
+      if (m) { const n = Number(m[1]) - 1; low.textContent = n > 0 ? `Quedan ${n}` : "Agotadas · pedido al proveedor hecho"; flashEl(low.closest(".tm-item")); }
+      later(tick, 3200);
+    }
+    later(tick, 1600);
+  }
+  function liveObras(root) {
+    const bars = $$(".tm-bar i", root);
+    bars.forEach((b) => { b.dataset.w = parseFloat(b.style.width); b.style.width = "0%"; });
+    requestAnimationFrame(() => requestAnimationFrame(() => bars.forEach((b) => { b.style.width = b.dataset.w + "%"; })));
+    function tick() {
+      const open = bars.filter((b) => Number(b.dataset.w) < 100);
+      if (!open.length) { later(() => rerenderTeam(root, liveObras), 3000); return; }
+      const b = open[Math.floor(Math.random() * open.length)];
+      const w = Math.min(100, Number(b.dataset.w) + 5);
+      b.dataset.w = w; b.style.width = w + "%";
+      const it = b.closest(".tm-item"), sm = it.querySelector("small");
+      sm.textContent = w >= 100 ? "Terminada · fotos enviadas al cliente" : sm.textContent.replace(/\d+ %/, w + " %");
+      flashEl(it);
+      later(tick, 2200);
+    }
+    later(tick, 2400);
+  }
+  function liveRegistro(root) {
+    const col = $(".tm-col", root), items = $$(".tm-item", col);
+    items.forEach((it) => it.remove());
+    let k = 0;
+    function tick() {
+      if (k < items.length) {
+        const it = items[k++];
+        col.append(it); flashEl(it);
+        it.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 420, easing: "ease-out" });
+        later(tick, 1500);
+        return;
+      }
+      later(() => { items.forEach((it) => it.remove()); k = 0; tick(); }, 4200);
+    }
+    tick();
   }
 
   /* ------------------------------------------------------------------ demos en el móvil del cliente */
@@ -1289,7 +1603,7 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
         if (t.dataset.tipo) st.tipo = t.dataset.tipo;
         else if ("send" in t.dataset) st.step = 1;
         else if ("next" in t.dataset) st.step = 2;
-        else if ("restart" in t.dataset) st.step = 0;
+        else if ("restart" in t.dataset) { st.step = 0; st.tipo = "Baño"; st.m2 = 6; }
         draw();
       };
       draw();
@@ -1339,22 +1653,117 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     },
   };
 
-  function startDemo() {
-    clearTimers();
-    screen.onclick = null; screen.oninput = null;
-    const s = S[sector];
-    const cap = demos[s.demo](s);
-    $("#demo-cap").innerHTML = `${esc(cap)} <button type="button" id="demo-reset">Reiniciar</button>`;
+  /* ------------------------------------------------------------------ la demo se usa sola */
+  // Un dedo recorre la demo como lo haría un cliente. Si alguien toca la pantalla, se para y sigue a mano.
+  const devPhone = $("#dev-phone");
+  const finger = document.createElement("i");
+  finger.className = "finger"; finger.setAttribute("aria-hidden", "true");
+  devPhone.append(finger);
+  const auto = { want: !reduced, running: false, token: 0 };
+  let stageOn = false, manualCap = "";
+  const AUTO = {
+    booking: (s) => [{ tap: '[data-serv="1"]' }, { tap: `[data-pro="${s.pros[1]}"]` }, { tap: '[data-day="1"]' }, { tap: "[data-hour]:not([disabled])", nth: 2 }, { tap: "[data-ok]" }, { wait: 2800 }, { tap: "[data-restart]" }],
+    menu: () => (sector === "kebab"
+      ? [{ tap: '[data-item="0"]' }, { tap: '[data-g="Carne"][data-o="Mixto"]' }, { tap: "[data-upsell]" }, { tap: '[data-g="Bebida"][data-o="Refresco"]' }, { tap: "[data-add]" }, { tap: "[data-cart]" }, { tap: "[data-send]" }, { wait: 5400 }, { tap: "[data-restart]" }]
+      : [{ tap: '[data-item="2"]' }, { tap: '[data-g="Punto"][data-o="Al punto"]' }, { tap: '[data-rm="Sin pimientos"]' }, { tap: "[data-add]" }, { tap: '[data-item="1"]' }, { tap: "[data-add]" }, { tap: "[data-cart]" }, { tap: "[data-send]" }, { wait: 5400 }, { tap: "[data-restart]" }]),
+    bar: () => [{ tap: "[data-round]" }, { wait: 2600 }, { tap: "[data-restart]" }, { tap: '[data-tapa="Bravas"]' }, { wait: 2400 }, { tap: "[data-restart]" }, { tap: "[data-bill]" }, { wait: 3000 }, { tap: "[data-restart]" }],
+    reminder: () => [{ wait: 1200 }, { tap: '[data-r="2"]' }, { tap: '[data-h="Vie 17:30"]' }, { wait: 3200 }, { tap: "[data-restart]" }],
+    catalog: () => [{ tap: '[data-i="0"]' }, { tap: '[data-t="40"]' }, { tap: "[data-res]" }, { wait: 2800 }, { tap: "[data-restart]" }],
+    quote: () => [{ tap: '[data-tipo="Cocina"]' }, { range: "[data-m2]", to: 18 }, { tap: "[data-send]" }, { wait: 1600 }, { tap: "[data-next]" }, { wait: 3400 }, { tap: "[data-restart]" }],
+    classes: () => [{ tap: '[data-c="0"]' }, { wait: 900 }, { tap: '[data-c="2"]' }, { wait: 2600 }, { tap: '[data-c="0"]' }, { tap: '[data-c="2"]' }],
+    automation: () => [{ tap: "[data-go]" }, { wait: 4800 }, { tap: "[data-restart]" }],
+  };
+  const sleep = (ms, tk) => new Promise((ok, no) => later(() => (tk === auto.token ? ok() : no(new Error("parada"))), ms));
+  async function moveFinger(el, tk) {
+    const sr = screen.getBoundingClientRect();
+    let r = el.getBoundingClientRect();
+    if (r.bottom > sr.bottom - 12 || r.top < sr.top + 48) {
+      screen.scrollTo({ top: screen.scrollTop + (r.top - sr.top) - sr.height / 2, behavior: "smooth" });
+      await sleep(480, tk);
+      r = el.getBoundingClientRect();
+    }
+    const pr = devPhone.getBoundingClientRect();
+    finger.style.setProperty("--fx", (r.left - pr.left + Math.min(r.width / 2, 120)) + "px");
+    finger.style.setProperty("--fy", (r.top - pr.top + r.height / 2) + "px");
+    await sleep(620, tk);
   }
-  $("#demo-cap").addEventListener("click", (e) => { if (e.target.id === "demo-reset") startDemo(); });
+  async function runAuto() {
+    const tk = ++auto.token;
+    auto.running = true; renderCap();
+    const steps = AUTO[S[sector].demo](S[sector]);
+    try {
+      await sleep(700, tk);
+      finger.classList.add("on");
+      for (;;) {
+        for (const st of steps) {
+          if (st.wait) { await sleep(st.wait, tk); continue; }
+          if (st.range) {
+            const el = $(st.range, screen);
+            if (!el) continue;
+            await moveFinger(el, tk);
+            const from = Number(el.value), min = Number(el.min), max = Number(el.max);
+            for (let j = 1; j <= 16; j++) {
+              el.value = Math.round(from + ((st.to - from) * j) / 16);
+              el.dispatchEvent(new Event("input", { bubbles: true }));
+              const r = el.getBoundingClientRect(), pr = devPhone.getBoundingClientRect();
+              finger.style.setProperty("--fx", (r.left - pr.left + ((el.value - min) / (max - min)) * r.width) + "px");
+              await sleep(55, tk);
+            }
+            await sleep(500, tk);
+            continue;
+          }
+          const el = $$(st.tap, screen).filter((x) => !x.disabled)[st.nth || 0];
+          if (!el) continue;
+          await moveFinger(el, tk);
+          replay(finger, "tap");
+          await sleep(170, tk);
+          el.click();
+          await sleep(780, tk);
+        }
+        await sleep(1500, tk);
+      }
+    } catch (err) { /* demo parada */ }
+  }
+  function stopAuto() {
+    auto.token++;
+    finger.classList.remove("on");
+    if (auto.running) { auto.running = false; renderCap(); }
+  }
+  function renderCap() {
+    const txt = auto.running ? "Así lo usaría tu cliente. Toca la pantalla y pruébalo tú." : manualCap;
+    $("#demo-cap").innerHTML = `${esc(txt)} <span class="cap-btns">${reduced ? "" : `<button type="button" id="demo-auto">${auto.running ? "Parar la demo" : "Verla sola"}</button>`}<button type="button" id="demo-reset">Reiniciar</button></span>`;
+  }
+  function startDemo() {
+    stopAuto(); clearTimers();
+    screen.onclick = null; screen.oninput = null; screen.scrollTop = 0;
+    const s = S[sector];
+    manualCap = demos[s.demo](s);
+    if (auto.want && motionOK() && stageOn && view === "cliente") runAuto(); else renderCap();
+  }
+  $("#demo-cap").addEventListener("click", (e) => {
+    if (e.target.id === "demo-reset") startDemo();
+    if (e.target.id === "demo-auto") { auto.want = !auto.running; startDemo(); }
+  });
+  ["pointerdown", "keydown"].forEach((type) => screen.addEventListener(type, () => { if (auto.running) { auto.want = false; stopAuto(); } }, true));
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([en]) => {
+      if (en.isIntersecting === stageOn) return;
+      stageOn = en.isIntersecting;
+      if (!stageOn) { stopAuto(); if (view !== "cliente") clearTimers(); return; }
+      if (!motionOK()) return;
+      if (view === "cliente") { if (auto.want && !auto.running) startDemo(); }
+      else setView(view);
+    }, { threshold: .3 }).observe($("#stage"));
+  }
 
   /* ------------------------------------------------------------------ paso 3: piezas y propuesta */
   function renderPieces() {
+    vfN = 124;
     const rec = new Set(S[sector].piezas);
     $("#pieces").innerHTML = P_ORDER.map((k) => {
       const p = P[k];
       const on = picked.has(k);
-      return `<article class="piece ${p.span || ""}"><div style="display:flex;justify-content:space-between;gap:10px;align-items:start"><h3>${esc(p.t)}</h3>${rec.has(k) ? `<span class="eyebrow" style="font-size:.66rem;white-space:nowrap">Para ${esc(S[sector].corto.toLowerCase())}</span>` : ""}</div>
+      return `<article class="piece rv ${p.span || ""}"><div style="display:flex;justify-content:space-between;gap:10px;align-items:start"><h3>${esc(p.t)}</h3>${rec.has(k) ? `<span class="eyebrow" style="font-size:.66rem;white-space:nowrap">Para ${esc(S[sector].corto.toLowerCase())}</span>` : ""}</div>
         <p>${esc(p.d)}</p><div class="art">${p.art}</div>
         <button class="add" type="button" data-p="${k}" aria-pressed="${on}">${on ? "✓ En la propuesta" : "+ Añadir a la propuesta"}</button></article>`;
     }).join("");
@@ -1372,6 +1781,30 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
       ? `<h3 style="font-size:1.15rem">Tu propuesta</h3><ul>${items.map((k) => `<li><b>${esc(P[k].t)}</b>: ${esc(P[k].d)}</li>`).join("")}</ul><div class="wa"><button class="btn" type="button" data-show-prop>Copiar propuesta</button><a class="btn" href="#piezas">Cambiar piezas</a></div>`
       : `<h3 style="font-size:1.15rem">Tu propuesta</h3><p class="note-in">Aún no has marcado piezas. Vuelve al paso 3 y marca las que te encajan.</p><div class="wa"><a class="btn" href="#piezas">Ir a las piezas</a></div>`;
   }
+  function syncPieces() {
+    $$("#pieces [data-p]").forEach((b) => {
+      const on = picked.has(b.dataset.p);
+      b.setAttribute("aria-pressed", String(on));
+      b.textContent = on ? "✓ En la propuesta" : "+ Añadir a la propuesta";
+    });
+    renderPicked();
+  }
+  // Un punto vuela desde la pieza marcada hasta el contador del índice, en la barra de abajo.
+  function flyTo(from) {
+    const t = $("#gb-idx");
+    if (!motionOK() || !t) return;
+    const a = from.getBoundingClientRect ? from.getBoundingClientRect() : from, b = t.getBoundingClientRect();
+    const x0 = a.left + Math.min(28, a.width / 2), y0 = a.top + a.height / 2, x1 = b.left + b.width / 2, y1 = b.top + b.height / 2;
+    const cx = (x0 + x1) / 2, cy = Math.min(y0, y1) - 140, frames = [];
+    for (let j = 0; j <= 12; j++) {
+      const u = j / 12, v = 1 - u;
+      frames.push({ transform: `translate(${v * v * x0 + 2 * v * u * cx + u * u * x1}px, ${v * v * y0 + 2 * v * u * cy + u * u * y1}px) scale(${1 - u * .45})` });
+    }
+    const dot = document.createElement("i");
+    dot.className = "fly"; dot.setAttribute("aria-hidden", "true");
+    document.body.append(dot);
+    dot.animate(frames, { duration: 760, easing: "cubic-bezier(.45,0,.25,1)" }).onfinish = () => { dot.remove(); replay($("#gb-count"), "bump"); };
+  }
   $("#pieces").addEventListener("click", (e) => {
     const b = e.target.closest("[data-p]"); if (!b) return;
     const k = b.dataset.p;
@@ -1380,10 +1813,19 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     b.setAttribute("aria-pressed", String(picked.has(k)));
     b.textContent = picked.has(k) ? "✓ En la propuesta" : "+ Añadir a la propuesta";
     renderPicked();
+    if (picked.has(k)) flyTo(b);
   });
   document.addEventListener("click", (e) => {
     if (e.target.closest("[data-show-prop]")) openProposal();
-    if (e.target.closest("[data-pick-rec]")) { S[sector].piezas.forEach((k) => picked.add(k)); store.set("picked", [...picked]); renderPieces(); }
+    const rec = e.target.closest("[data-pick-rec]");
+    if (rec) {
+      const from = rec.getBoundingClientRect();
+      const nuevas = S[sector].piezas.filter((k) => !picked.has(k));
+      nuevas.forEach((k) => picked.add(k));
+      store.set("picked", [...picked]);
+      syncPieces();
+      nuevas.forEach((k, j) => setTimeout(() => flyTo(from), j * 110));
+    }
   });
   function proposalText() {
     const s = S[sector];
@@ -1418,16 +1860,32 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
     }).join("");
     $("#r-horas-lbl").textContent = sector === "empresa" ? "al mes en tareas a mano" : "al mes en esto";
     $("#r-euros-lbl").textContent = sector === "empresa" ? "al mes en errores" : "al mes que se escapan";
-    calc();
+    calc(booted);
   }
-  function calc() {
+  const shown = { h: 0, e: 0, gh: 0, ge: 0 };
+  let calcRaf = 0;
+  function paintCalc(v) {
+    $("#r-horas").textContent = fmtN(v.h) + " h";
+    $("#r-euros").textContent = fmtN(v.e) + " €";
+    $("#r-gana").textContent = `${fmtN(v.gh)} h · ${fmtN(v.ge)} €`;
+  }
+  // Las cifras ruedan hasta su nuevo valor al mover las barras.
+  function calc(animate = true) {
     const horas = (calcVals.a * calcVals.b * 26) / 60;
     const euros = calcVals.c * calcVals.d;
     const pct = Number($("#c-pct").value) / 100;
     $("#o-pct").textContent = Math.round(pct * 100) + " %";
-    $("#r-horas").textContent = Math.round(horas).toLocaleString("es-ES") + " h";
-    $("#r-euros").textContent = Math.round(euros).toLocaleString("es-ES") + " €";
-    $("#r-gana").textContent = `${Math.round(horas * pct).toLocaleString("es-ES")} h · ${Math.round(euros * pct).toLocaleString("es-ES")} €`;
+    const target = { h: horas, e: euros, gh: horas * pct, ge: euros * pct };
+    cancelAnimationFrame(calcRaf);
+    if (!animate || !motionOK()) { Object.assign(shown, target); paintCalc(shown); return; }
+    const from = { ...shown }, t0 = performance.now();
+    const step = (t) => {
+      const p = Math.min(1, (t - t0) / 420), k = 1 - Math.pow(1 - p, 3);
+      for (const key in target) shown[key] = from[key] + (target[key] - from[key]) * k;
+      paintCalc(shown);
+      if (p < 1) calcRaf = requestAnimationFrame(step);
+    };
+    calcRaf = requestAnimationFrame(step);
   }
   $("#calc-inputs").addEventListener("input", (e) => {
     const i = e.target.closest("input[data-k]"); if (!i) return;
@@ -1464,16 +1922,165 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
   });
   $("#f-copy").addEventListener("click", () => copy($("#f-msg").textContent, $("#f-note"), $("#f-msg")));
 
-  /* ------------------------------------------------------------------ la noche y el búho */
-  const items = $$("#tonight li");
-  let now = 0;
-  items[0].classList.add("now");
-  if (!reduced) {
-    setInterval(() => { items[now].classList.remove("now"); now = (now + 1) % items.length; items[now].classList.add("now"); }, 2600);
-    const owl = $("#owl");
-    setInterval(() => { owl.classList.add("blink"); setTimeout(() => owl.classList.remove("blink"), 140); }, 5200);
-    setInterval(() => owl.classList.toggle("look"), 3700);
+  /* ------------------------------------------------------------------ portada: la noche en el móvil del dueño */
+  const heroEl = $(".hero"), npPhone = $("#np");
+  const NIGHT = [
+    { t: "23:48", dawn: 0, title: "Cierre de caja hecho", body: "47 tickets · cuadra al céntimo" },
+    { t: "01:15", dawn: 0, title: "Pedido programado", body: "2 menús del día para mañana a las 14:00" },
+    { t: "03:12", dawn: .08, title: "Nueva cita: sábado 10:30", body: "Corte y barba · con Leo" },
+    { t: "07:30", dawn: .6, title: "Recordatorios enviados", body: "9 clientes de hoy · 1 ha cambiado su hora" },
+    { t: "09:00", dawn: 1, title: "Resumen de ayer", body: "Ticket medio 11,40 € · lo más vendido: menú dürüm" },
+  ];
+  const np = { list: $("#np-list"), time: $("#np-time"), screen: $("#np-screen"), i: 0, timer: 0, on: true };
+  try { $("#np-date").textContent = new Date().toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" }); } catch (e) { /* se queda la fecha de ejemplo */ }
+  const notifHtml = (n) => `<div class="np-n"><span class="ap"><svg><use href="#i-owl"/></svg></span><b>${esc(n.title)}</b><time>${n.t}</time><small>${esc(n.body)}</small></div>`;
+  function npShow(i, animate) {
+    const n = NIGHT[i];
+    np.screen.style.setProperty("--dawn", String(n.dawn));
+    np.time.textContent = n.t;
+    const tmp = document.createElement("div");
+    tmp.innerHTML = notifHtml(n);
+    const card = tmp.firstElementChild;
+    if (!animate) { np.list.prepend(card); return; }
+    replay(np.time, "tick");
+    const old = [...np.list.children].slice(2);
+    flip(np.list, () => np.list.prepend(card), ".np-n", [{ opacity: 0, transform: "translateY(-26px) scale(.96)" }, { opacity: 1, transform: "none" }]);
+    old.forEach((el) => { el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, fill: "forwards" }).onfinish = () => el.remove(); });
   }
+  function npPlan(ms) { clearTimeout(np.timer); np.timer = setTimeout(npTick, ms); }
+  function npTick() {
+    np.timer = 0;
+    if (!motionOK() || !np.on || document.hidden) return;
+    if (np.i < NIGHT.length) { npShow(np.i++, true); npPlan(np.i < NIGHT.length ? 2700 : 4800); return; }
+    np.list.classList.add("out");  // ya es de día: se recogen los avisos y vuelve a caer la noche
+    np.timer = setTimeout(() => {
+      np.list.classList.remove("out"); np.list.innerHTML = ""; np.i = 0;
+      np.screen.style.setProperty("--dawn", "0");
+      np.time.textContent = "23:30"; replay(np.time, "tick");
+      npPlan(2200);
+    }, 900);
+  }
+  for (let i = 0; i < 3; i++) npShow(i, false);
+  np.i = 3;
+  npPlan(2600);
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([en]) => {
+      np.on = en.isIntersecting;
+      heroEl.classList.toggle("off", !np.on);
+      if (np.on && !np.timer) npPlan(1400);
+    }).observe(heroEl);
+  }
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && np.on && !np.timer) npPlan(1400); });
+
+  // Cielo de la portada: estrellas que titilan y alguna estrella fugaz
+  {
+    let html = "";
+    for (let k = 0; k < 70; k++) {
+      const x = Math.random() * 100, y = Math.pow(Math.random(), 1.5) * 100, big = Math.random() > .85;
+      html += `<i class="st" style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;--s:${(big ? 2 + Math.random() : 1 + Math.random() * .8).toFixed(1)}px;--o:${(.3 + Math.random() * .6).toFixed(2)};--t:${(2 + Math.random() * 4).toFixed(1)}s;--dl:${(-Math.random() * 6).toFixed(1)}s"></i>`;
+    }
+    const sky = $("#sky");
+    sky.innerHTML = html + '<i class="shoot"></i><i class="shoot" style="animation-delay:10s;top:34%;left:46%"></i>';
+    sky.addEventListener("animationiteration", (e) => {
+      if (!e.target.classList.contains("shoot")) return;
+      e.target.style.top = (6 + Math.random() * 34).toFixed(1) + "%";
+      e.target.style.left = (40 + Math.random() * 55).toFixed(1) + "%";
+    });
+  }
+
+  // Los búhos miran al puntero y el móvil de la portada se inclina un poco hacia él
+  const pupils = $$("#owl .eye-pupil, .np-owl .eye-pupil");
+  const owls = $$("#owl, .np-owl");
+  const finePointer = matchMedia("(pointer: fine)").matches;
+  if (finePointer) {
+    let pt = null, raf = 0;
+    addEventListener("pointermove", (e) => {
+      pt = e;
+      if (raf || !motionOK()) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        pupils.forEach((p) => {
+          const r = p.getBoundingClientRect();
+          if (!r.width) return;
+          const dx = pt.clientX - (r.left + r.width / 2), dy = pt.clientY - (r.top + r.height / 2), d = Math.hypot(dx, dy) || 1, m = Math.min(2.2, d / 60);
+          p.style.transform = `translate(${((dx / d) * m).toFixed(2)}px, ${((dy / d) * m).toFixed(2)}px)`;
+        });
+        const hr = heroEl.getBoundingClientRect();
+        if (pt.clientY < hr.bottom && pt.clientY > hr.top) {
+          npPhone.style.setProperty("--ry", (((pt.clientX - hr.left) / hr.width - .5) * 12).toFixed(2) + "deg");
+          npPhone.style.setProperty("--rx", ((.5 - (pt.clientY - hr.top) / hr.height) * 8).toFixed(2) + "deg");
+        }
+      });
+    }, { passive: true });
+    heroEl.addEventListener("pointerleave", () => { npPhone.style.setProperty("--ry", "0deg"); npPhone.style.setProperty("--rx", "0deg"); });
+  }
+  if (!reduced) {
+    setInterval(() => {
+      if (!motionOK()) return;
+      owls.forEach((o) => o.classList.add("blink"));
+      setTimeout(() => owls.forEach((o) => o.classList.remove("blink")), 140);
+    }, 5200);
+    if (!finePointer) setInterval(() => { if (motionOK()) $("#owl").classList.toggle("look"); }, 3700);
+  }
+
+  // Cinta de la portada: lo que pasa un día cualquiera en distintos negocios
+  const TICK = [
+    ["i-scissors", "Peluquería", "cita confirmada", "sábado 10:30"], ["i-skewer", "Kebab", "pedido 041 listo", "para recoger"],
+    ["i-cross", "Clínica", "hueco recolocado", "desde la lista de espera"], ["i-cup", "Bar", "ronda pedida por QR", "mesa 5"],
+    ["i-bag", "Tienda", "reserva R-48", "recoge hoy"], ["i-hammer", "Reformas", "presupuesto con 3 fotos", ""],
+    ["i-dumbbell", "Academia", "plaza liberada", "pasa al siguiente"], ["i-plate", "Restaurante", "la mesa 6 pide otro vino", "sin esperar"],
+    ["i-razor", "Barbería", "reseña nueva en Google", ""], ["i-building", "Empresa", "14 facturas apuntadas", "sin teclear"],
+  ];
+  const tk = '<span class="tk-lbl">Un día cualquiera</span>' + TICK.map(([ic, who, what, extra]) => `<span><svg><use href="#${ic}"/></svg>${who} · <b>${what}</b>${extra ? " · " + extra : ""}</span>`).join("");
+  $("#tk").innerHTML = tk + tk;
+
+  // Verifactu: cada pocos segundos entra un ticket nuevo encadenado al anterior
+  let vfN = 124;
+  const hx = () => Math.floor(Math.random() * 65536).toString(16).toUpperCase().padStart(4, "0");
+  function scramble(el, final, dur = 900) {
+    const H = "0123456789ABCDEF", t0 = performance.now();
+    const step = (t) => {
+      const p = Math.min(1, (t - t0) / dur);
+      el.textContent = [...final].map((c, i) => (c === "…" || i < p * final.length ? c : H[(Math.random() * 16) | 0])).join("");
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  setInterval(() => {
+    const ch = $("#pieces .art-chain");
+    if (!ch || !motionOK() || document.hidden || !inView(ch)) return;
+    const n = ++vfN, h = `${hx()}…${hx()}`;
+    flip(ch, () => {
+      const spans = ch.querySelectorAll("span");
+      spans[spans.length - 1].textContent = "T1-" + String(n - 1).padStart(6, "0");
+      if (spans.length >= 3) { spans[0].remove(); const a = ch.querySelector("i"); if (a) a.remove(); }
+      ch.insertAdjacentHTML("beforeend", `<i>→</i><span>T1-${String(n).padStart(6, "0")} · <b>${h}</b></span>`);
+    }, "span, i");
+    scramble(ch.querySelector("b"), h);
+  }, 3600);
+
+  // Las cifras del paso 5 cuentan hasta su valor la primera vez que se ven
+  const proof = $(".proof");
+  if (proof && "IntersectionObserver" in window) {
+    const seen = new IntersectionObserver(([en]) => {
+      if (!en.isIntersecting) return;
+      seen.disconnect();
+      $$("[data-count]", proof).forEach((b, k) => setTimeout(() => countUp(b, 1100), k * 140));
+    }, { threshold: .4 });
+    seen.observe(proof);
+  }
+
+  // «Pausar animaciones» (se recuerda en este navegador)
+  const stillBtn = $("#still-btn");
+  stillBtn.hidden = reduced;
+  function setStill(on) {
+    document.body.classList.toggle("still", on);
+    stillBtn.textContent = on ? "Reanudar animaciones" : "Pausar animaciones";
+    store.set("still", on);
+    if (on) { clearTimeout(np.timer); np.timer = 0; stopAuto(); if (view !== "cliente") clearTimers(); }
+    else { npPlan(1200); if (stageOn) setView(view); }
+  }
+  stillBtn.addEventListener("click", () => setStill(!document.body.classList.contains("still")));
 
   /* ------------------------------------------------------------------ arranque */
   const initial = decodeURIComponent(location.hash.slice(1));
@@ -1481,5 +2088,9 @@ body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); pa
   setSector(S[initial] ? initial : (S[saved] ? saved : "peluqueria"));
   setCurrent(-1);
   if (S[initial]) setTimeout(() => goTo(0), 50);
+  if (!reduced && store.get("still", false)) setStill(true);
+  $$(".ch-head, .cols2 > .box, .vtabs, .dayb, .biz > div, .proof li, .steps li, .faq details, .calc .inputs, .results, .form, .prop-box, #indice h2, #indice .lead").forEach((el) => el.classList.add("rv"));
+  barAway();
+  booted = true;
 })();
 </script>
