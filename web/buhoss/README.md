@@ -21,10 +21,20 @@ Cloudflare Pages o el mismo servidor del backend.
 
 ## Cómo usarla en una visita
 
-- Abre la web en el móvil o la tablet y elige el tipo de negocio. Para ir directo a uno, usa su
-  dirección con `#peluqueria`, `#barberia`, `#restaurante`, `#bar`, `#kebab`, `#clinica`, `#tienda`,
-  `#reformas`, `#academia` o `#empresa` al final.
-- Deja que el dueño toque la demo del móvil: reserva una cita o pide un plato como lo haría su cliente.
-- Mueve la calculadora con sus números.
-- Marca en «Lo que se monta» las piezas que le encajan. Con «Propuesta» las copias en un texto listo
-  para mandárselo por WhatsApp. Las piezas marcadas se guardan solo en tu navegador.
+La web es una guía de 8 pasos: 1 Tu negocio · 2 Cómo se ve · 3 Las piezas · 4 Tus números ·
+5 Para empresas · 6 Cómo empezamos · 7 Preguntas · 8 Hablemos.
+
+- Pulsa «Empezar la guía, paso a paso»: se ve un paso cada vez, con «Siguiente» y «‹» en la barra de
+  abajo (o las flechas del teclado). «Salir» vuelve a la página entera.
+- Para saltar a cualquier paso: el botón «Índice» (arriba en móvil y tablet, y en la barra de abajo)
+  o la fila de pasos de la cabecera en pantallas grandes. Cada paso acaba con botones al anterior y al
+  siguiente.
+- Paso 1: elige el tipo de negocio; el resto de la guía cambia con él. Para entrar con uno ya elegido,
+  añade a la dirección `#peluqueria`, `#barberia`, `#restaurante`, `#bar`, `#kebab`, `#clinica`,
+  `#tienda`, `#reformas`, `#academia` o `#empresa`.
+- Paso 2: deja que el dueño toque el móvil de ejemplo («Tu cliente»: reservar una cita, pedir un plato…)
+  y enséñale la pantalla de su equipo y el resumen que le llegaría a él.
+- Paso 3: marca las piezas que le encajan o pulsa «Añadirlas todas» para las recomendadas. En el
+  paso 8 tienes la propuesta escrita, lista para copiar y mandar por WhatsApp.
+- Al pasar a otro local: Índice → «Empezar de cero» borra las piezas marcadas y el formulario. Todo
+  se guarda solo en tu navegador.

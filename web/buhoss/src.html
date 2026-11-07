@@ -4,8 +4,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-/* Diseño: arriba la noche (lo que BUHOSS hace mientras el negocio cierra), abajo el día (cómo se monta).
-   El centro de la página es el selector «¿Qué negocio tienes?» con su demo en un móvil. */
+/* Diseño: una guía en 8 pasos. Arriba la noche (lo que BUHOSS hace mientras el negocio cierra);
+   después, paso a paso, de «¿qué negocio tienes?» a «hablemos». Botones a cada paso siempre a mano. */
 :root {
   --paper: #F3F5F9; --card: #FFFFFF; --ink: #101828; --muted: #566176; --line: #D9DFE8; --soft: #E9EEF5;
   --night: #0E1828; --night-2: #16233A; --night-ink: #EAF0F8; --night-muted: #97A4BB; --night-line: #27364F;
@@ -34,7 +34,9 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+[hidden] { display: none !important; }
+[tabindex="-1"]:focus { outline: none; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--night); }
 h1, h2, h3 { font-family: var(--display); line-height: 1.05; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
@@ -47,25 +49,34 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .eyebrow { font: 600 .78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--amber-deep); }
 .night .eyebrow { color: var(--amber); }
-.lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; }
-.band { padding-block: clamp(56px, 9vw, 104px); }
-.sec-head { display: grid; gap: 14px; margin-bottom: 36px; max-width: 760px; }
+.lead { font-size: 1.15rem; color: var(--muted); max-width: 62ch; }
+.band { padding-block: clamp(56px, 8vw, 96px); }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 12px 22px; border-radius: 999px;
        border: 1px solid var(--line); background: var(--card); color: var(--ink); font-weight: 700; text-decoration: none; transition: transform .15s; }
 .btn:active { transform: scale(.98); }
 .btn.amber { background: var(--amber); border-color: var(--amber); color: var(--on-amber); }
 .night .btn:not(.amber) { background: transparent; color: var(--night-ink); border-color: var(--night-line); }
 
-/* Cabecera */
+/* Cabecera con los 8 pasos */
 .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--night); color: var(--night-ink); border-bottom: 1px solid var(--night-line); }
-.top .wrap { display: flex; align-items: center; gap: 14px; min-height: 64px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 800 1.25rem/1 var(--display); letter-spacing: .02em; }
+.top .wrap { display: flex; align-items: center; gap: 12px; min-height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 800 1.25rem/1 var(--display); letter-spacing: .02em; flex-shrink: 0; }
 .brand svg { width: 38px; height: 30px; }
-.nav { display: flex; gap: 4px; margin-left: auto; }
-.nav a { text-decoration: none; padding: 8px 12px; border-radius: 999px; color: var(--night-muted); font-weight: 700; font-size: .92rem; }
-.nav a:hover { color: var(--night-ink); background: var(--night-2); }
-.top .btn { min-height: 42px; padding: 8px 16px; font-size: .92rem; }
-@media (max-width: 860px) { .nav { display: none; } .top .btn { margin-left: auto; } }
+.rail { display: flex; gap: 2px; margin-left: auto; min-width: 0; }
+.rail a { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding: 8px 10px; border-radius: 999px; color: var(--night-muted);
+          font-weight: 700; font-size: .86rem; white-space: nowrap; }
+.rail a i { font: 600 .72rem/1 var(--mono); font-style: normal; color: var(--night-muted); opacity: .8; }
+.rail a:hover { color: var(--night-ink); background: var(--night-2); }
+.rail a[aria-current="step"] { color: var(--night-ink); background: var(--night-2); }
+.rail a[aria-current="step"] i { color: var(--amber); opacity: 1; }
+.top .idx { display: none; margin-left: auto; min-height: 42px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--night-line); background: transparent;
+            color: var(--night-ink); font-weight: 700; font-size: .9rem; white-space: nowrap; max-width: 52vw; overflow: hidden; text-overflow: ellipsis; }
+.top .btn { min-height: 42px; padding: 8px 16px; font-size: .9rem; flex-shrink: 0; }
+.top .talk[aria-current="step"] { box-shadow: 0 0 0 3px color-mix(in srgb, var(--amber) 35%, transparent); }
+@media (max-width: 1180px) { .rail { display: none; } .top .idx { display: inline-flex; align-items: center; gap: 6px; } }
+@media (max-width: 520px) { .top .talk { display: none; } }
+.progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; pointer-events: none; }
+.progress i { display: block; height: 100%; width: 0; background: var(--amber); transition: width .2s; }
 
 /* Ojos del búho */
 .eye-pupil { transition: transform .5s ease; }
@@ -75,14 +86,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* Portada: la noche */
 .night { background: var(--night); color: var(--night-ink); }
-.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(28px, 5vw, 64px); align-items: center; padding-block: clamp(44px, 7vw, 88px); }
-.hero h1 { font-size: clamp(2.6rem, 7.2vw, 5.1rem); font-weight: 800; letter-spacing: -.035em; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(28px, 5vw, 64px); align-items: center; padding-block: clamp(44px, 7vw, 84px); }
+.hero h1 { font-size: clamp(2.6rem, 7.2vw, 5.1rem); font-weight: 800; letter-spacing: -.035em; margin-top: 16px; }
 .hero h1 em { font-style: normal; color: var(--amber); }
 .hero .lead { color: var(--night-muted); margin-top: 18px; }
 .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-.sectors-mini { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 26px; }
-.sectors-mini a { font-size: .86rem; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--night-line); color: var(--night-muted); text-decoration: none; }
-.sectors-mini a:hover { color: var(--night-ink); border-color: var(--night-muted); }
+.hero .hint { margin-top: 14px; color: var(--night-muted); font-size: .9rem; }
 .tonight { background: var(--night-2); border: 1px solid var(--night-line); border-radius: var(--r-lg); padding: 22px; box-shadow: 0 30px 60px rgba(0, 0, 0, .35); }
 .tonight header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 .tonight header b { font-family: var(--display); font-size: 1.15rem; }
@@ -99,7 +108,31 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tonight footer { margin-top: 12px; color: var(--night-muted); font-size: .8rem; }
 @media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
 
-/* Selector de negocio */
+/* Índice de la guía */
+.toc { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+@media (max-width: 1000px) { .toc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .toc { grid-template-columns: 1fr; } }
+.toc a { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 4px 12px; align-items: start; padding: 16px; border-radius: var(--r-lg);
+         background: var(--card); border: 1px solid var(--line); text-decoration: none; transition: border-color .2s, transform .2s; min-height: 100%; }
+.toc a:hover { border-color: var(--amber); transform: translateY(-2px); }
+.toc a i { grid-row: span 2; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--soft);
+           font: 600 .95rem/1 var(--mono); font-style: normal; color: var(--amber-deep); }
+.toc a b { font-family: var(--display); font-size: 1.1rem; }
+.toc a span { color: var(--muted); font-size: .92rem; }
+.toc a.done i { background: var(--ok-soft); color: var(--ok); }
+
+/* Cabecera y pie de cada paso */
+.ch-head { display: grid; gap: 12px; margin-bottom: 32px; max-width: 780px; }
+.ch-num { display: inline-flex; align-items: center; gap: 10px; font: 600 .8rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--amber-deep); }
+.night .ch-num { color: var(--amber); }
+.ch-num b { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: var(--amber); color: var(--on-amber); font-size: .9rem; letter-spacing: 0; }
+.ch-nav { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line); }
+.night .ch-nav { border-color: var(--night-line); }
+.ch-nav .btn.amber { margin-left: auto; }
+.ch-nav .btn { max-width: 100%; }
+.ch-nav .btn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Paso 1: selector de negocio */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; min-height: 48px; border-radius: 999px; border: 1px solid var(--line);
         background: var(--card); font-weight: 700; font-size: .95rem; }
@@ -111,14 +144,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .chips::-webkit-scrollbar { display: none; }
   .chip { flex-shrink: 0; scroll-snap-align: start; }
 }
-.panel { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); grid-template-areas: "title demo" "story demo";
-         column-gap: clamp(24px, 4vw, 56px); row-gap: 22px; margin-top: 28px; align-items: start; }
-.panel-title { grid-area: title; font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 800; letter-spacing: -.025em; }
-.story { grid-area: story; display: grid; gap: 22px; min-width: 0; }
-.demo { grid-area: demo; }
-@media (max-width: 900px) { .panel { grid-template-columns: 1fr; grid-template-areas: "title" "demo" "story"; } .demo { position: static !important; } }
-.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-@media (max-width: 560px) { .cols2 { grid-template-columns: 1fr; } }
+.s-title { font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 800; letter-spacing: -.025em; margin-top: 30px; }
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+@media (max-width: 700px) { .cols2 { grid-template-columns: 1fr; } }
 .box { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px; display: grid; gap: 12px; align-content: start; min-width: 0; }
 .box h4 { margin: 0; font: 600 .76rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
@@ -128,22 +156,41 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .list.fix .mk { background: var(--ok-soft); color: var(--ok); }
 .list b { display: block; }
 .list small { color: var(--muted); font-size: .92rem; display: block; }
+
+/* Paso 2: cómo se ve (cliente, equipo, tú) */
+.views { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+.dayb { margin-top: 22px; background: var(--paper); }
+@media (max-width: 900px) {
+  .views { grid-template-columns: 1fr; gap: 20px; }
+  .views > .vside { display: contents; }
+  .views .vtabs { order: 0; }
+  .views .stage { order: 1; position: static; }
+  .views .vtext { order: 2; margin-top: 0; }
+  .views .dayb { order: 3; margin-top: 0; }
+}
+.vtabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 6px; border-radius: 999px; background: var(--soft); }
+.vtabs button { min-height: 46px; border: 0; border-radius: 999px; background: transparent; font-weight: 700; font-size: .95rem; color: var(--muted); }
+.vtabs button[aria-selected="true"] { background: var(--card); color: var(--ink); box-shadow: var(--shadow); }
+.vtext { display: grid; gap: 14px; margin-top: 22px; }
+.vtext h3 { font-size: 1.5rem; }
+.vtext p { color: var(--muted); }
 .day { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 14px; }
 .day::before { content: ""; position: absolute; left: 51px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
 .day li { display: grid; grid-template-columns: 44px 16px minmax(0, 1fr); gap: 8px; align-items: start; }
 .day time { font: 600 .88rem/1.5 var(--mono); color: var(--amber-deep); }
-.day i { width: 12px; height: 12px; border-radius: 50%; background: var(--amber); margin-top: 5px; position: relative; z-index: 1; box-shadow: 0 0 0 4px var(--paper); }
-
-/* Móvil de demostración */
-.demo { position: sticky; top: 88px; display: grid; justify-items: center; gap: 12px; }
+.day i { width: 12px; height: 12px; border-radius: 50%; background: var(--amber); margin-top: 5px; position: relative; z-index: 1; box-shadow: 0 0 0 4px var(--card); }
+.stage { position: sticky; top: 96px; display: grid; justify-items: center; gap: 12px; min-width: 0; }
+.demo-cap { font-size: .86rem; color: var(--muted); text-align: center; max-width: 36ch; }
+.demo-cap button { border: 0; background: none; color: var(--amber-deep); font-weight: 700; text-decoration: underline; padding: 4px; }
 .phone { width: min(100%, 330px); aspect-ratio: 9 / 18.5; max-height: 680px; border-radius: 44px; padding: 12px; background: #0B0F17;
          box-shadow: 0 0 0 1px #2A3344, 0 40px 80px rgba(16, 24, 40, .28); position: relative; }
 .phone::before { content: ""; position: absolute; top: 20px; left: 50%; width: 92px; height: 24px; border-radius: 99px; background: #0B0F17; transform: translateX(-50%); z-index: 2; }
+.tablet { width: min(100%, 560px); aspect-ratio: 4 / 3; border-radius: 30px; padding: 14px; background: #0B0F17; box-shadow: 0 0 0 1px #2A3344, 0 40px 80px rgba(16, 24, 40, .28); }
 .screen { height: 100%; border-radius: 34px; overflow: hidden auto; background: #FAFBFD; color: #111827; font-size: 15px; line-height: 1.4;
           padding: 52px 16px 18px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; }
+.tablet .screen { border-radius: 18px; padding: 16px; font-size: 14px; background: #10141C; color: #E8ECF3; }
 .screen::-webkit-scrollbar { display: none; }
-.demo-cap { font-size: .86rem; color: var(--muted); text-align: center; max-width: 34ch; }
-.demo-cap button { border: 0; background: none; color: var(--amber-deep); font-weight: 700; text-decoration: underline; padding: 4px; }
+@media (max-width: 420px) { .phone { width: min(100%, 300px); } }
 /* Componentes dentro del móvil (colores fijos: es una pantalla de ejemplo) */
 .ph-head { display: flex; align-items: center; gap: 10px; }
 .ph-logo { width: 36px; height: 36px; border-radius: 11px; background: #111827; color: #F3B04B; display: grid; place-items: center; font: 800 1rem/1 var(--display); flex-shrink: 0; }
@@ -185,13 +232,38 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .ph-flow .st { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 8px; align-items: start; padding: 10px; border-radius: 12px; background: #fff; border: 1px solid #E5E7EB; opacity: .45; transition: opacity .3s; }
 .ph-flow .st.on { opacity: 1; border-color: #E59A2F; }
 .ph-flow .st.done { opacity: 1; }
-.ph-flow .st i { width: 26px; height: 26px; border-radius: 50%; background: #F3F4F6; display: grid; place-items: center; font-style: normal; font: 700 .75rem/1 var(--mono); }
+.ph-flow .st i { width: 26px; height: 26px; border-radius: 50%; background: #F3F4F6; display: grid; place-items: center; font: 700 .75rem/1 var(--mono); font-style: normal; }
 .ph-flow .st.done i { background: #DCF3E6; color: #137A49; }
 .ph-mono { font: 500 .78rem/1.5 var(--mono); background: #F3F4F6; border-radius: 10px; padding: 8px 10px; display: grid; gap: 2px; }
 .ph-alert { background: #FFF4E5; border: 1px solid #F3C27A; color: #7A4A06; border-radius: 12px; padding: 10px; font-size: .84rem; font-weight: 700; }
 .ph-range { width: 100%; accent-color: #E59A2F; }
+.ph-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ph-kpis div { background: #fff; border: 1px solid #E5E7EB; border-radius: 14px; padding: 12px; display: grid; gap: 2px; }
+.ph-kpis b { font: 700 1.35rem/1.1 var(--display); letter-spacing: -.02em; }
+.ph-kpis span { color: #6B7280; font-size: .76rem; }
+.ph-bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; align-items: end; height: 92px; padding: 10px; background: #fff; border: 1px solid #E5E7EB; border-radius: 14px; }
+.ph-bars span { display: grid; gap: 4px; justify-items: center; font: 600 .62rem/1 var(--mono); color: #9CA3AF; }
+.ph-bars i { width: 100%; border-radius: 5px 5px 2px 2px; background: #F3C27A; }
+.ph-bars span.today i { background: #E59A2F; }
+.ph-tag { font: 600 .66rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #9CA3AF; text-align: center; }
+/* Pantalla del equipo (tablet oscura) */
+.tm-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.tm-head b { font-family: var(--display); font-size: 1.05rem; }
+.tm-head span { font: 500 .74rem/1 var(--mono); color: #8B97AB; }
+.tm-cols { display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); gap: 8px; flex: 1; min-height: 0; }
+.tm-col { background: #171C27; border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.tm-col > b { font-size: .8rem; color: #AAB4C5; padding: 2px 4px; }
+.tm-item { background: #222938; border-radius: 10px; padding: 8px 9px; display: grid; gap: 2px; font-size: .78rem; border-left: 3px solid #3B455A; }
+.tm-item time, .tm-item .n { font: 600 .74rem/1.2 var(--mono); color: #F3B04B; }
+.tm-item .no { color: #FCA5A5; font-weight: 800; font-size: .7rem; text-transform: uppercase; }
+.tm-item.ok { border-left-color: #22A565; } .tm-item.new { border-left-color: #F3B04B; } .tm-item.free { border-left-color: #3B455A; opacity: .7; border-left-style: dashed; }
+.tm-item.alert { border-left-color: #EF4444; }
+.tm-item small { color: #8B97AB; }
+.tm-bar { height: 6px; border-radius: 9px; background: #2B3345; overflow: hidden; } .tm-bar i { display: block; height: 100%; background: #22A565; }
+.tm-legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: .7rem; color: #8B97AB; }
+.tm-legend span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; background: var(--c); }
 
-/* Piezas */
+/* Paso 3: piezas */
 .pieces { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
 .piece { grid-column: span 2; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .piece.wide { grid-column: span 3; }
@@ -221,8 +293,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .qr i.o { background: transparent; }
 .art-sticker b { font-family: var(--display); font-size: 1.3rem; display: block; }
 .art-sticker small { color: var(--muted); }
-.art-ticket { font: 500 .8rem/1.55 var(--mono); background: #FFFDF8; color: #1F2937; border-radius: 6px; padding: 12px 14px; border: 1px solid #EDE6D6;
-              box-shadow: 0 1px 0 #EDE6D6; max-width: 280px; }
+.art-ticket { font: 500 .8rem/1.55 var(--mono); background: #FFFDF8; color: #1F2937; border-radius: 6px; padding: 12px 14px; border: 1px solid #EDE6D6; max-width: 280px; }
 .art-ticket .r { display: flex; justify-content: space-between; gap: 10px; }
 .art-ticket .big { font-weight: 600; font-size: .95rem; }
 .art-ticket .no { color: #B42318; font-weight: 600; }
@@ -237,22 +308,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .art-flow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: .84rem; font-weight: 700; }
 .art-flow span { padding: 7px 11px; border-radius: 999px; background: var(--soft); }
 .art-flow i { color: var(--amber-deep); font-style: normal; }
+.pick-sum { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--muted); }
 
-/* Propuesta */
-.proposal-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
-                pointer-events: none; display: flex; justify-content: center; }
-.proposal-bar button { pointer-events: auto; display: inline-flex; align-items: center; gap: 12px; min-height: 54px; padding: 10px 14px 10px 20px; border-radius: 999px; border: 0;
-                       background: var(--ink); color: var(--paper); font-weight: 700; box-shadow: var(--shadow); max-width: 100%; }
-.proposal-bar b { background: var(--amber); color: var(--on-amber); border-radius: 999px; padding: 4px 12px; white-space: nowrap; }
-.sheet { position: fixed; inset: 0; z-index: 40; display: grid; place-items: end center; background: rgba(5, 10, 20, .55); padding: 16px; }
-.sheet > div { width: min(100%, 620px); max-height: 86vh; overflow: auto; background: var(--card); color: var(--ink); border-radius: 24px; padding: 24px; display: grid; gap: 16px;
-               margin-bottom: env(safe-area-inset-bottom, 0px); }
-.sheet h3 { font-size: 1.5rem; }
-.sheet ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
-.sheet pre { white-space: pre-wrap; font: 500 .84rem/1.5 var(--mono); background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md); padding: 12px; margin: 0; }
-.sheet .row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
-
-/* Calculadora */
+/* Paso 4: calculadora */
 .calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
 @media (max-width: 860px) { .calc { grid-template-columns: 1fr; } }
 .calc .inputs { display: grid; gap: 22px; }
@@ -267,8 +325,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .results .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .results hr { border: 0; border-top: 1px solid var(--night-line); margin: 0; }
 .results small { color: var(--night-muted); }
+.results .field output { color: var(--amber); }
 
-/* Empresas */
+/* Paso 5: empresas */
 .biz { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 900px) { .biz { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .biz { grid-template-columns: 1fr; } }
@@ -281,7 +340,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .proof li span { color: var(--night-muted); font-size: .9rem; }
 .proof > p { color: var(--night-muted); font-size: .86rem; }
 
-/* Pasos */
+/* Paso 6: pasos */
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
 @media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
@@ -289,7 +348,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .steps li::before { content: counter(s, decimal-leading-zero); font: 600 .9rem/1 var(--mono); color: var(--amber-deep); }
 .steps li p { color: var(--muted); }
 
-/* Preguntas */
+/* Paso 7: preguntas */
 .faq { display: grid; gap: 10px; max-width: 860px; }
 .faq details { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); padding: 4px 18px; }
 .faq summary { cursor: pointer; font-weight: 700; padding: 14px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
@@ -298,7 +357,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .faq details[open] summary::after { content: "−"; }
 .faq details p { padding-bottom: 16px; color: var(--muted); max-width: 70ch; }
 
-/* Contacto */
+/* Paso 8: hablemos */
 .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
 @media (max-width: 860px) { .contact { grid-template-columns: 1fr; } }
 .form { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px; display: grid; gap: 14px; }
@@ -310,12 +369,47 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .wa { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .wa code { font: 600 1.05rem/1 var(--mono); user-select: all; }
 .note-in { color: var(--muted); font-size: .92rem; }
+.prop-box { margin-top: 22px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px; display: grid; gap: 10px; }
+.prop-box ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
 
 .foot { background: var(--night); color: var(--night-muted); }
-.foot .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-block: 34px calc(90px + env(safe-area-inset-bottom, 0px)); font-size: .9rem; }
+.foot .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-block: 34px calc(100px + env(safe-area-inset-bottom, 0px)); font-size: .9rem; }
 .foot nav { display: flex; flex-wrap: wrap; gap: 14px; }
 .foot a { text-decoration: none; }
 .foot a:hover { color: var(--night-ink); }
+
+/* Barra de la guía */
+.guidebar { position: fixed; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30;
+            display: flex; align-items: center; gap: 4px; padding: 6px; border-radius: 999px; background: var(--ink); color: var(--paper);
+            box-shadow: 0 0 0 1px color-mix(in srgb, var(--paper) 14%, transparent), var(--shadow); width: max-content; max-width: calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)); }
+.guidebar button { min-height: 44px; min-width: 44px; border: 0; background: transparent; color: inherit; border-radius: 999px; padding: 0 12px; font-weight: 700; font-size: .92rem; white-space: nowrap; }
+.guidebar button:disabled { opacity: .35; cursor: default; }
+.guidebar .gb-step { min-width: 0; overflow: hidden; text-overflow: ellipsis; max-width: 44vw; text-align: left; }
+.guidebar .gb-step i { font: 600 .78rem/1 var(--mono); font-style: normal; color: var(--amber); margin-right: 6px; }
+.guidebar .gb-next { background: var(--amber); color: var(--on-amber); padding: 0 16px; }
+.guidebar .gb-idx { position: relative; }
+.guidebar .gb-idx b { position: absolute; top: 2px; right: 2px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--amber); color: var(--on-amber); font: 700 .7rem/18px var(--mono); }
+.guidebar .gb-exit { display: none; }
+@media (max-width: 440px) { .guidebar .gb-step span { display: none; } .guidebar .gb-step i { margin-right: 0; } }
+body.guide .guidebar .gb-exit { display: inline-flex; align-items: center; }
+
+/* Modo guía: un paso cada vez */
+body.guide .hero, body.guide #indice, body.guide .foot, body.guide .progress { display: none; }
+body.guide .chapter { display: none; }
+body.guide .chapter.active { display: block; min-height: calc(100dvh - 64px); padding-top: clamp(32px, 5vw, 64px) !important; padding-bottom: 120px; animation: stepIn .35s ease both; }
+@keyframes stepIn { from { opacity: .4; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* Ventana (índice y propuesta) */
+.sheet { position: fixed; inset: 0; z-index: 40; display: grid; place-items: end center; background: rgba(5, 10, 20, .55); padding: 16px; }
+.sheet > div { width: min(100%, 780px); max-height: 86vh; overflow: auto; background: var(--card); color: var(--ink); border-radius: 24px; padding: 24px; display: grid; gap: 16px;
+               margin-bottom: env(safe-area-inset-bottom, 0px); }
+.sheet h3 { font-size: 1.5rem; }
+.sheet pre { white-space: pre-wrap; font: 500 .84rem/1.5 var(--mono); background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md); padding: 12px; margin: 0; }
+.sheet .row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.sheet .toc { grid-template-columns: 1fr; margin-top: 0; gap: 8px; }
+.sheet .toc a { padding: 12px; }
+@media (min-width: 720px) { .sheet .toc { grid-template-columns: 1fr 1fr; } }
+.linkish { border: 0; background: none; padding: 2px; color: var(--amber-deep); font-weight: 700; text-decoration: underline; }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
 </style>
@@ -334,9 +428,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
     <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5l8-3v19M12 9h8v12M3 21h18M8 7v.01M8 11v.01M8 15v.01M16 13v.01M16 17v.01"/></symbol>
     <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
     <symbol id="i-receipt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
-    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.7 7.1L4 20.5l1.4-5.1A8 8 0 1 1 21 12z"/></symbol>
     <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M6 16l4-5 3 3 5-7"/></symbol>
     <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
   </defs>
 </svg>
 
@@ -352,11 +446,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
       </svg>
       BUHOSS
     </a>
-    <nav class="nav" aria-label="Secciones">
-      <a href="#negocios">Tu negocio</a><a href="#piezas">Qué se monta</a><a href="#calculadora">Calculadora</a><a href="#empresas">Empresas</a><a href="#preguntas">Preguntas</a>
-    </nav>
-    <a class="btn amber" href="#contacto">Hablemos</a>
+    <nav class="rail" id="rail" aria-label="Pasos de la guía"></nav>
+    <button class="idx" type="button" id="idx-top" aria-haspopup="dialog"><svg width="18" height="18" aria-hidden="true"><use href="#i-menu"/></svg><span id="idx-top-txt">Índice</span></button>
+    <a class="btn amber talk" href="#contacto" data-go="7">Hablemos</a>
   </div>
+  <div class="progress" aria-hidden="true"><i id="prog"></i></div>
 </header>
 
 <main id="inicio">
@@ -364,13 +458,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
     <div class="wrap">
       <div>
         <p class="eyebrow">Sistemas para negocios que atienden</p>
-        <h1 id="h-hero" style="margin-top:16px">Tú atiendes.<br><em>BUHOSS</em> se encarga del resto.</h1>
+        <h1 id="h-hero">Tú atiendes.<br><em>BUHOSS</em> se encarga del resto.</h1>
         <p class="lead">Reservas, pedidos, cobros y avisos que funcionan solos, de día y de noche. Para peluquerías, bares, restaurantes, clínicas, tiendas y cualquier negocio que viva de atender bien.</p>
         <div class="ctas">
-          <a class="btn amber" href="#negocios">¿Qué negocio tienes?</a>
-          <a class="btn" href="#piezas">Ver qué se monta</a>
+          <button class="btn amber" type="button" id="start-guide">Empezar la guía, paso a paso</button>
+          <a class="btn" href="#indice">Ver los 8 pasos</a>
         </div>
-        <div class="sectors-mini" aria-label="Accesos directos por negocio" id="sectors-mini"></div>
+        <p class="hint">Ocho pasos cortos. Puedes saltar a cualquiera desde el índice.</p>
       </div>
       <div class="tonight" aria-label="Ejemplo de una noche con BUHOSS">
         <header><b>Esta noche, mientras cierras</b><span>ejemplo</span></header>
@@ -386,48 +480,82 @@ button { font: inherit; color: inherit; cursor: pointer; }
     </div>
   </section>
 
-  <section class="band" id="negocios" aria-labelledby="h-neg">
+  <section class="band" id="indice" aria-labelledby="h-idx">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Para tu caso</p>
+      <p class="eyebrow">La guía</p>
+      <h2 id="h-idx" style="margin-top:12px">Qué vas a ver</h2>
+      <p class="lead" style="margin-top:12px">Toca cualquier paso para ir directo. Si es la primera vez, empieza por el uno.</p>
+      <div class="toc" id="toc"></div>
+    </div>
+  </section>
+
+  <section class="band chapter" id="negocios" data-ch="0" aria-labelledby="h-neg" style="padding-top:0">
+    <div class="wrap">
+      <div class="ch-head">
+        <span class="ch-num"><b>1</b>Paso 1 de 8</span>
         <h2 id="h-neg">¿Qué negocio tienes?</h2>
-        <p class="lead">Elige el tuyo: verás lo que hoy te quita tiempo, lo que te montamos y cómo lo vería tu cliente en su móvil.</p>
+        <p class="lead">Elige el tuyo. Verás lo que hoy te quita tiempo y lo que te montamos para quitártelo.</p>
       </div>
       <div class="chips" role="group" aria-label="Tipo de negocio" id="chips"></div>
-      <div class="panel">
-        <h3 class="panel-title" id="s-title" aria-live="polite"></h3>
-        <div class="story">
-          <div class="cols2">
-            <div class="box"><h4>Lo que hoy se come tu tiempo</h4><ul class="list pain" id="s-hoy"></ul></div>
-            <div class="box"><h4>Lo que te montamos</h4><ul class="list fix" id="s-con"></ul></div>
+      <h3 class="s-title" id="s-title" aria-live="polite"></h3>
+      <div class="cols2">
+        <div class="box"><h4>Lo que hoy se come tu tiempo</h4><ul class="list pain" id="s-hoy"></ul></div>
+        <div class="box"><h4>Lo que te montamos</h4><ul class="list fix" id="s-con"></ul></div>
+      </div>
+      <nav class="ch-nav" aria-label="Pasos"><a class="btn" href="#indice">Índice</a><a class="btn amber" href="#como-se-ve"><span>Siguiente: cómo se ve</span> →</a></nav>
+    </div>
+  </section>
+
+  <section class="band chapter" id="como-se-ve" data-ch="1" aria-labelledby="h-ver" style="background:var(--card)">
+    <div class="wrap">
+      <div class="ch-head">
+        <span class="ch-num"><b>2</b>Paso 2 de 8</span>
+        <h2 id="h-ver">Cómo se ve, desde cada lado</h2>
+        <p class="lead">Lo mismo, visto por quien reserva o pide, por tu equipo y por ti. Las tres pantallas cambian según el negocio que elegiste.</p>
+      </div>
+      <div class="views">
+        <div class="vside">
+          <div class="vtabs" role="tablist" aria-label="Quién lo ve" id="vtabs">
+            <button role="tab" aria-selected="true" data-v="cliente" id="tab-cliente">Tu cliente</button>
+            <button role="tab" aria-selected="false" data-v="equipo" id="tab-equipo">Tu equipo</button>
+            <button role="tab" aria-selected="false" data-v="tu" id="tab-tu">Tú</button>
           </div>
-          <div class="box"><h4>Un día con BUHOSS</h4><ol class="day" id="s-dia"></ol></div>
+          <div class="vtext" aria-live="polite">
+            <h3 id="v-title"></h3>
+            <p id="v-text"></p>
+          </div>
+          <div class="box dayb"><h4>Un día con BUHOSS</h4><ol class="day" id="s-dia"></ol></div>
         </div>
-        <div class="demo">
-          <div class="phone"><div class="screen" id="screen" aria-live="polite"></div></div>
+        <div class="stage" id="stage" role="tabpanel" aria-labelledby="tab-cliente">
+          <div class="phone" id="dev-phone"><div class="screen" id="screen" aria-live="polite"></div></div>
+          <div class="tablet" id="dev-tablet" hidden><div class="screen" id="screen-team"></div></div>
+          <div class="phone" id="dev-owner" hidden><div class="screen" id="screen-owner"></div></div>
           <p class="demo-cap" id="demo-cap"></p>
         </div>
       </div>
+      <nav class="ch-nav" aria-label="Pasos"><a class="btn" href="#negocios">← Tu negocio</a><a class="btn amber" href="#piezas"><span>Siguiente: las piezas</span> →</a></nav>
     </div>
   </section>
 
-  <section class="band" id="piezas" aria-labelledby="h-pie" style="padding-top:0">
+  <section class="band chapter" id="piezas" data-ch="2" aria-labelledby="h-pie">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Las piezas</p>
+      <div class="ch-head">
+        <span class="ch-num"><b>3</b>Paso 3 de 8</span>
         <h2 id="h-pie">Lo que se monta, pieza a pieza</h2>
-        <p class="lead">Cada negocio se lleva solo lo que le sirve. Marca las que encajan y al final tienes la propuesta lista para enviar.</p>
+        <p class="lead">Cada negocio se lleva solo lo que le sirve. Marca las que te encajan: al final tendrás tu propuesta escrita.</p>
       </div>
       <div class="pieces" id="pieces"></div>
+      <p class="pick-sum" id="pick-sum"></p>
+      <nav class="ch-nav" aria-label="Pasos"><a class="btn" href="#como-se-ve">← Cómo se ve</a><a class="btn amber" href="#calculadora"><span>Siguiente: tus números</span> →</a></nav>
     </div>
   </section>
 
-  <section class="band" id="calculadora" aria-labelledby="h-calc" style="background:var(--soft)">
+  <section class="band chapter" id="calculadora" data-ch="3" aria-labelledby="h-calc" style="background:var(--soft)">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Con tus números</p>
+      <div class="ch-head">
+        <span class="ch-num"><b>4</b>Paso 4 de 8</span>
         <h2 id="h-calc">¿Cuánto te cuesta hacerlo a mano?</h2>
-        <p class="lead" id="calc-lead">Mueve las barras con los datos de tu negocio. El cálculo es tuyo, no una promesa nuestra.</p>
+        <p class="lead">Mueve las barras con los datos de tu negocio. El cálculo es tuyo, no una promesa nuestra.</p>
       </div>
       <div class="calc">
         <div class="inputs" id="calc-inputs"></div>
@@ -445,13 +573,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
           <small>Cuenta 26 días de apertura al mes. Ajusta el porcentaje a lo que te parezca realista.</small>
         </div>
       </div>
+      <nav class="ch-nav" aria-label="Pasos"><a class="btn" href="#piezas">← Las piezas</a><a class="btn amber" href="#empresas"><span>Siguiente: para empresas</span> →</a></nav>
     </div>
   </section>
 
-  <section class="night band" id="empresas" aria-labelledby="h-emp">
+  <section class="night band chapter" id="empresas" data-ch="4" aria-labelledby="h-emp">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Más allá del mostrador</p>
+      <div class="ch-head">
+        <span class="ch-num"><b>5</b>Paso 5 de 8</span>
         <h2 id="h-emp">Si se repite cada semana, se puede automatizar.</h2>
         <p class="lead" style="color:var(--night-muted)">Las mismas piezas que mueven un local sirven para una oficina, un almacén o una empresa con varios centros.</p>
       </div>
@@ -474,14 +603,16 @@ button { font: inherit; color: inherit; cursor: pointer; }
         </ul>
         <p>Medido con la carta real de un kebab de 42 platos montada en BUHOSS.</p>
       </div>
+      <nav class="ch-nav" aria-label="Pasos"><a class="btn" href="#calculadora">← Tus números</a><a class="btn amber" href="#empezar"><span>Siguiente: cómo empezamos</span> →</a></nav>
     </div>
   </section>
 
-  <section class="band" id="empezar" aria-labelledby="h-emp2">
+  <section class="band chapter" id="empezar" data-ch="5" aria-labelledby="h-emp2">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Cómo empezamos</p>
+      <div class="ch-head">
+        <span class="ch-num"><b>6</b>Paso 6 de 8</span>
         <h2 id="h-emp2">De la charla a funcionando</h2>
+        <p class="lead">Así se monta, sin que tengas que cerrar ni aprender nada complicado.</p>
       </div>
       <ol class="steps">
         <li><h3>Te lo enseño en tu local</h3><p>Veinte minutos, con tus servicios o tu carta ya cargados para que lo veas con lo tuyo.</p></li>
@@ -489,12 +620,16 @@ button { font: inherit; color: inherit; cursor: pointer; }
         <li><h3>Lo dejamos funcionando</h3><p>QR en las mesas, tablet, impresora y una hora para enseñarte a ti y a tu equipo.</p></li>
         <li><h3>Lo mejoramos cada mes</h3><p>Miramos qué funciona y qué no con tus números, y se ajusta.</p></li>
       </ol>
+      <nav class="ch-nav" aria-label="Pasos"><a class="btn" href="#empresas">← Para empresas</a><a class="btn amber" href="#preguntas"><span>Siguiente: preguntas</span> →</a></nav>
     </div>
   </section>
 
-  <section class="band" id="preguntas" aria-labelledby="h-faq" style="padding-top:0">
+  <section class="band chapter" id="preguntas" data-ch="6" aria-labelledby="h-faq" style="padding-top:0">
     <div class="wrap">
-      <div class="sec-head"><p class="eyebrow">Preguntas</p><h2 id="h-faq">Lo que se suele preguntar</h2></div>
+      <div class="ch-head">
+        <span class="ch-num"><b>7</b>Paso 7 de 8</span>
+        <h2 id="h-faq">Lo que se suele preguntar</h2>
+      </div>
       <div class="faq">
         <details><summary>¿Tengo que comprar ordenadores o un TPV nuevo?</summary><p>No. Funciona en el navegador del móvil, la tablet o el ordenador que ya tengas. Si hace falta imprimir tickets, te recomiendo una impresora térmica y un cajón que se conectan a lo que ya tienes.</p></details>
         <details><summary>¿Mis clientes tienen que descargarse una app?</summary><p>No. Escanean un QR o abren un enlace y ya están reservando o pidiendo.</p></details>
@@ -503,19 +638,23 @@ button { font: inherit; color: inherit; cursor: pointer; }
         <details><summary>Ya tengo web u otro programa. ¿Lo pierdo?</summary><p>Se aprovecha lo que funcione y se trae lo demás. Una carta de 42 platos con todas sus opciones pasó de otro sistema a BUHOSS con un solo comando.</p></details>
         <details><summary>¿Cuánto cuesta?</summary><p>Depende de las piezas que necesites. Después de verlo contigo te doy un precio cerrado.</p></details>
       </div>
+      <nav class="ch-nav" aria-label="Pasos"><a class="btn" href="#empezar">← Cómo empezamos</a><a class="btn amber" href="#contacto"><span>Siguiente: hablemos</span> →</a></nav>
     </div>
   </section>
 
-  <section class="band" id="contacto" aria-labelledby="h-con" style="background:var(--soft)">
+  <section class="band chapter" id="contacto" data-ch="7" aria-labelledby="h-con" style="background:var(--soft)">
     <div class="wrap contact">
-      <div class="sec-head" style="margin:0">
-        <p class="eyebrow">Hablemos</p>
-        <h2 id="h-con">¿Te lo enseño en tu negocio?</h2>
-        <p class="lead">En veinte minutos lo ves funcionando con tus precios y tus horarios. Si tienes una empresa y algo se repite cada semana, cuéntamelo también.</p>
-        <div class="wa" id="wa-direct" hidden>
-          <span class="note-in">WhatsApp:</span><code id="wa-num"></code>
-          <button class="btn" type="button" id="wa-copy" style="min-height:40px;padding:6px 14px">Copiar</button>
+      <div>
+        <div class="ch-head" style="margin-bottom:0">
+          <span class="ch-num"><b>8</b>Paso 8 de 8</span>
+          <h2 id="h-con">¿Te lo enseño en tu negocio?</h2>
+          <p class="lead">En veinte minutos lo ves funcionando con tus precios y tus horarios. Si tienes una empresa y algo se repite cada semana, cuéntamelo también.</p>
+          <div class="wa" id="wa-direct" hidden>
+            <span class="note-in">WhatsApp:</span><code id="wa-num"></code>
+            <button class="btn" type="button" id="wa-copy" style="min-height:40px;padding:6px 14px">Copiar</button>
+          </div>
         </div>
+        <div class="prop-box" id="prop-box"></div>
       </div>
       <form class="form" id="form" novalidate>
         <label for="f-nombre">Tu nombre<input id="f-nombre" name="nombre" autocomplete="name" maxlength="80" placeholder="Ej.: Marta"></label>
@@ -532,17 +671,24 @@ button { font: inherit; color: inherit; cursor: pointer; }
         </div>
       </form>
     </div>
+    <div class="wrap"><nav class="ch-nav" aria-label="Pasos"><a class="btn" href="#preguntas">← Preguntas</a><a class="btn" href="#inicio">Volver al principio ↑</a></nav></div>
   </section>
 </main>
 
 <footer class="foot">
   <div class="wrap">
     <span><b style="color:var(--night-ink);font-family:var(--display)">BUHOSS</b> · sistemas para negocios que atienden</span>
-    <nav aria-label="Pie"><a href="#negocios">Tu negocio</a><a href="#piezas">Qué se monta</a><a href="#calculadora">Calculadora</a><a href="#empresas">Empresas</a><a href="#contacto">Contacto</a></nav>
+    <nav aria-label="Pie" id="foot-nav"></nav>
   </div>
 </footer>
 
-<div class="proposal-bar" id="pbar" hidden><button type="button" id="pbar-btn"><span id="pbar-txt">Propuesta</span><b id="pbar-n">0</b></button></div>
+<nav class="guidebar" id="guidebar" aria-label="Guía">
+  <button type="button" class="gb-idx" id="gb-idx" aria-label="Índice" aria-haspopup="dialog"><svg width="20" height="20" aria-hidden="true"><use href="#i-menu"/></svg><b id="gb-count" hidden>0</b></button>
+  <button type="button" id="gb-prev" aria-label="Paso anterior">‹</button>
+  <button type="button" class="gb-step" id="gb-step"><i id="gb-num">0/8</i><span id="gb-title">Empieza aquí</span></button>
+  <button type="button" class="gb-next" id="gb-next">Siguiente ›</button>
+  <button type="button" class="gb-exit" id="gb-exit">Salir</button>
+</nav>
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-h"><div id="sheet-in"></div></div>
 
 <script>
@@ -564,6 +710,19 @@ button { font: inherit; color: inherit; cursor: pointer; }
   const later = (fn, ms) => { const t = setTimeout(fn, ms); timers.push(t); return t; };
   const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
 
+  /* ------------------------------------------------------------------ los 8 pasos */
+  const CH = [
+    { id: "negocios", t: "Tu negocio", d: "Elige el tipo de negocio y mira qué le quita tiempo hoy." },
+    { id: "como-se-ve", t: "Cómo se ve", d: "Lo que ven tu cliente, tu equipo y tú. Se puede tocar." },
+    { id: "piezas", t: "Las piezas", d: "Lo que se monta, una a una. Marca las que te encajan." },
+    { id: "calculadora", t: "Tus números", d: "El tiempo y el dinero que se van en hacerlo a mano." },
+    { id: "empresas", t: "Para empresas", d: "Automatizaciones para oficinas, almacenes y equipos." },
+    { id: "empezar", t: "Cómo empezamos", d: "De la charla a funcionando, en cuatro pasos." },
+    { id: "preguntas", t: "Preguntas", d: "Lo que suele preguntar el dueño antes de decidir." },
+    { id: "contacto", t: "Hablemos", d: "Tu propuesta por escrito y cómo seguimos." },
+  ];
+  const chapters = CH.map((c) => $("#" + c.id));
+
   /* ------------------------------------------------------------------ negocios */
   const S = {
     peluqueria: {
@@ -574,6 +733,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       servicios: [["Corte y peinado", 45, 25], ["Tinte", 90, 42], ["Manicura", 40, 18], ["Tratamiento de keratina", 120, 70]], pros: ["Cualquiera", "Ana", "Sara"],
       calc: { a: ["Llamadas y mensajes al día para dar citas", 15, 0, 80], b: ["Minutos por cada uno", 3, 1, 10], c: ["Citas perdidas al mes (no vienen o no se cogió el teléfono)", 8, 0, 60], d: ["Ticket medio", 30, 5, 200] },
       piezas: ["web", "reservas", "recordatorios", "tpv", "resenas", "numeros"],
+      equipo: { tipo: "agenda", titulo: "Agenda de hoy", cols: [["Ana", [["10:00", "Marta · Corte y peinado", "ok"], ["11:00", "Lucía · Tinte", "ok"], ["12:30", "Hueco libre", "free"], ["16:00", "Rosa · Corte", "new"]]], ["Sara", [["10:30", "Carmen · Manicura", "ok"], ["11:15", "Elena · Keratina", "new"], ["13:00", "Pilar · Corte", "ok"], ["17:00", "Hueco libre", "free"]]]] },
+      tu: { kpis: [["14", "citas hoy"], ["486 €", "en caja"], ["1", "hueco libre"], ["92 %", "mañana ya lleno"]], bars: [42, 55, 48, 61, 73, 88, 0], aviso: "El tinte es lo más pedido esta semana." },
     },
     barberia: {
       nombre: "Barbería", corto: "Barbería", icon: "i-razor", para: "Para tu barbería", marca: "Tu barbería", demo: "booking",
@@ -583,6 +744,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       servicios: [["Corte", 30, 15], ["Corte y barba", 45, 20], ["Arreglo de barba", 20, 10], ["Corte infantil", 25, 12]], pros: ["Cualquiera", "Leo", "Iván"],
       calc: { a: ["Llamadas y mensajes al día para dar citas", 20, 0, 80], b: ["Minutos por cada uno", 2, 1, 10], c: ["Citas perdidas al mes", 10, 0, 60], d: ["Ticket medio", 17, 5, 100] },
       piezas: ["web", "reservas", "recordatorios", "resenas", "tpv", "numeros"],
+      equipo: { tipo: "agenda", titulo: "Agenda de hoy", cols: [["Leo", [["10:00", "Javi · Corte", "ok"], ["10:30", "Marcos · Corte y barba", "new"], ["11:15", "Dani · Barba", "ok"], ["12:00", "Hueco libre", "free"]]], ["Iván", [["10:00", "Pablo · Corte", "ok"], ["10:30", "Hueco libre", "free"], ["11:00", "Álex · Corte infantil", "ok"], ["11:30", "Sergio · Corte", "new"]]]] },
+      tu: { kpis: [["22", "citas hoy"], ["371 €", "en caja"], ["3", "reseñas esta semana"], ["0", "huecos libres"]], bars: [30, 41, 38, 52, 66, 94, 0], aviso: "Leo lleva 9 servicios hoy; Iván, 7." },
     },
     restaurante: {
       nombre: "Restaurante", corto: "Restaurante", icon: "i-plate", para: "Para tu restaurante", marca: "Tu restaurante", demo: "menu",
@@ -592,6 +755,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       carta: [["Menú del día", 14.5, "Primero, segundo, postre y bebida", [["Primero", ["Ensalada de la casa", "Crema de verduras"]], ["Segundo", ["Merluza a la plancha", "Carrillera al vino"]]], []], ["Croquetas caseras (8)", 9, "Jamón ibérico", [], []], ["Secreto ibérico", 16, "Con patatas y pimientos", [["Punto", ["Al punto", "Hecho"]]], ["Sin pimientos"]]],
       calc: { a: ["Comandas al día que podrían entrar solas", 60, 0, 300], b: ["Minutos por comanda (tomar nota, pasarla, cobrar)", 2, 1, 10], c: ["Mesas o pedidos perdidos al mes", 15, 0, 120], d: ["Ticket medio por mesa", 38, 5, 200] },
       piezas: ["web", "carta", "cocina", "tpv", "verifactu", "resenas", "numeros"],
+      equipo: { tipo: "cocina", titulo: "Pantalla de cocina", cols: [["Nuevos", [["024", "Mesa 2", "2 × Secreto · al punto", ""]]], ["En cocina", [["021", "Mesa 6", "3 × Menú del día", ""], ["023", "Mesa 3", "Croquetas caseras", ""]]], ["Listos", [["020", "Mesa 1", "2 × Tarta de queso", ""]]]] },
+      tu: { kpis: [["64", "cubiertos"], ["1.912 €", "ventas de hoy"], ["41 %", "pedidos por QR"], ["Secreto", "plato estrella"]], bars: [52, 47, 58, 63, 81, 96, 74], aviso: "Las croquetas se acaban antes de las 15:00 los viernes." },
     },
     bar: {
       nombre: "Bar y cafetería", corto: "Bar", icon: "i-cup", para: "Para tu bar", marca: "Tu bar", demo: "bar",
@@ -600,6 +765,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       dia: [["08:30", "Los desayunos salen desde la barra en un toque."], ["13:45", "La terraza repite ronda desde el QR."], ["19:10", "Cambias la tapa del día desde el móvil."], ["01:00", "Cierras caja y sabes qué mesa y qué hora rinden más."]],
       calc: { a: ["Rondas o pedidos al día", 80, 0, 400], b: ["Minutos por cada uno (ir, apuntar, cobrar)", 2, 1, 6], c: ["Rondas que no se piden al mes por no ver al camarero", 40, 0, 300], d: ["Importe medio por ronda", 7, 2, 40] },
       piezas: ["carta", "tpv", "verifactu", "numeros", "resenas"],
+      equipo: { tipo: "mesas", titulo: "Barra · estado de las mesas", mesas: [["Mesa 1", "ok", "Tomando"], ["Mesa 2", "alert", "Pide la cuenta"], ["Mesa 3", "new", "Ronda: 2 cañas"], ["Mesa 4", "free", "Libre"], ["Mesa 5", "new", "Bravas"], ["Mesa 6", "ok", "Tomando"], ["Terraza 1", "ok", "Tomando"], ["Terraza 2", "free", "Libre"]] },
+      tu: { kpis: [["312 €", "esta tarde"], ["38", "rondas por QR"], ["20-21 h", "hora fuerte"], ["7,40 €", "ronda media"]], bars: [38, 35, 41, 44, 70, 92, 61], aviso: "La terraza pide un 30 % más desde que tiene QR." },
     },
     kebab: {
       nombre: "Kebab y comida rápida", corto: "Kebab", icon: "i-skewer", para: "Para tu kebab", marca: "Tu kebab", demo: "menu",
@@ -609,6 +776,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       carta: [["Kebab", 5, "En pan de pita con ensalada y salsa", [["Carne", ["Pollo", "Ternera", "Mixto"]], ["Salsa", ["Blanca", "Picante", "Las dos"]]], ["Sin cebolla", "Sin tomate"]], ["Dürüm", 6, "Enrollado con ensalada y salsa", [["Carne", ["Pollo", "Ternera", "Mixto"]], ["Salsa", ["Blanca", "Picante", "Las dos"]]], ["Sin cebolla", "Sin tomate"]], ["Menú kebab", 7, "Con patatas y bebida", [["Carne", ["Pollo", "Ternera", "Mixto"]], ["Bebida", ["Refresco", "Agua"]]], []]],
       calc: { a: ["Pedidos por teléfono al día", 25, 0, 150], b: ["Minutos por pedido", 3, 1, 8], c: ["Pedidos perdidos al mes (comunicando o mal apuntados)", 20, 0, 150], d: ["Ticket medio", 11, 4, 40] },
       piezas: ["carta", "cocina", "tpv", "verifactu", "resenas", "numeros"],
+      equipo: { tipo: "cocina", titulo: "Pantalla de cocina", cols: [["Nuevos", [["041", "Recoger · Lucía", "2 × Dürüm mixto", "SIN CEBOLLA"]]], ["En cocina", [["039", "Domicilio", "Menú kebab ternera", ""], ["040", "Mesa 2", "Pedrata grande", ""]]], ["Listos", [["038", "Recoger · Pablo", "Kebab pollo", ""]]]] },
+      tu: { kpis: [["87", "pedidos hoy"], ["1.043 €", "ventas de hoy"], ["22", "a domicilio"], ["Menú dürüm", "lo más vendido"]], bars: [61, 58, 66, 72, 98, 112, 87], aviso: "A las 21:40 pausaste los pedidos online 15 min: no se perdió ninguno." },
     },
     clinica: {
       nombre: "Clínica, fisio y salud", corto: "Clínica", icon: "i-cross", para: "Para tu clínica", marca: "Tu clínica", demo: "reminder",
@@ -617,6 +786,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       dia: [["07:30", "Salen los recordatorios de las citas de hoy."], ["10:05", "Una paciente cancela y el hueco pasa a la lista de espera."], ["10:07", "Otro paciente lo acepta desde su móvil."], ["19:30", "Ves las sesiones hechas, cobradas y pendientes."]],
       calc: { a: ["Llamadas al día para dar o cambiar citas", 25, 0, 120], b: ["Minutos por llamada", 4, 1, 10], c: ["Citas perdidas al mes", 12, 0, 80], d: ["Precio medio de la sesión", 40, 10, 200] },
       piezas: ["web", "reservas", "recordatorios", "tpv", "numeros", "amedida"],
+      equipo: { tipo: "agenda", titulo: "Agenda de hoy", cols: [["Laura · Fisio", [["09:00", "Marta · Fisioterapia", "ok"], ["10:00", "Pedro · desde lista de espera", "new"], ["11:00", "Ana · Suelo pélvico", "ok"], ["12:00", "Hueco libre", "free"]]], ["Raúl · Fisio", [["09:30", "Luis · Deportiva", "ok"], ["10:30", "Cambiada a vie 17:30", "free"], ["11:30", "Sonia · Bono 3/10", "ok"], ["12:30", "Jorge · Primera visita", "new"]]]] },
+      tu: { kpis: [["18", "sesiones hoy"], ["2", "cancelaciones recolocadas"], ["4", "bonos por renovar"], ["96 %", "asistencia"]], bars: [70, 74, 68, 80, 77, 30, 0], aviso: "4 pacientes terminan su bono esta semana." },
     },
     tienda: {
       nombre: "Tienda y comercio", corto: "Tienda", icon: "i-bag", para: "Para tu tienda", marca: "Tu tienda", demo: "catalog",
@@ -625,6 +796,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       dia: [["10:00", "Una clienta reserva unas zapatillas desde casa."], ["12:30", "Aviso: quedan 2 unidades del más vendido."], ["17:15", "Pasa a recoger lo reservado; cobro en un toque."], ["20:30", "Cierre con lo vendido por familia de producto."]],
       calc: { a: ["Mensajes al día preguntando precio o stock", 12, 0, 80], b: ["Minutos por mensaje", 3, 1, 10], c: ["Ventas perdidas al mes por no contestar a tiempo", 10, 0, 100], d: ["Ticket medio", 35, 5, 300] },
       piezas: ["web", "tpv", "verifactu", "numeros", "amedida"],
+      equipo: { tipo: "lista", titulo: "Tienda · hoy", grupos: [["Reservas para recoger", [["R-48", "Zapatillas urbanas · talla 40", "Hasta 20:30", "new"], ["R-47", "Mochila impermeable", "Hasta 19:00", "ok"]]], ["Stock bajo", [["", "Zapatillas urbanas", "Quedan 2", "alert"], ["", "Gorra bordada", "Agotada · 3 avisos pedidos", "alert"]]]] },
+      tu: { kpis: [["31", "ventas hoy"], ["1.240 €", "facturado"], ["3", "reservas por recoger"], ["2", "productos por pedir"]], bars: [44, 39, 47, 52, 60, 88, 0], aviso: "Las zapatillas urbanas se agotan en 2 días a este ritmo." },
     },
     reformas: {
       nombre: "Reformas y servicios a domicilio", corto: "Reformas", icon: "i-hammer", para: "Para tu empresa de reformas", marca: "Tus reformas", demo: "quote",
@@ -633,6 +806,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       dia: [["08:00", "Tres peticiones de presupuesto con fotos desde anoche."], ["11:30", "Visita reservada sola en tu hueco de las 12:00."], ["18:00", "Subes las fotos del día y el cliente las ve en su enlace."], ["20:00", "El presupuesto aceptado pasa a obra con un toque."]],
       calc: { a: ["Llamadas al día por presupuestos y dudas de obra", 8, 0, 60], b: ["Minutos por llamada", 8, 1, 30], c: ["Presupuestos que se enfrían al mes", 4, 0, 40], d: ["Margen medio por obra", 600, 50, 5000] },
       piezas: ["web", "reservas", "recordatorios", "numeros", "amedida"],
+      equipo: { tipo: "obras", titulo: "Obras en curso", obras: [["Baño · C/ Mayor 5", 60, "Alicatado"], ["Cocina · Av. de la Paz 12", 25, "Fontanería"], ["Fachada · Plaza del Mercado", 85, "Pintura"]], visitas: [["12:00", "Presupuesto de tejado"], ["17:30", "Medir una cocina"]] },
+      tu: { kpis: [["3", "presupuestos nuevos"], ["2", "aceptados esta semana"], ["4", "obras en curso"], ["0", "llamadas de «¿cómo va?»"]], bars: [3, 5, 2, 6, 4, 1, 0], aviso: "El presupuesto del tejado lleva 5 días sin respuesta: toca llamar." },
     },
     academia: {
       nombre: "Gimnasio, academia y clases", corto: "Academia", icon: "i-dumbbell", para: "Para tu centro", marca: "Tu centro", demo: "classes",
@@ -641,6 +816,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       dia: [["07:00", "La clase de las 19:00 ya está llena."], ["15:20", "Alguien se borra y la plaza pasa a la lista de espera."], ["19:00", "Pasas lista desde el móvil."], ["21:00", "Ves quién no ha pagado la cuota de este mes."]],
       calc: { a: ["Mensajes al día para apuntarse o borrarse", 20, 0, 120], b: ["Minutos por mensaje", 2, 1, 10], c: ["Plazas vacías al mes por no avisar", 25, 0, 200], d: ["Valor de cada plaza", 8, 2, 60] },
       piezas: ["web", "reservas", "recordatorios", "tpv", "numeros"],
+      equipo: { tipo: "agenda", titulo: "Clases de hoy", cols: [["Sala 1", [["09:30", "Pilates · 11/12", "ok"], ["19:00", "Spinning · 20/20", "new"], ["20:00", "Funcional · lista de espera 2", "alert"]]], ["Sala 2", [["10:00", "Yoga · 6/14", "ok"], ["18:30", "Yoga · 13/14", "ok"], ["21:00", "Libre", "free"]]]] },
+      tu: { kpis: [["9", "clases hoy"], ["87 %", "ocupación"], ["5", "cuotas pendientes"], ["12", "en lista de espera"]], bars: [80, 85, 78, 90, 70, 40, 0], aviso: "La clase de las 20:00 se llena siempre: ¿abrir otra?" },
     },
     empresa: {
       nombre: "Empresa u oficina", corto: "Empresa", icon: "i-building", para: "Para tu empresa", marca: "Tu empresa", demo: "automation",
@@ -649,6 +826,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
       dia: [["08:00", "El informe semanal ya está en tu correo."], ["09:40", "Llegan 14 facturas y se apuntan solas."], ["11:15", "Aviso: un proveedor ha subido precios un 8 %."], ["17:00", "Nadie ha copiado y pegado nada en todo el día."]],
       calc: { a: ["Veces al día que se hace una tarea a mano", 30, 0, 300], b: ["Minutos cada vez", 5, 1, 30], c: ["Errores al mes por copiar a mano", 6, 0, 60], d: ["Coste de cada error", 60, 5, 2000] },
       piezas: ["amedida", "numeros", "recordatorios", "web"],
+      equipo: { tipo: "registro", titulo: "Lo que ha hecho el sistema hoy", items: [["08:00", "Informe semanal enviado a dirección", "ok"], ["09:40", "14 facturas leídas y apuntadas en contabilidad", "ok"], ["11:15", "Aviso: el proveedor de bebidas sube un 8 %", "alert"], ["13:00", "Pedidos de la web pasados al almacén", "ok"], ["16:30", "3 correos de clientes contestados; 1 pasado a una persona", "new"]] },
+      tu: { kpis: [["14", "facturas apuntadas"], ["3 h", "ahorradas hoy"], ["1", "aviso que mirar"], ["0", "copias a mano"]], bars: [2, 3, 3, 4, 3, 0, 0], aviso: "El proveedor de bebidas ha subido un 8 % respecto al mes pasado." },
     },
   };
   const ORDER = ["peluqueria", "barberia", "restaurante", "bar", "kebab", "clinica", "tienda", "reformas", "academia", "empresa"];
@@ -690,40 +869,233 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
   /* ------------------------------------------------------------------ estado */
   let sector = "peluqueria";
+  let view = "cliente";
   let picked = new Set(store.get("picked", []).filter((k) => P[k]));
+  let current = -1;  // paso activo (-1 = portada)
+  let guide = false;
 
-  /* ------------------------------------------------------------------ pintar el selector */
+  /* ------------------------------------------------------------------ índice, barra y pie */
+  const tocHtml = () => CH.map((c, i) => `<a href="#${c.id}" data-go="${i}"><i>${i + 1}</i><b>${esc(c.t)}</b><span>${esc(c.d)}</span></a>`).join("");
+  $("#toc").innerHTML = tocHtml();
+  $("#rail").innerHTML = CH.slice(0, -1).map((c, i) => `<a href="#${c.id}" data-go="${i}"><i>${i + 1}</i>${esc(c.t)}</a>`).join("");
+  $("#foot-nav").innerHTML = CH.map((c) => `<a href="#${c.id}">${esc(c.t)}</a>`).join("");
+
+  function setCurrent(i) {
+    current = i;
+    $$("#rail a, .top .talk").forEach((a) => { if (a.dataset.go === String(i)) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
+    $$("#toc a").forEach((a, k) => a.classList.toggle("done", k < i));
+    const label = i < 0 ? "Empieza aquí" : CH[i].t;
+    $("#gb-num").textContent = i < 0 ? "0/8" : `${i + 1}/8`;
+    $("#gb-title").textContent = label;
+    $("#idx-top-txt").textContent = i < 0 ? "Índice" : `${i + 1}/8 · ${CH[i].t}`;
+    $("#gb-prev").disabled = i <= 0 && !guide;
+    const next = $("#gb-next");
+    if (i >= CH.length - 1) { next.textContent = guide ? "Terminar" : "Inicio ↑"; }
+    else next.textContent = i < 0 ? "Empezar ›" : "Siguiente ›";
+    if (guide) chapters.forEach((el, k) => el.classList.toggle("active", k === i));
+  }
+
+  function goTo(i, opts = {}) {
+    i = Math.max(0, Math.min(CH.length - 1, i));
+    if (guide) {
+      setCurrent(i);
+      scrollTo({ top: 0, behavior: "auto" });
+      if (location.hash !== "#" + CH[i].id) { quietHash = true; location.hash = CH[i].id; }
+      const h = chapters[i].querySelector("h2"); if (h && !opts.noFocus) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+    } else {
+      chapters[i].scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+    }
+  }
+  function enterGuide(i = 0) {
+    guide = true; document.body.classList.add("guide");
+    goTo(i);
+  }
+  function exitGuide() {
+    const i = Math.max(current, 0);
+    guide = false; document.body.classList.remove("guide");
+    chapters.forEach((el) => el.classList.remove("active"));
+    setCurrent(i);
+    chapters[i].scrollIntoView({ behavior: "auto" });
+  }
+  $("#start-guide").addEventListener("click", () => enterGuide(0));
+  $("#gb-exit").addEventListener("click", exitGuide);
+  $("#gb-prev").addEventListener("click", () => { if (guide && current <= 0) { exitGuide(); scrollTo({ top: 0 }); } else goTo(current - 1); });
+  $("#gb-next").addEventListener("click", () => {
+    if (current >= CH.length - 1) { if (guide) exitGuide(); scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" }); return; }
+    goTo(current + 1);
+  });
+  $("#gb-step").addEventListener("click", openIndex);
+  $("#gb-idx").addEventListener("click", openIndex);
+  $("#idx-top").addEventListener("click", openIndex);
+  addEventListener("keydown", (e) => {
+    if (!$("#sheet").hidden) { if (e.key === "Escape") closeSheet(); return; }
+    if (!guide || e.target.closest("input, textarea, select")) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); $("#gb-next").click(); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); $("#gb-prev").click(); }
+    if (e.key === "Escape") exitGuide();
+  });
+
+  // Los enlaces a pasos (índice, barra superior, «Siguiente») en modo guía cambian de paso sin hacer scroll
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]'); if (!a) return;
+    const id = a.getAttribute("href").slice(1);
+    const i = CH.findIndex((c) => c.id === id);
+    if (!$("#sheet").hidden) closeSheet();
+    if (guide && i >= 0) { e.preventDefault(); goTo(i); }
+    else if (guide && (id === "inicio" || id === "indice")) { e.preventDefault(); exitGuide(); document.getElementById(id).scrollIntoView(); }
+  });
+
+  // Paso activo al hacer scroll (fuera del modo guía) y barra de progreso
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (guide) return;
+      for (const en of entries) if (en.isIntersecting) setCurrent(chapters.indexOf(en.target));
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    chapters.forEach((c) => io.observe(c));
+    const hero = new IntersectionObserver((entries) => { if (!guide && entries[0].isIntersecting) setCurrent(-1); }, { rootMargin: "-45% 0px -50% 0px" });
+    hero.observe($(".hero"));
+  }
+  const prog = $("#prog");
+  addEventListener("scroll", () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    prog.style.width = max > 0 ? Math.min(100, (scrollY / max) * 100) + "%" : "0";
+  }, { passive: true });
+
+  /* ------------------------------------------------------------------ ventana: índice y propuesta */
+  function openSheet(html) { $("#sheet-in").innerHTML = html; $("#sheet").hidden = false; const f = $("#sheet-in").querySelector("a, button"); if (f) f.focus(); }
+  function closeSheet() { $("#sheet").hidden = true; }
+  function openIndex() {
+    const n = picked.size;
+    openSheet(`<h3 id="sheet-h">La guía</h3><div class="toc">${tocHtml()}</div>
+      <p class="note-in">Negocio elegido: <b>${esc(S[sector].nombre)}</b>. Cámbialo en el paso 1.</p>
+      <div class="row">${n ? `<button class="btn" type="button" data-prop>Ver propuesta (${n})</button>` : ""}
+      ${guide ? `<button class="btn" type="button" data-exit>Ver todo seguido</button>` : `<button class="btn amber" type="button" data-guide>Modo guía: un paso cada vez</button>`}
+      <button class="btn" type="button" data-close>Cerrar</button></div>
+      <p class="note-in">¿Vas a enseñarlo en otro negocio? <button class="linkish" type="button" data-reset>Empezar de cero</button> (borra lo marcado y el formulario).</p>`);
+    $$("#sheet-in .toc a").forEach((a, k) => a.classList.toggle("done", k < current));
+  }
+  $("#sheet").addEventListener("click", (e) => {
+    if (e.target.id === "sheet" || e.target.closest("[data-close]")) { closeSheet(); return; }
+    if (e.target.closest("[data-guide]")) { closeSheet(); enterGuide(Math.max(current, 0)); return; }
+    if (e.target.closest("[data-exit]")) { closeSheet(); exitGuide(); return; }
+    if (e.target.closest("[data-prop]")) { openProposal(); return; }
+    if (e.target.closest("[data-clear]")) { picked.clear(); store.set("picked", []); closeSheet(); renderPieces(); return; }
+    if (e.target.closest("[data-reset]")) { resetAll(); return; }
+    if (e.target.closest("[data-copy]")) copy(proposalText(), $("#sheet-msg"), $("#sheet-txt"));
+  });
+
+  function resetAll() {
+    picked.clear(); store.set("picked", []);
+    ["#f-nombre", "#f-negocio", "#f-texto"].forEach((sel) => { $(sel).value = ""; });
+    $("#f-negocio").removeAttribute("data-touched");
+    $("#f-out").hidden = true;
+    closeSheet();
+    if (guide) exitGuide();
+    view = "cliente";
+    setSector("peluqueria");
+    scrollTo({ top: 0 });
+  }
+
+  /* ------------------------------------------------------------------ paso 1: negocio */
   $("#chips").innerHTML = ORDER.map((k) => `<button class="chip" type="button" data-s="${k}" aria-pressed="false"><svg><use href="#${S[k].icon}"/></svg>${esc(S[k].nombre)}</button>`).join("");
-  $("#sectors-mini").innerHTML = ORDER.map((k) => `<a href="#${k}">${esc(S[k].corto)}</a>`).join("");
 
-  function setSector(k, scroll) {
+  function setSector(k) {
     if (!S[k]) return;
     sector = k;
     const s = S[k];
     $$("#chips .chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.s === k)));
     const active = $(`#chips [data-s="${k}"]`);
-    if (active && active.scrollIntoView && matchMedia("(max-width: 700px)").matches) active.scrollIntoView({ block: "nearest", inline: "center", behavior: reduced ? "auto" : "smooth" });
+    const box = $("#chips");
+    if (active && box.scrollWidth > box.clientWidth) {
+      const dx = active.getBoundingClientRect().left - box.getBoundingClientRect().left;
+      box.scrollLeft += dx - (box.clientWidth - active.offsetWidth) / 2;
+    }
     $("#s-title").textContent = s.para;
     $("#s-hoy").innerHTML = s.hoy.map((t) => `<li><span class="mk">✕</span><span>${esc(t)}</span></li>`).join("");
     $("#s-con").innerHTML = s.con.map(([t, d]) => `<li><span class="mk">✓</span><span><b>${esc(t)}</b><small>${esc(d)}</small></span></li>`).join("");
     $("#s-dia").innerHTML = s.dia.map(([h, t]) => `<li><time>${h}</time><i></i><span>${esc(t)}</span></li>`).join("");
     const f = $("#f-negocio"); if (f && !f.dataset.touched) f.value = s.nombre;
-    renderPieces(); renderCalc(); startDemo();
-    if (scroll) $("#negocios").scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+    store.set("sector", k);
+    renderPieces(); renderCalc(); setView(view);
   }
   let quietHash = false;
   $("#chips").addEventListener("click", (e) => {
     const b = e.target.closest("[data-s]"); if (!b) return;
-    setSector(b.dataset.s, false);
+    setSector(b.dataset.s);
     if (location.hash !== "#" + b.dataset.s) { quietHash = true; location.hash = b.dataset.s; }
   });
   addEventListener("hashchange", () => {
     if (quietHash) { quietHash = false; return; }
     const k = decodeURIComponent(location.hash.slice(1));
-    if (S[k]) setSector(k, true);
+    if (S[k]) { setSector(k); goTo(0); return; }
+    const i = CH.findIndex((c) => c.id === k);
+    if (guide && i >= 0 && i !== current) goTo(i, { noFocus: true });
+    else if (guide && (k === "" || k === "inicio" || k === "indice")) { exitGuide(); scrollTo({ top: 0 }); }
   });
 
-  /* ------------------------------------------------------------------ demos en el móvil */
+  /* ------------------------------------------------------------------ paso 2: cómo se ve */
+  const VIEWS = {
+    cliente: { t: (s) => "Lo que ve tu cliente", x: (s) => "En su móvil, sin descargar nada. Esta pantalla funciona: dásela al dueño para que la toque." },
+    equipo: { t: (s) => "Lo que ve tu equipo", x: (s) => `${s.equipo.titulo}, en una tablet o en el ordenador de siempre. Se actualiza sola, sin recargar.` },
+    tu: { t: (s) => "Lo que te llega a ti", x: (s) => "El resumen del día en tu móvil, estés donde estés. Con un aviso cuando algo merece tu atención." },
+  };
+  function setView(v) {
+    view = v;
+    const s = S[sector];
+    $$("#vtabs [data-v]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.v === v)));
+    $("#stage").setAttribute("aria-labelledby", "tab-" + v);
+    $("#v-title").textContent = VIEWS[v].t(s);
+    $("#v-text").textContent = VIEWS[v].x(s);
+    $("#dev-phone").hidden = v !== "cliente";
+    $("#dev-tablet").hidden = v !== "equipo";
+    $("#dev-owner").hidden = v !== "tu";
+    if (v === "cliente") startDemo();
+    else { clearTimers(); $("#demo-cap").textContent = "Datos de ejemplo."; }
+    if (v === "equipo") $("#screen-team").innerHTML = teamHtml(s);
+    if (v === "tu") $("#screen-owner").innerHTML = ownerHtml(s);
+  }
+  $("#vtabs").addEventListener("click", (e) => { const b = e.target.closest("[data-v]"); if (b) setView(b.dataset.v); });
+  $("#vtabs").addEventListener("keydown", (e) => {
+    if (!["ArrowRight", "ArrowLeft"].includes(e.key)) return;
+    e.stopPropagation();
+    const order = ["cliente", "equipo", "tu"]; let k = order.indexOf(view) + (e.key === "ArrowRight" ? 1 : -1);
+    k = (k + 3) % 3; setView(order[k]); $(`#tab-${order[k]}`).focus();
+  });
+
+  function teamHtml(s) {
+    const T = s.equipo;
+    const head = `<div class="tm-head"><b>${esc(T.titulo)}</b><span>en directo · ejemplo</span></div>`;
+    if (T.tipo === "agenda") {
+      return head + `<div class="tm-cols" style="--n:${T.cols.length}">${T.cols.map(([n, items]) => `<div class="tm-col"><b>${esc(n)}</b>${items.map(([h, t, c]) => `<div class="tm-item ${c}"><time>${h}</time><span>${esc(t)}</span></div>`).join("")}</div>`).join("")}</div>
+        <div class="tm-legend"><span style="--c:#22A565">Confirmada</span><span style="--c:#F3B04B">Reservada esta noche</span><span style="--c:#3B455A">Libre</span></div>`;
+    }
+    if (T.tipo === "cocina") {
+      return head + `<div class="tm-cols" style="--n:3">${T.cols.map(([n, items]) => `<div class="tm-col"><b>${esc(n)} · ${items.length}</b>${items.map(([num, where, what, no]) => `<div class="tm-item ${n === "Nuevos" ? "new" : n === "Listos" ? "ok" : ""}"><span class="n">${num} · ${esc(where)}</span><span>${esc(what)}</span>${no ? `<span class="no">${esc(no)}</span>` : ""}</div>`).join("")}</div>`).join("")}</div>`;
+    }
+    if (T.tipo === "mesas") {
+      return head + `<div class="tm-cols" style="--n:4">${T.mesas.map(([n, c, t]) => `<div class="tm-item ${c}" style="min-height:74px"><span class="n">${esc(n)}</span><span>${esc(t)}</span></div>`).join("")}</div>
+        <div class="tm-legend"><span style="--c:#F3B04B">Pedido nuevo</span><span style="--c:#EF4444">Pide la cuenta</span><span style="--c:#22A565">Atendida</span></div>`;
+    }
+    if (T.tipo === "lista") {
+      return head + `<div class="tm-cols" style="--n:2">${T.grupos.map(([n, items]) => `<div class="tm-col"><b>${esc(n)}</b>${items.map(([code, t, sub, c]) => `<div class="tm-item ${c}">${code ? `<span class="n">${esc(code)}</span>` : ""}<span>${esc(t)}</span><small>${esc(sub)}</small></div>`).join("")}</div>`).join("")}</div>`;
+    }
+    if (T.tipo === "obras") {
+      return head + `<div class="tm-col">${T.obras.map(([n, p, fase]) => `<div class="tm-item ok"><span>${esc(n)}</span><small>${esc(fase)} · ${p} %</small><div class="tm-bar"><i style="width:${p}%"></i></div></div>`).join("")}</div>
+        <div class="tm-col"><b>Visitas de hoy</b>${T.visitas.map(([h, t]) => `<div class="tm-item new"><time>${h}</time><span>${esc(t)}</span></div>`).join("")}</div>`;
+    }
+    return head + `<div class="tm-col">${T.items.map(([h, t, c]) => `<div class="tm-item ${c}"><time>${h}</time><span>${esc(t)}</span></div>`).join("")}</div>`;
+  }
+  function ownerHtml(s) {
+    const T = s.tu; const max = Math.max(...T.bars, 1); const days = ["L", "M", "X", "J", "V", "S", "D"];
+    const today = T.bars.reduce((best, v, i) => (v > 0 ? i : best), 0);
+    return `<div class="ph-head"><span class="ph-logo">${esc(s.marca.split(" ").pop()[0].toUpperCase())}</span><div><b>Resumen de hoy</b><small>${esc(s.marca)}</small></div></div>
+      <div class="ph-kpis">${T.kpis.map(([v, l]) => `<div><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("")}</div>
+      <p class="ph-label">Esta semana</p>
+      <div class="ph-bars">${T.bars.map((v, i) => `<span class="${i === today ? "today" : ""}"><i style="height:${Math.max(4, Math.round((v / max) * 60))}px"></i>${days[i]}</span>`).join("")}</div>
+      <div class="ph-alert">${esc(T.aviso)}</div><p class="ph-tag">Datos de ejemplo</p>`;
+  }
+
+  /* ------------------------------------------------------------------ demos en el móvil del cliente */
   const screen = $("#screen");
   const head = (s, sub) => `<div class="ph-head"><span class="ph-logo">${esc(s.marca.split(" ").pop()[0].toUpperCase())}</span><div><b>${esc(s.marca)}</b><small>${esc(sub)}</small></div></div>`;
 
@@ -770,7 +1142,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
     menu(s) {
       const st = { step: 0, item: null, sel: {}, rm: new Set(), cart: [], track: 0 };
-      const mesa = s.demo === "menu" && sector === "kebab" ? "Para recoger" : "Mesa 3";
+      const mesa = sector === "kebab" ? "Para recoger" : "Mesa 3";
       function total() { return st.cart.reduce((a, l) => a + l.p, 0); }
       function draw() {
         if (st.step === 0) {
@@ -976,7 +1348,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   }
   $("#demo-cap").addEventListener("click", (e) => { if (e.target.id === "demo-reset") startDemo(); });
 
-  /* ------------------------------------------------------------------ piezas y propuesta */
+  /* ------------------------------------------------------------------ paso 3: piezas y propuesta */
   function renderPieces() {
     const rec = new Set(S[sector].piezas);
     $("#pieces").innerHTML = P_ORDER.map((k) => {
@@ -986,13 +1358,19 @@ button { font: inherit; color: inherit; cursor: pointer; }
         <p>${esc(p.d)}</p><div class="art">${p.art}</div>
         <button class="add" type="button" data-p="${k}" aria-pressed="${on}">${on ? "✓ En la propuesta" : "+ Añadir a la propuesta"}</button></article>`;
     }).join("");
-    renderBar();
+    renderPicked();
   }
-  function renderBar() {
+  function renderPicked() {
     const n = picked.size;
-    $("#pbar").hidden = n === 0;
-    $("#pbar-n").textContent = String(n);
-    $("#pbar-txt").textContent = n === 1 ? "Propuesta: 1 pieza" : `Propuesta: ${n} piezas`;
+    const badge = $("#gb-count"); badge.hidden = n === 0; badge.textContent = String(n);
+    const rec = S[sector].piezas.filter((k) => !picked.has(k));
+    $("#pick-sum").innerHTML = n
+      ? `<span>${n === 1 ? "1 pieza" : n + " piezas"} en la propuesta.</span><button class="btn" type="button" data-show-prop>Ver propuesta</button>`
+      : `<span>Para ${esc(S[sector].corto.toLowerCase())} suele encajar: ${rec.map((k) => esc(P[k].t)).join(", ")}.</span><button class="btn" type="button" data-pick-rec>Añadirlas todas</button>`;
+    const items = P_ORDER.filter((k) => picked.has(k));
+    $("#prop-box").innerHTML = items.length
+      ? `<h3 style="font-size:1.15rem">Tu propuesta</h3><ul>${items.map((k) => `<li><b>${esc(P[k].t)}</b>: ${esc(P[k].d)}</li>`).join("")}</ul><div class="wa"><button class="btn" type="button" data-show-prop>Copiar propuesta</button><a class="btn" href="#piezas">Cambiar piezas</a></div>`
+      : `<h3 style="font-size:1.15rem">Tu propuesta</h3><p class="note-in">Aún no has marcado piezas. Vuelve al paso 3 y marca las que te encajan.</p><div class="wa"><a class="btn" href="#piezas">Ir a las piezas</a></div>`;
   }
   $("#pieces").addEventListener("click", (e) => {
     const b = e.target.closest("[data-p]"); if (!b) return;
@@ -1001,7 +1379,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
     store.set("picked", [...picked]);
     b.setAttribute("aria-pressed", String(picked.has(k)));
     b.textContent = picked.has(k) ? "✓ En la propuesta" : "+ Añadir a la propuesta";
-    renderBar();
+    renderPicked();
+  });
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-show-prop]")) openProposal();
+    if (e.target.closest("[data-pick-rec]")) { S[sector].piezas.forEach((k) => picked.add(k)); store.set("picked", [...picked]); renderPieces(); }
   });
   function proposalText() {
     const s = S[sector];
@@ -1009,22 +1391,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
     const lines = P_ORDER.filter((k) => picked.has(k)).map((k) => `• ${P[k].t}: ${P[k].d}`);
     return `Propuesta BUHOSS para ${negocio}\n\n${lines.join("\n")}\n\nSiguiente paso: lo monto con tus datos y te lo enseño funcionando.`;
   }
-  function openSheet() {
-    const txt = proposalText();
-    $("#sheet-in").innerHTML = `<h3 id="sheet-h">Tu propuesta</h3><p class="note-in">Para ${esc(($("#f-negocio").value || S[sector].nombre).trim())}. Cópiala y mándala por WhatsApp al cliente.</p>
-      <pre id="sheet-txt">${esc(txt)}</pre><p class="note-in" id="sheet-msg" role="status"></p>
-      <div class="row"><button class="btn" type="button" data-clear>Vaciar</button><button class="btn" type="button" data-close>Cerrar</button><button class="btn amber" type="button" data-copy>Copiar propuesta</button></div>`;
-    $("#sheet").hidden = false;
-    $("[data-copy]", $("#sheet")).focus();
+  function openProposal() {
+    if (!picked.size) { openIndex(); return; }
+    openSheet(`<h3 id="sheet-h">Tu propuesta</h3><p class="note-in">Para ${esc(($("#f-negocio").value || S[sector].nombre).trim())}. Cópiala y mándala por WhatsApp al cliente.</p>
+      <pre id="sheet-txt">${esc(proposalText())}</pre><p class="note-in" id="sheet-msg" role="status"></p>
+      <div class="row"><button class="btn" type="button" data-clear>Vaciar</button><button class="btn" type="button" data-close>Cerrar</button><button class="btn amber" type="button" data-copy>Copiar propuesta</button></div>`);
   }
-  $("#pbar-btn").addEventListener("click", openSheet);
-  $("#sheet").addEventListener("click", async (e) => {
-    if (e.target.id === "sheet" || e.target.closest("[data-close]")) { $("#sheet").hidden = true; return; }
-    if (e.target.closest("[data-clear]")) { picked.clear(); store.set("picked", []); $("#sheet").hidden = true; renderPieces(); return; }
-    if (e.target.closest("[data-copy]")) copy(proposalText(), $("#sheet-msg"), $("#sheet-txt"));
-  });
-  addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) $("#sheet").hidden = true; });
-
   async function copy(text, msgEl, selectEl) {
     try { await navigator.clipboard.writeText(text); msgEl.textContent = "Copiado."; return true; }
     catch (err) {
@@ -1034,14 +1406,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
     }
   }
 
-  /* ------------------------------------------------------------------ calculadora */
+  /* ------------------------------------------------------------------ paso 4: calculadora */
   const calcVals = {};
   function renderCalc() {
     const c = S[sector].calc;
     const fields = [["a", c.a, ""], ["b", c.b, " min"], ["c", c.c, ""], ["d", c.d, " €"]];
     $("#calc-inputs").innerHTML = fields.map(([k, [label, def, min, max], unit]) => {
       calcVals[k] = def;
-      const step = max > 1000 ? 50 : max > 300 ? 5 : 1;
+      const step = max > 1000 ? 10 : max > 300 ? 5 : 1;
       return `<div class="field"><label for="c-${k}">${esc(label)} <output id="o-${k}">${def}${unit}</output></label><input type="range" id="c-${k}" data-k="${k}" data-unit="${unit}" min="${min}" max="${max}" step="${step}" value="${def}"></div>`;
     }).join("");
     $("#r-horas-lbl").textContent = sector === "empresa" ? "al mes en tareas a mano" : "al mes en esto";
@@ -1065,7 +1437,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   });
   $("#c-pct").addEventListener("input", calc);
 
-  /* ------------------------------------------------------------------ contacto */
+  /* ------------------------------------------------------------------ paso 8: contacto */
   const wa = WHATSAPP.replace(/\D/g, "");
   if (wa) {
     $("#wa-direct").hidden = false;
@@ -1105,7 +1477,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
   /* ------------------------------------------------------------------ arranque */
   const initial = decodeURIComponent(location.hash.slice(1));
-  setSector(S[initial] ? initial : "peluqueria", false);
-  if (S[initial]) setTimeout(() => $("#negocios").scrollIntoView(), 50);
+  const saved = store.get("sector", null);
+  setSector(S[initial] ? initial : (S[saved] ? saved : "peluqueria"));
+  setCurrent(-1);
+  if (S[initial]) setTimeout(() => goTo(0), 50);
 })();
 </script>
