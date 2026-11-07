@@ -39,5 +39,7 @@ def create_resource(
     }
 
 @router.get("/resources")
-def get_resources(db: Session = Depends(get_db)):
-    return db.query(Resource).all()
+def get_resources(current_user=Depends(get_current_user), db: Session = Depends(get_db)):
+    from app.core.tenancy import my_company_ids
+
+    return db.query(Resource).filter(Resource.company_id.in_(my_company_ids(db, current_user))).all()

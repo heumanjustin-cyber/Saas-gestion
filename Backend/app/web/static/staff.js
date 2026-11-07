@@ -1,4 +1,4 @@
-/* BUHOS · base común del TPV y la cocina: acceso, API, eventos en vivo, ventanas e impresión. */
+/* BUHOSS · base común del TPV y la cocina: acceso, API, eventos en vivo, ventanas e impresión. */
 window.BUHOS = (() => {
   "use strict";
   const P = "buhos-staff:";
@@ -185,7 +185,7 @@ window.BUHOS = (() => {
         addEventListener("keydown", onKey);
       }
       function showOwner(errMsg) {
-        const c = card(`<h2>Cuenta del dueño</h2><p>Entra con tu email de BUHOS.</p>${errMsg ? `<p class="err">${esc(errMsg)}</p>` : ""}
+        const c = card(`<h2>Cuenta del dueño</h2><p>Entra con tu email de BUHOSS.</p>${errMsg ? `<p class="err">${esc(errMsg)}</p>` : ""}
           <form><label class="f">Email<input name="email" type="email" autocomplete="username" required></label>
           <label class="f">Contraseña<input name="password" type="password" autocomplete="current-password" required></label>
           <button class="b primary full">Entrar</button></form>
@@ -216,7 +216,7 @@ window.BUHOS = (() => {
         };
       }
       function showStart(errMsg) {
-        const c = card(`<h2>${esc(opts.title || "BUHOS")}</h2><p>${esc(opts.subtitle || "Empareja esta pantalla con tu local.")}</p>
+        const c = card(`<h2>${esc(opts.title || "BUHOSS")}</h2><p>${esc(opts.subtitle || "Empareja esta pantalla con tu local.")}</p>
           ${errMsg ? `<p class="err">${esc(errMsg)}</p>` : ""}
           <div class="tabs"><button aria-pressed="true" data-tab="pair">Emparejar tablet</button><button aria-pressed="false" data-tab="owner">Cuenta del dueño</button></div>
           <form data-pair><label class="f">Código de emparejamiento<input name="code" autocomplete="off" autocapitalize="characters" maxlength="12" required placeholder="Ej.: K7M2PQ9X"></label>

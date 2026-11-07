@@ -103,7 +103,7 @@ _FISCAL_GUARD = DDL(
 CREATE OR REPLACE FUNCTION buhos_fiscal_records_guard() RETURNS trigger AS $$
 BEGIN
   IF TG_OP = 'DELETE' THEN
-    RAISE EXCEPTION 'BUHOS: los registros de facturación no se pueden borrar';
+    RAISE EXCEPTION 'BUHOSS: los registros de facturación no se pueden borrar';
   END IF;
   IF NEW.hash IS DISTINCT FROM OLD.hash
      OR NEW.previous_hash IS DISTINCT FROM OLD.previous_hash
@@ -114,7 +114,7 @@ BEGIN
      OR NEW.num_serie IS DISTINCT FROM OLD.num_serie
      OR NEW.importe_total IS DISTINCT FROM OLD.importe_total
      OR NEW.cuota_total IS DISTINCT FROM OLD.cuota_total THEN
-    RAISE EXCEPTION 'BUHOS: los registros de facturación son inalterables';
+    RAISE EXCEPTION 'BUHOSS: los registros de facturación son inalterables';
   END IF;
   RETURN NEW;
 END $$ LANGUAGE plpgsql;
@@ -129,7 +129,7 @@ _INVOICE_GUARD = DDL(
 CREATE OR REPLACE FUNCTION buhos_invoices_guard() RETURNS trigger AS $$
 BEGIN
   IF TG_OP = 'DELETE' THEN
-    RAISE EXCEPTION 'BUHOS: una factura emitida no se borra: se rectifica o se anula';
+    RAISE EXCEPTION 'BUHOSS: una factura emitida no se borra: se rectifica o se anula';
   END IF;
   IF NEW.series IS DISTINCT FROM OLD.series
      OR NEW.number IS DISTINCT FROM OLD.number
@@ -140,7 +140,7 @@ BEGIN
      OR NEW.tax_total IS DISTINCT FROM OLD.tax_total
      OR NEW.tax_base IS DISTINCT FROM OLD.tax_base
      OR NEW.tax_breakdown IS DISTINCT FROM OLD.tax_breakdown THEN
-    RAISE EXCEPTION 'BUHOS: una factura emitida no se modifica';
+    RAISE EXCEPTION 'BUHOSS: una factura emitida no se modifica';
   END IF;
   RETURN NEW;
 END $$ LANGUAGE plpgsql;
@@ -153,7 +153,7 @@ CREATE TRIGGER trg_buhos_invoices_guard
 _IMMUTABLE_ROW_FN = """
 CREATE OR REPLACE FUNCTION buhos_immutable_row_guard() RETURNS trigger AS $$
 BEGIN
-  RAISE EXCEPTION 'BUHOS: las líneas y los pagos de una factura emitida no se modifican';
+  RAISE EXCEPTION 'BUHOSS: las líneas y los pagos de una factura emitida no se modifican';
 END $$ LANGUAGE plpgsql;
 """
 

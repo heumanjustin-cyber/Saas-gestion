@@ -1,4 +1,4 @@
-# Ankara Kebab: dejar obsoleto el QR de Studio 42 e instalar BUHOS con TPV
+# Ankara Kebab: dejar obsoleto el QR de Studio 42 e instalar BUHOSS con TPV
 
 Auditoría hecha el 7-11-2026 sobre lo que hay publicado hoy:
 `https://studio42.es/c/?cod=ankara-kebab` (el QR), `https://studio42.es/ankara/` (carta y pedidos) y
@@ -18,9 +18,9 @@ Auditoría hecha el 7-11-2026 sobre lo que hay publicado hoy:
 
 ## 2. Fallos encontrados
 
-| # | Fallo | Por qué importa | En BUHOS |
+| # | Fallo | Por qué importa | En BUHOSS |
 |---|---|---|---|
-| 1 | Los pedidos van a un Google Apps Script. Su propio código dice que falta crear la clave de Ankara: hasta entonces el cliente ve «No pudimos enviarlo directo» y lo manda por WhatsApp | Los pedidos pueden no llegar a cocina | El pedido se guarda en la base de datos de BUHOS y la cocina lo ve al momento (medido: 1,5 s) |
+| 1 | Los pedidos van a un Google Apps Script. Su propio código dice que falta crear la clave de Ankara: hasta entonces el cliente ve «No pudimos enviarlo directo» y lo manda por WhatsApp | Los pedidos pueden no llegar a cocina | El pedido se guarda en la base de datos de BUHOSS y la cocina lo ve al momento (medido: 1,5 s) |
 | 2 | El precio lo calcula el móvil y nadie lo comprueba | Cualquiera puede mandar un pedido con precios inventados | El precio lo calcula el servidor desde la carta |
 | 3 | El código de pedido es aleatorio de 4 cifras (AK-1234) | Con 100 pedidos al día hay un 42 % de probabilidad de que dos clientes tengan el mismo código | Número correlativo del día: 001, 002… |
 | 4 | La mesa va en la URL (`?mesa=4`) | Cualquiera la cambia y pide «a la mesa 2» desde casa | Cada mesa tiene un QR propio, y se puede cambiar si alguien se lleva una foto |
@@ -37,7 +37,7 @@ Auditoría hecha el 7-11-2026 sobre lo que hay publicado hoy:
 Lo que no se ha copiado: «¿Encontraste estas llaves?» y «¿Dónde aparqué?». Solo tienen sentido en el
 llavero NFC de Studio 42. Si Ankara los usa, se añaden en una tarde.
 
-## 3. Qué hace ya BUHOS (en este repositorio)
+## 3. Qué hace ya BUHOSS (en este repositorio)
 
 - **Página del local** en `/r/ankara-kebab`, con la carta real de Ankara ya cargada (42 platos,
   grupos de elección, extras, «sin cebolla», «¿Lo hacemos menú?» que conserva la carne y la salsa
@@ -64,7 +64,7 @@ llavero NFC de Studio 42. Si Ankara los usa, se añaden en una tarde.
 ## 4. Plan para Ankara
 
 **Demo (20 min, en el local):**
-1. El dueño escanea un QR de mesa con su móvil y ve su carta en BUHOS.
+1. El dueño escanea un QR de mesa con su móvil y ve su carta en BUHOSS.
 2. Pide un dürüm.
 3. El pedido suena en la tablet de cocina.
 4. Se cobra en el TPV en un toque y sale el ticket.
@@ -84,7 +84,7 @@ llavero NFC de Studio 42. Si Ankara los usa, se añaden en una tarde.
 **Primera semana:** ajustar el tiempo de preparación y revisar qué pieza trae más pedidos (analítica
 por QR).
 
-## 5. Oferta «BUHOS con TPV» (propuesta: ajusta los números)
+## 5. Oferta «BUHOSS con TPV» (propuesta: ajusta los números)
 
 Referencias de mercado (blogs y comparativas, sin confirmar con cada proveedor):
 
@@ -109,19 +109,13 @@ cierres de caja y Verifactu. Y no hay que comprar hardware de una marca concreta
 
 ## 6. Lo que todavía falta (dicho claro)
 
-1. **Seguridad del SaaS que ya existía (urgente, antes de instalar en un cliente real).**
-   - Estas rutas no piden autenticación y devuelven datos de **todas** las empresas: `GET /clients`,
-     `/companies`, `/employees`, `/services`, `/appointments`, `/locations`, `/resources`,
-     `/dashboard`, `/permissions`, `/roles` y `/memberships`.
-   - Estas otras borran sin sesión: `DELETE /clients/{id}`, `/employees/{id}`, `/services/{id}` y
-     `/appointments/{id}`.
-   - Las contraseñas se guardan con SHA-256 sin sal: hay que pasar a bcrypt o argon2 y rehashear al
-     iniciar sesión.
-   - Los módulos nuevos de hostelería no tienen este problema.
+1. ~~**Seguridad del SaaS que ya existía.**~~ Resuelto: todas las rutas piden sesión y aíslan los
+   datos por empresa; contraseñas con scrypt (las antiguas se migran al entrar); límite de intentos
+   de login. Lo cubren los tests de `Backend/tests/test_security.py`.
 2. **Envío a la AEAT.**
    - Ya funcionan la huella, la cadena, el QR y el XML.
    - Falta validar el XML contra el XSD en el entorno de pruebas, el envío con el certificado del
-     titular y la declaración responsable de BUHOS como productor del software.
+     titular y la declaración responsable de BUHOSS como productor del software.
 3. **Modo sin conexión del TPV.** Hoy, si cae internet, no se cobra. Mientras tanto: router 4G de
    respaldo. Siguiente paso: cola local de tickets.
 4. **Pago online** (tarjeta o Bizum) para domicilio, para evitar pedidos falsos.

@@ -1,4 +1,4 @@
-/* BUHOS · pantalla de cocina: pedidos en vivo, tiempos, estados, comanda, pausa y agotados. */
+/* BUHOSS · pantalla de cocina: pedidos en vivo, tiempos, estados, comanda, pausa y agotados. */
 (async () => {
   "use strict";
   const B = window.BUHOS;
@@ -94,7 +94,7 @@
       $("#c-" + k).textContent = String(arr.length);
     }
     for (const o of list) seen.add(o.id);
-    document.title = (cols.new.length ? `(${cols.new.length}) ` : "") + "Cocina · BUHOS";
+    document.title = (cols.new.length ? `(${cols.new.length}) ` : "") + "Cocina · BUHOSS";
   }
   function upsert(o, fromStream) {
     const prev = orders.get(o.id);

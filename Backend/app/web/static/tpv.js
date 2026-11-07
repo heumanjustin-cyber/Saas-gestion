@@ -1,4 +1,4 @@
-/* BUHOS · TPV: carta táctil, ticket, cobro, pedidos del QR, tickets emitidos, caja y gestión. */
+/* BUHOSS · TPV: carta táctil, ticket, cobro, pedidos del QR, tickets emitidos, caja y gestión. */
 (async () => {
   "use strict";
   const B = window.BUHOS;

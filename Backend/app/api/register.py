@@ -1,21 +1,25 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
+from sqlalchemy import func
 from sqlalchemy.orm import Session
-from jose import jwt
-from datetime import datetime, timedelta
+
+from app.core.jwt import create_access_token
+from app.core.security import hash_password
 from app.db.dependencies import get_db
 from app.models.user import User
 from app.schemas.register import RegisterRequest
-from app.core.security import hash_password
-from app.core.config import SECRET_KEY, ALGORITHM
+from app.services import ratelimit
 
 router = APIRouter()
+
 
 @router.post("/register")
 def register(
     user: RegisterRequest,
+    request: Request,
     db: Session = Depends(get_db)
 ):
-    existing_user = db.query(User).filter(User.email == user.email).first()
+    ratelimit.check("register", ratelimit.client_key(request), limit=10, window_seconds=3600)
+    existing_user = db.query(User).filter(func.lower(User.email) == user.email.lower()).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email ya registrado")
 
@@ -30,13 +34,10 @@ def register(
     db.commit()
     db.refresh(new_user)
 
-    expire = datetime.utcnow() + timedelta(hours=24)
-    token = jwt.encode({"sub": str(new_user.id), "exp": expire}, SECRET_KEY, algorithm=ALGORITHM)
-
     return {
         "id": str(new_user.id),
         "email": new_user.email,
         "full_name": new_user.full_name,
-        "access_token": token,
+        "access_token": create_access_token(str(new_user.id)),
         "token_type": "bearer",
     }

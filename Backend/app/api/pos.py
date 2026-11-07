@@ -1,4 +1,4 @@
-"""TPV de BUHOS: dispositivos, PIN del personal, caja, cobros, tickets y registros Verifactu."""
+"""TPV de BUHOSS: dispositivos, PIN del personal, caja, cobros, tickets y registros Verifactu."""
 from __future__ import annotations
 
 import hashlib
@@ -157,7 +157,7 @@ def owner_session(company_id: UUID, data: OwnerSessionIn, authorization: str | N
     """El dueño abre el TPV con su cuenta (sin PIN), p. ej. el día de la instalación."""
     a = resolve_actor(db, authorization, company_id, "billing.view")
     if a.user_id is None:
-        raise HTTPException(status_code=403, detail="Inicia sesión con tu cuenta de BUHOS")
+        raise HTTPException(status_code=403, detail="Inicia sesión con tu cuenta de BUHOSS")
     r = _register(db, company_id, data.register_id)
     token = create_pos_token(company_id=company_id, register_id=r.id, label=a.label, role="owner", user_id=a.user_id)
     return {"access_token": token, "token_type": "bearer", "register": register_dict(r), "name": a.label, "role": "owner"}

@@ -1,4 +1,4 @@
-# BUHOS OS · Backend
+# BUHOSS · Backend
 
 API de gestión (FastAPI + PostgreSQL) con el módulo de **hostelería**: carta QR con pedidos, cocina en
 pantalla, TPV con Verifactu y migración desde Studio 42.
@@ -31,6 +31,18 @@ inalterabilidad fiscal se crean junto con sus tablas.
 | Cocina | `/app/cocina` | Cocina (tablet en la pared) |
 | Hoja de QR para imprimir | `GET /my/venues/<company_id>/qr-sheet` | Dueño |
 | Documentación de la API | `/docs` | Desarrollo |
+
+## Seguridad
+
+- Todas las rutas de gestión piden sesión y solo devuelven datos de las empresas del usuario
+  (dueño o miembro activo). Un objeto de otra empresa responde 404: no se revela que existe.
+- No se puede enlazar en una cita el empleado, cliente, servicio o local de otra empresa.
+- Contraseñas con scrypt y sal aleatoria. Los hashes antiguos (SHA-256 sin sal) siguen sirviendo
+  para entrar y se convierten a scrypt en ese mismo inicio de sesión.
+- Login: 10 intentos cada 15 minutos por IP y email; responde 401 (con la clave `error` de siempre)
+  y tarda lo mismo exista o no el email. Registro: email válido y contraseña de 8 caracteres o más.
+- Tokens caducados, mal formados o firmados con otra clave dan 401, no un error 500.
+- `ALGORITHM` solo admite HS256/384/512 y la URL de la base de datos ya no se imprime con su contraseña.
 
 ## Pruebas
 
@@ -70,7 +82,7 @@ vivo por SSE.
 **TPV y Verifactu.** Cada ticket (F2), factura completa (F3), devolución (R5) o anulación genera un
 registro encadenado con huella SHA-256 (RD 1007/2023, Orden HAC/1177/2024). Numeración correlativa por
 serie y año sin huecos. Postgres impide borrar o cambiar facturas, líneas, pagos y registros. Un NIF
-solo puede facturar en una empresa de BUHOS (si no, saldrían dos `T1-2026-000001`).
+solo puede facturar en una empresa de BUHOSS (si no, saldrían dos `T1-2026-000001`).
 
 Hecho: huella (validada con los ejemplos de la AEAT), cadena y su verificación
 (`GET /my/venues/{id}/pos/fiscal-records/verify`), QR tributario en el ticket y XML de alta/anulación.
@@ -78,7 +90,7 @@ Hecho: huella (validada con los ejemplos de la AEAT), cadena y su verificación
 Pendiente antes de emitir en producción con Verifactu:
 1. Validar el XML contra el XSD oficial en el entorno de pruebas de la AEAT.
 2. Envío SOAP con el certificado electrónico del titular (mTLS) y gestión de respuestas y reintentos.
-3. Declaración responsable de BUHOS como productor del software y variables `BUHOS_SIF_*` rellenas.
+3. Declaración responsable de BUHOSS como productor del software y variables `BUHOS_SIF_*` rellenas.
 
 Plazos (RDL 15/2025): sociedades desde el 1-1-2027; autónomos y resto desde el 1-7-2027.
 

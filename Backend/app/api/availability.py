@@ -6,6 +6,8 @@ from sqlalchemy.orm import Session
 
 from app.core.dependencies import get_current_user
 from app.db.dependencies import get_db
+from app.core.tenancy import get_mine_or_404
+from app.models.employee import Employee
 from app.services.availability import get_employee_slots
 
 router = APIRouter()
@@ -20,6 +22,7 @@ def get_availability(
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
+    get_mine_or_404(db, Employee, employee_id, current_user, "Empleado")
     slots = get_employee_slots(
         db=db,
         employee_id=employee_id,

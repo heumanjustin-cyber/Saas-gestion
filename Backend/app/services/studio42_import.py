@@ -1,4 +1,4 @@
-"""Migración desde Studio 42 a BUHOS en un comando.
+"""Migración desde Studio 42 a BUHOSS en un comando.
 
 Lee los dos formatos que publica Studio 42 para cada cliente:
 - el «hub» del QR (https://studio42.es/c/<código>.json, versión 2): nombre, colores,

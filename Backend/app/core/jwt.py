@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from jose import jwt
 
@@ -11,7 +11,7 @@ from app.core.config import (
 def create_access_token(
     user_id: str
 ):
-    expire = datetime.utcnow() + timedelta(days=7)
+    expire = datetime.now(timezone.utc) + timedelta(days=7)
 
     payload = {
         "sub": user_id,

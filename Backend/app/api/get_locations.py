@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from app.core.dependencies import get_current_user
+from app.core.tenancy import my_company_ids
 from app.db.dependencies import get_db
 from app.models.location import Location
 
@@ -9,8 +11,9 @@ router = APIRouter()
 
 @router.get("/locations")
 def get_locations(
+    current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    locations = db.query(Location).all()
-
-    return locations
+    return db.query(Location).filter(
+        Location.company_id.in_(my_company_ids(db, current_user))
+    ).all()

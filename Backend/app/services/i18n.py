@@ -46,7 +46,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "tag_vegan": "Vegano", "tag_halal": "Halal", "tag_allergens_unverified": "Alérgenos pendientes de confirmar: pregunta", "unverified_note": "El local está confirmando los alérgenos plato a plato. Si tienes alergia o intolerancia, pregunta antes de pedir.", "active_order": "Pedido {n} · {status}", "added": "Añadido",
         "copied": "Enlace copiado", "choose_slot": "Elige la hora", "schedule_required": "Ahora estamos cerrados: elige una hora.",
         "required_group": "Elige {g}", "options_unavailable": "No disponible con tu filtro de alérgenos",
-        "language": "Idioma", "made_with": "Carta y pedidos con BUHOS",
+        "language": "Idioma", "made_with": "Carta y pedidos con BUHOSS",
     },
     "en": {
         "lang_name": "English", "order_now": "Order now", "see_menu": "See the menu and order", "call": "Call",
@@ -87,7 +87,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "tag_vegan": "Vegan", "tag_halal": "Halal", "tag_allergens_unverified": "Allergens not confirmed yet: ask staff", "unverified_note": "The restaurant is confirming allergens dish by dish. If you have an allergy or intolerance, ask before ordering.", "active_order": "Order {n} · {status}", "added": "Added",
         "copied": "Link copied", "choose_slot": "Pick a time", "schedule_required": "We're closed now: pick a time.",
         "required_group": "Choose {g}", "options_unavailable": "Not available with your allergen filter",
-        "language": "Language", "made_with": "Menu and ordering by BUHOS",
+        "language": "Language", "made_with": "Menu and ordering by BUHOSS",
     },
     "fr": {
         "lang_name": "Français", "order_now": "Commander", "see_menu": "Voir la carte et commander", "call": "Appeler",
@@ -128,7 +128,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "tag_vegan": "Végan", "tag_halal": "Halal", "tag_allergens_unverified": "Allergènes pas encore confirmés : demandez", "unverified_note": "Le restaurant confirme les allergènes plat par plat. En cas d'allergie ou d'intolérance, demandez avant de commander.", "active_order": "Commande {n} · {status}", "added": "Ajouté",
         "copied": "Lien copié", "choose_slot": "Choisissez l'heure", "schedule_required": "Nous sommes fermés : choisissez une heure.",
         "required_group": "Choisissez {g}", "options_unavailable": "Indisponible avec votre filtre d'allergènes",
-        "language": "Langue", "made_with": "Carte et commandes par BUHOS",
+        "language": "Langue", "made_with": "Carte et commandes par BUHOSS",
     },
 }
 

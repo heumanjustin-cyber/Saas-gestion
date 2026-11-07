@@ -1,4 +1,4 @@
-"""Deja Ankara Kebab listo en BUHOS: ficha, carta (42 platos), mesas con QR, piezas QR, caja y modo pruebas.
+"""Deja Ankara Kebab listo en BUHOSS: ficha, carta (42 platos), mesas con QR, piezas QR, caja y modo pruebas.
 
     python -m scripts.seed_ankara --email dueno@ankara.es --password 'algo-largo'
 
@@ -112,7 +112,7 @@ def main() -> None:
         db.commit()
 
         base = PUBLIC_BASE_URL or "http://localhost:8000"
-        print("\nAnkara Kebab en BUHOS")
+        print("\nAnkara Kebab en BUHOSS")
         print(f"  Carta y pedidos:  {base}/r/{SLUG}")
         print(f"  TPV:              {base}/app/tpv   (entra con {args.email})")
         print(f"  Cocina:           {base}/app/cocina")

@@ -15,6 +15,7 @@ from app.schemas.appointment import (
     AppointmentResponse,
     AppointmentUpdate,
 )
+from app.core.tenancy import ensure_same_company
 from app.services.appointment_service import (
     check_blocked_time,
     check_double_booking,
@@ -41,6 +42,8 @@ def create_appointment(
     db: Session = Depends(get_db),
 ):
     get_company_or_403(db, data.company_id, current_user.id)
+    ensure_same_company(db, data.company_id, employee_id=data.employee_id, client_id=data.client_id,
+                        service_id=data.service_id, location_id=data.location_id)
 
     if data.employee_id:
         if not check_schedule(db, data.employee_id, data.starts_at, data.ends_at):
@@ -100,6 +103,7 @@ def update_appointment(
     if not appt:
         raise HTTPException(status_code=404, detail="Appointment not found")
     get_company_or_403(db, appt.company_id, current_user.id)
+    ensure_same_company(db, appt.company_id, employee_id=data.employee_id, service_id=data.service_id)
 
     employee_id = data.employee_id or appt.employee_id
     starts = data.starts_at or appt.starts_at

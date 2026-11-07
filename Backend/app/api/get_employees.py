@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from app.core.dependencies import get_current_user
+from app.core.tenancy import my_company_ids
 from app.db.dependencies import get_db
 from app.models.employee import Employee
 
@@ -9,8 +11,9 @@ router = APIRouter()
 
 @router.get("/employees")
 def get_employees(
+    current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    employees = db.query(Employee).all()
-
-    return employees
+    return db.query(Employee).filter(
+        Employee.company_id.in_(my_company_ids(db, current_user))
+    ).all()

@@ -197,7 +197,7 @@ def schema_org_hours(hours: dict) -> list[dict]:
 
 
 def parse_osm_hours(lines: list[str]) -> dict:
-    """Convierte «Mo,We-Sa 13:30-23:59» / «Tu 19:00-01:30» (formato OSM) al formato de BUHOS."""
+    """Convierte «Mo,We-Sa 13:30-23:59» / «Tu 19:00-01:30» (formato OSM) al formato de BUHOSS."""
     hours: dict[str, list[list[str]]] = {}
     for line in lines or []:
         line = str(line).strip()

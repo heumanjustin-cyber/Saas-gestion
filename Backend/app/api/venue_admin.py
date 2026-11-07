@@ -128,7 +128,7 @@ def put_fiscal(company_id: UUID, data: FiscalProfileIn, a: Actor = Depends(actor
     other = db.query(FiscalProfile).filter(FiscalProfile.nif == nif, FiscalProfile.company_id != company_id).first()
     if other:
         # Con dos empresas y el mismo NIF saldrían dos «T1-2026-000001» para Hacienda.
-        raise HTTPException(status_code=409, detail="Ese NIF ya factura en otra empresa de BUHOS. "
+        raise HTTPException(status_code=409, detail="Ese NIF ya factura en otra empresa de BUHOSS. "
                                                     "Usa una sola empresa con varias cajas (cada una con su serie).")
     p = db.query(FiscalProfile).filter(FiscalProfile.company_id == company_id).first()
     if p and p.nif != nif:

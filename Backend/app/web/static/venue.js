@@ -1,4 +1,4 @@
-/* BUHOS · carrito, pedido y seguimiento en vivo de la página pública del local.
+/* BUHOSS · carrito, pedido y seguimiento en vivo de la página pública del local.
    La página ya está pintada por el servidor; esto solo añade el pedido. Sin dependencias. */
 (() => {
   "use strict";

@@ -1,4 +1,4 @@
-"""Migra un cliente de Studio 42 a BUHOS.
+"""Migra un cliente de Studio 42 a BUHOSS.
 
     python -m scripts.import_studio42 --slug ankara-kebab \
         --hub https://studio42.es/c/ankara-kebab.json --carta carta.json
@@ -29,7 +29,7 @@ def load(src: str) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--slug", required=True, help="slug de la empresa en BUHOS (debe existir)")
+    ap.add_argument("--slug", required=True, help="slug de la empresa en BUHOSS (debe existir)")
     ap.add_argument("--hub", help="URL o fichero del JSON del hub (studio42.es/c/<código>.json)")
     ap.add_argument("--carta", help="fichero JSON con window.PEDIDO_VE")
     ap.add_argument("--alergenos", help="JSON {id_plato: [alérgenos], 'option:<nombre>': [...]}")

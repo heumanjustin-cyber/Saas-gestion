@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from app.core.dependencies import get_current_user
@@ -29,9 +30,7 @@ def create_company(
     ).first()
 
     if existing_company:
-        return {
-            "error": "Slug already exists"
-        }
+        return JSONResponse(status_code=409, content={"error": "Slug already exists", "detail": "Slug already exists"})
 
     new_company = Company(
         name=company.name,
@@ -67,8 +66,10 @@ def create_company(
 
 @router.get("/companies")
 def get_companies(
+    current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    return db.query(
-        Company
-    ).all()
+    # Antes devolvía las empresas de todos los clientes del SaaS, sin pedir sesión
+    from app.api.get_companies import list_my_companies
+
+    return list_my_companies(db, current_user)
