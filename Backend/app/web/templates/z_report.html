@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>{% if is_z %}Cierre Z {{ r.z_number }}{% else %}Informe X{% endif %}</title>
+<style>
+  @page { size: 80mm auto; margin: 0; }
+  * { box-sizing: border-box; }
+  body { width: 72mm; margin: 0 auto; padding: 4mm 0 8mm; color: #000; background: #fff;
+         font: 12px/1.35 "Courier New", ui-monospace, Menlo, monospace; }
+  h1 { font-size: 18px; text-align: center; margin: 0 0 4px; }
+  .c { text-align: center; } .b { font-weight: 700; } .r { text-align: right; white-space: nowrap; }
+  hr { border: 0; border-top: 1px dashed #000; margin: 6px 0; }
+  table { width: 100%; border-collapse: collapse; } td { padding: 1px 0; vertical-align: top; }
+  .big td { font-size: 15px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <h1>{% if is_z %}CIERRE Z Nº {{ r.z_number }}{% else %}INFORME X · CAJA ABIERTA{% endif %}</h1>
+  <div class="c">{{ name }}{% if fiscal %} · NIF {{ fiscal.nif }}{% endif %}</div>
+  <div class="c">{{ r.register or '' }}</div>
+  <hr>
+  <table>
+    <tr><td>Apertura</td><td class="r">{{ opened }}</td></tr>
+    <tr><td>Abrió</td><td class="r">{{ r.opened_by }}</td></tr>
+    {% if is_z %}<tr><td>Cierre</td><td class="r">{{ closed }}</td></tr>
+    <tr><td>Cerró</td><td class="r">{{ r.closed_by }}</td></tr>{% endif %}
+    <tr><td>Impreso</td><td class="r">{{ printed }}</td></tr>
+  </table>
+  <hr>
+  <table>
+    <tr><td>Tickets</td><td class="r">{{ r.tickets }}</td></tr>
+    {% if r.first_ticket %}<tr><td>Del</td><td class="r">{{ r.first_ticket }}</td></tr>
+    <tr><td>Al</td><td class="r">{{ r.last_ticket }}</td></tr>{% endif %}
+    <tr><td>Ventas</td><td class="r">{{ r.gross_sales | eur }}</td></tr>
+    <tr><td>Devoluciones ({{ r.refund_count }})</td><td class="r">{{ r.refunds | eur }}</td></tr>
+    <tr class="big"><td>NETO</td><td class="r">{{ r.net_sales | eur }}</td></tr>
+    <tr><td>Ticket medio</td><td class="r">{{ r.average_ticket | eur }}</td></tr>
+    {% if r.voided_count %}<tr><td>Anulados</td><td class="r">{{ r.voided | join(', ') }}</td></tr>{% endif %}
+  </table>
+  <hr>
+  <div class="b">Por forma de pago</div>
+  <table>
+    {% for m, v in r.payments.items() %}
+    <tr><td>{{ {'cash': 'Efectivo', 'card': 'Tarjeta', 'bizum': 'Bizum', 'other': 'Otro'}.get(m, m) }}</td><td class="r">{{ v | eur }}</td></tr>
+    {% endfor %}
+  </table>
+  <hr>
+  <div class="b">IVA</div>
+  <table>
+    <tr><td>Tipo</td><td class="r">Base</td><td class="r">Cuota</td></tr>
+    {% for t in r.taxes %}<tr><td>{{ t.rate | num }} %</td><td class="r">{{ t.base | eur }}</td><td class="r">{{ t.tax | eur }}</td></tr>{% endfor %}
+  </table>
+  <hr>
+  <div class="b">Por canal</div>
+  <table>
+    {% for ch, v in r.channels.items() %}
+    <tr><td>{{ {'qr': 'QR / web', 'web': 'Web', 'pos': 'Barra (TPV)'}.get(ch, ch) }} ({{ v.tickets }})</td><td class="r">{{ v.total | eur }}</td></tr>
+    {% endfor %}
+  </table>
+  {% if r.top_products %}
+  <hr>
+  <div class="b">Más vendido</div>
+  <table>
+    {% for p in r.top_products %}<tr><td>{{ p.quantity }} x {{ p.name }}</td><td class="r">{{ p.total | eur }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+  <hr>
+  <div class="b">Efectivo</div>
+  <table>
+    <tr><td>Fondo inicial</td><td class="r">{{ r.opening_float | eur }}</td></tr>
+    <tr><td>Cobros en efectivo</td><td class="r">{{ r.payments.get('cash', '0.00') | eur }}</td></tr>
+    <tr><td>Entradas</td><td class="r">{{ r.cash_in | eur }}</td></tr>
+    <tr><td>Salidas</td><td class="r">-{{ r.cash_out | eur }}</td></tr>
+    <tr class="big"><td>Debe haber</td><td class="r">{{ r.expected_cash | eur }}</td></tr>
+    {% if is_z %}
+    <tr><td>Contado</td><td class="r">{{ r.counted_cash | eur }}</td></tr>
+    <tr class="big"><td>Descuadre</td><td class="r">{{ r.difference | eur }}</td></tr>
+    {% endif %}
+  </table>
+  {% for m in r.movements %}<div>{{ 'Entrada' if m.kind == 'in' else 'Salida' }} {{ m.amount | eur }} · {{ m.reason }}</div>{% endfor %}
+</body>
+</html>

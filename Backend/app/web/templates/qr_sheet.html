@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR · {{ name }}</title>
+<style>
+  @page { size: A4; margin: 10mm; }
+  :root { --accent: {{ accent or '#FA8405' }}; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         color: #111; background: #fff; }
+  header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+  header p { margin: 4px 0 0; color: #555; font-size: 14px; }
+  button { font: inherit; padding: 10px 16px; border-radius: 10px; border: 0; background: #111; color: #fff; cursor: pointer; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(62mm, 1fr)); gap: 6mm; }
+  .sticker { border: 1px dashed #bbb; border-radius: 6mm; padding: 5mm; text-align: center; break-inside: avoid;
+             display: flex; flex-direction: column; align-items: center; gap: 2mm; }
+  .sticker .brand { font-weight: 800; font-size: 15pt; letter-spacing: -.01em; }
+  .sticker .cta { background: var(--accent); color: #fff; font-weight: 700; border-radius: 99px; padding: 1.5mm 4mm; font-size: 10pt; }
+  .sticker svg { width: 44mm; height: 44mm; }
+  .sticker .label { font-weight: 800; font-size: 16pt; }
+  .sticker .url { font-size: 8pt; color: #555; word-break: break-all; }
+  @media print { header { display: none; } body { padding: 0; } .sticker { border-color: #ddd; } }
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <strong>{{ stickers | length }} QR de {{ name }}</strong>
+      <p>Cada QR es único: cuenta los escaneos y su destino se cambia sin reimprimir.</p>
+    </div>
+    <button onclick="window.print()">Imprimir</button>
+  </header>
+  <div class="grid">
+    {% for s in stickers %}
+    <div class="sticker">
+      <div class="brand">{{ name }}</div>
+      <div class="cta">Escanea y pide · Scan to order</div>
+      {{ s.svg | safe }}
+      <div class="label">{{ s.label }}</div>
+      <div class="url">{{ s.url }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,825 @@
+{
+ "negocio": "Ankara Kebab",
+ "pais": "ES",
+ "moneda": "EUR",
+ "zonaHoraria": "Europe/Madrid",
+ "metodos": [
+  [
+   "efectivo",
+   "Efectivo"
+  ],
+  [
+   "tarjeta",
+   "Tarjeta"
+  ],
+  [
+   "bizum",
+   "Bizum"
+  ]
+ ],
+ "mesas": 4,
+ "delivery": {
+  "pideDireccion": true,
+  "zonas": [],
+  "precio": 1,
+  "minimo": 10
+ },
+ "notaDelivery": "Llevamos a todo Logroño por 1 €. Pedido mínimo a domicilio: 10 €.",
+ "cambioDeDia": 6,
+ "categorias": [
+  {
+   "nombre": "Menús de kebab",
+   "sinBebidas": true,
+   "nota": "Todos los menús llevan patatas fritas y bebida.",
+   "extras": {
+    "titulo": "Extras",
+    "opciones": [
+     {
+      "n": "Queso",
+      "precio": 0.5
+     },
+     {
+      "n": "Extra de carne",
+      "precio": 1
+     },
+     {
+      "n": "Pan extra",
+      "precio": 0.5
+     },
+     {
+      "n": "Bote de salsa",
+      "precio": 0.3
+     }
+    ]
+   },
+   "productos": [
+    {
+     "id": "menu-kebab",
+     "nombre": "Menú Kebab",
+     "precio": 7,
+     "ingredientes": "Kebab con patatas fritas y bebida.",
+     "grupos": [
+      {
+       "titulo": "Carne",
+       "opciones": [
+        "Pollo",
+        "Ternera",
+        "Mixto",
+        "Solo carne",
+        "Falafel"
+       ]
+      },
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      },
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga",
+      "Sin maíz"
+     ]
+    },
+    {
+     "id": "menu-durum",
+     "nombre": "Menú Dürüm",
+     "precio": 7.5,
+     "ingredientes": "Dürüm con patatas fritas y bebida.",
+     "grupos": [
+      {
+       "titulo": "Carne",
+       "opciones": [
+        "Pollo",
+        "Ternera",
+        "Mixto",
+        "Solo carne",
+        "Falafel"
+       ]
+      },
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      },
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga",
+      "Sin maíz"
+     ]
+    },
+    {
+     "id": "menu-lahmacun",
+     "nombre": "Menú Lahmacun",
+     "precio": 8,
+     "ingredientes": "Lahmacun con patatas fritas y bebida.",
+     "grupos": [
+      {
+       "titulo": "Carne",
+       "opciones": [
+        "Pollo",
+        "Ternera",
+        "Mixto",
+        "Atún",
+        {
+         "n": "Solo carne",
+         "mas": 0.5
+        }
+       ]
+      },
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      },
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga",
+      "Sin maíz"
+     ]
+    }
+   ]
+  },
+  {
+   "nombre": "Kebab, Dürüm y Lahmacun",
+   "extras": {
+    "titulo": "Extras",
+    "opciones": [
+     {
+      "n": "Queso",
+      "precio": 0.5
+     },
+     {
+      "n": "Extra de carne",
+      "precio": 1
+     },
+     {
+      "n": "Pan extra",
+      "precio": 0.5
+     },
+     {
+      "n": "Bote de salsa",
+      "precio": 0.3
+     }
+    ]
+   },
+   "productos": [
+    {
+     "id": "kebab",
+     "nombre": "Kebab",
+     "precio": 5,
+     "ingredientes": "En pan de pita: lechuga, tomate, maíz, cebolla y salsas.",
+     "grupos": [
+      {
+       "titulo": "Carne",
+       "opciones": [
+        "Pollo",
+        "Ternera",
+        "Mixto",
+        "Solo carne",
+        "Falafel"
+       ]
+      },
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga",
+      "Sin maíz"
+     ],
+     "menu": "menu-kebab"
+    },
+    {
+     "id": "durum",
+     "nombre": "Dürüm",
+     "precio": 6,
+     "ingredientes": "Enrollado: lechuga, tomate, maíz, cebolla y salsas.",
+     "grupos": [
+      {
+       "titulo": "Carne",
+       "opciones": [
+        "Pollo",
+        "Ternera",
+        "Mixto",
+        "Solo carne",
+        "Falafel"
+       ]
+      },
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga",
+      "Sin maíz"
+     ],
+     "menu": "menu-durum"
+    },
+    {
+     "id": "lahmacun",
+     "nombre": "Lahmacun",
+     "precio": 6.5,
+     "ingredientes": "Pizza turca fina: lechuga, tomate, maíz, cebolla y salsas.",
+     "grupos": [
+      {
+       "titulo": "Carne",
+       "opciones": [
+        "Pollo",
+        "Ternera",
+        "Mixto",
+        "Solo carne",
+        {
+         "n": "Atún",
+         "mas": -0.5
+        }
+       ]
+      },
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga",
+      "Sin maíz"
+     ],
+     "menu": "menu-lahmacun"
+    }
+   ]
+  },
+  {
+   "nombre": "Otros menús",
+   "sinBebidas": true,
+   "nota": "Con patatas fritas y bebida.",
+   "productos": [
+    {
+     "id": "menu-hamburguesa",
+     "nombre": "Menú Hamburguesa",
+     "precio": 6.5,
+     "ingredientes": "Con patatas fritas y bebida.",
+     "grupos": [
+      {
+       "titulo": "Carne",
+       "opciones": [
+        "Ternera",
+        "Pollo"
+       ]
+      },
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "menu-alitas",
+     "nombre": "Menú Alitas de pollo",
+     "precio": 6.5,
+     "ingredientes": "Con patatas fritas y bebida.",
+     "grupos": [
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "menu-nuggets",
+     "nombre": "Menú Nuggets de pollo",
+     "precio": 6.5,
+     "ingredientes": "Con patatas fritas y bebida.",
+     "grupos": [
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "menu-popcorn",
+     "nombre": "Menú Pop corn de pollo",
+     "precio": 6.5,
+     "ingredientes": "Con patatas fritas y bebida.",
+     "grupos": [
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "menu-samosa",
+     "nombre": "Menú Samosa (4 ud)",
+     "precio": 6.5,
+     "ingredientes": "Con patatas fritas y bebida.",
+     "grupos": [
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "menu-falafel",
+     "nombre": "Menú Falafel",
+     "precio": 6.5,
+     "ingredientes": "Con patatas fritas, queso y bebida.",
+     "grupos": [
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "menu-burrito",
+     "nombre": "Menú Burrito",
+     "precio": 7,
+     "ingredientes": "Con patatas fritas y bebida.",
+     "grupos": [
+      {
+       "titulo": "Bebida del menú",
+       "opciones": [
+        "Coca-Cola",
+        "7Up",
+        "Fanta",
+        "Nestea",
+        "Aquarius",
+        "Zumo",
+        "Agua"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nombre": "Platos combinados",
+   "nota": "Con patatas y ensalada.",
+   "extras": {
+    "titulo": "Extras",
+    "opciones": [
+     {
+      "n": "Extra de carne",
+      "precio": 1
+     },
+     {
+      "n": "Extra de queso",
+      "precio": 0.6
+     }
+    ]
+   },
+   "productos": [
+    {
+     "id": "plato-mediano",
+     "nombre": "Plato mediano de pollo",
+     "precio": 6.5,
+     "ingredientes": "Lechuga, tomate, cebolla, maíz, salsa y pan.",
+     "grupos": [
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga",
+      "Sin maíz"
+     ]
+    },
+    {
+     "id": "plato-grande",
+     "nombre": "Plato grande de pollo",
+     "precio": 8.5,
+     "ingredientes": "Lechuga, tomate, cebolla, maíz, salsa y pan.",
+     "grupos": [
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga",
+      "Sin maíz"
+     ]
+    },
+    {
+     "id": "plato-degustacion",
+     "nombre": "Plato degustación",
+     "precio": 8,
+     "ingredientes": "Con patatas, ensalada, arroz y salsas.",
+     "grupos": [
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "plato-falafel",
+     "nombre": "Plato de falafel",
+     "precio": 7,
+     "ingredientes": "Lechuga, tomate, cebolla, maíz, zanahoria, salsa y pan.",
+     "grupos": [
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga",
+      "Sin maíz"
+     ]
+    }
+   ]
+  },
+  {
+   "nombre": "Pedrata",
+   "nota": "Patatas fritas cubiertas de carne de kebab y salsas.",
+   "extras": {
+    "titulo": "Extras",
+    "opciones": [
+     {
+      "n": "Extra de carne",
+      "precio": 1
+     },
+     {
+      "n": "Extra de queso",
+      "precio": 0.6
+     }
+    ]
+   },
+   "productos": [
+    {
+     "id": "pedrata-pequena",
+     "nombre": "Pedrata pequeña",
+     "precio": 5,
+     "ingredientes": "Patatas fritas con carne de kebab y salsa.",
+     "grupos": [
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pedrata-mediana",
+     "nombre": "Pedrata mediana",
+     "precio": 6.5,
+     "ingredientes": "Patatas fritas con carne de kebab y salsa.",
+     "grupos": [
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pedrata-grande",
+     "nombre": "Pedrata grande",
+     "precio": 7.5,
+     "ingredientes": "Patatas fritas con carne de kebab y salsa.",
+     "grupos": [
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pedrata-solo-carne",
+     "nombre": "Pedrata grande solo carne",
+     "precio": 10,
+     "ingredientes": "Solo carne, sin patatas.",
+     "grupos": [
+      {
+       "titulo": "Salsa",
+       "opciones": [
+        "Blanca",
+        "Picante",
+        "Blanca y picante",
+        "Sin salsa"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nombre": "Hamburguesas",
+   "productos": [
+    {
+     "id": "hamburguesa",
+     "nombre": "Hamburguesa",
+     "precio": 4.5,
+     "ingredientes": "Lechuga, tomate, cebolla, queso y salsas.",
+     "grupos": [
+      {
+       "titulo": "Carne",
+       "opciones": [
+        "Ternera",
+        "Pollo"
+       ]
+      }
+     ],
+     "quitar": [
+      "Sin cebolla",
+      "Sin tomate",
+      "Sin lechuga"
+     ],
+     "menu": "menu-hamburguesa"
+    }
+   ]
+  },
+  {
+   "nombre": "Raciones",
+   "productos": [
+    {
+     "id": "patatas",
+     "nombre": "Patatas fritas",
+     "precio": 2.5
+    },
+    {
+     "id": "bravas",
+     "nombre": "Patatas bravas",
+     "precio": 3
+    },
+    {
+     "id": "tiras",
+     "nombre": "Tiras de pollo (7 ud)",
+     "precio": 6.5,
+     "ingredientes": "Con patatas fritas."
+    },
+    {
+     "id": "nuggets-queso",
+     "nombre": "Nuggets de queso (7 ud)",
+     "precio": 6.5,
+     "ingredientes": "Con patatas fritas."
+    },
+    {
+     "id": "popcorn",
+     "nombre": "Pop corn de pollo (20 ud)",
+     "precio": 5.5
+    },
+    {
+     "id": "alitas",
+     "nombre": "Alitas de pollo (6 ud)",
+     "precio": 7
+    }
+   ]
+  },
+  {
+   "nombre": "Ensalada",
+   "productos": [
+    {
+     "id": "ensalada-ankara",
+     "nombre": "Ensalada Ankara",
+     "precio": 4.5,
+     "ingredientes": "Lechuga, tomate, cebolla, maíz, zanahoria, atún y aceitunas."
+    }
+   ]
+  },
+  {
+   "nombre": "Postres",
+   "sinBebidas": true,
+   "productos": [
+    {
+     "id": "helado",
+     "nombre": "Helado de vainilla",
+     "precio": 2.2
+    },
+    {
+     "id": "tarta-oreo",
+     "nombre": "Tarta de Oreo",
+     "precio": 2.5
+    }
+   ]
+  },
+  {
+   "nombre": "Bebidas",
+   "esBebida": true,
+   "productos": [
+    {
+     "id": "coca-cola",
+     "nombre": "Coca-Cola lata",
+     "precio": 1.3
+    },
+    {
+     "id": "7up",
+     "nombre": "7Up lata",
+     "precio": 1.3
+    },
+    {
+     "id": "fanta",
+     "nombre": "Fanta lata",
+     "precio": 1.3
+    },
+    {
+     "id": "zumo",
+     "nombre": "Zumo",
+     "precio": 1.3
+    },
+    {
+     "id": "nestea",
+     "nombre": "Nestea lata",
+     "precio": 1.5
+    },
+    {
+     "id": "aquarius",
+     "nombre": "Aquarius lata",
+     "precio": 1.5
+    },
+    {
+     "id": "agua",
+     "nombre": "Agua 33 cl",
+     "precio": 1
+    },
+    {
+     "id": "monster",
+     "nombre": "Monster",
+     "precio": 2.5
+    },
+    {
+     "id": "red-bull",
+     "nombre": "Red Bull",
+     "precio": 2.5
+    },
+    {
+     "id": "coca-cola-2l",
+     "nombre": "Coca-Cola 2 L",
+     "precio": 3
+    },
+    {
+     "id": "fanta-2l",
+     "nombre": "Fanta 2 L",
+     "precio": 3
+    }
+   ]
+  }
+ ]
+}

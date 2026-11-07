@@ -57,6 +57,17 @@ from app.api.blocked_time import router as blocked_time_router
 from app.api.resource_booking import router as resource_booking_router
 from app.api.availability import router as availability_router
 
+# Hostelería: carta QR, pedidos, cocina, TPV y Verifactu
+from fastapi.staticfiles import StaticFiles
+
+from app.api.venue_admin import router as venue_admin_router
+from app.api.menu_admin import router as menu_admin_router
+from app.api.orders_admin import router as orders_admin_router
+from app.api.public_venue import router as public_venue_router
+from app.api.pos import admin as pos_admin_router, router as pos_router
+from app.api.web_apps import router as web_apps_router
+from app.web.render import STATIC_DIR
+
 
 app = FastAPI()
 
@@ -130,3 +141,17 @@ app.include_router(employee_schedule_router)
 app.include_router(blocked_time_router)
 app.include_router(resource_booking_router)
 app.include_router(availability_router)
+
+app.include_router(venue_admin_router)
+app.include_router(menu_admin_router)
+app.include_router(orders_admin_router)
+app.include_router(public_venue_router)
+app.include_router(pos_admin_router)
+app.include_router(pos_router)
+app.include_router(web_apps_router)
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# Comprime HTML/JSON (la carta pasa de ~118 KB a ~16 KB). Starlette no comprime text/event-stream.
+from fastapi.middleware.gzip import GZipMiddleware  # noqa: E402
+
+app.add_middleware(GZipMiddleware, minimum_size=1000)

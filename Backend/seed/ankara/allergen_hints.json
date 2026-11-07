@@ -1,0 +1,14 @@
+{
+ "_fuente": "Tarjeta de alérgenos que el dueño dio a Studio 42 (genérica, no plato a plato). Todo queda marcado como «sin confirmar» hasta revisarlo con él.",
+ "kebab": ["gluten"], "menu-kebab": ["gluten"], "durum": ["gluten"], "menu-durum": ["gluten"],
+ "lahmacun": ["gluten"], "menu-lahmacun": ["gluten"],
+ "menu-falafel": ["gluten", "milk"], "plato-falafel": ["gluten"],
+ "menu-nuggets": ["gluten"], "nuggets-queso": ["gluten", "milk"], "tiras": ["gluten"],
+ "menu-alitas": ["gluten"], "alitas": ["gluten"], "menu-popcorn": ["gluten"], "popcorn": ["gluten"],
+ "tarta-oreo": ["gluten", "milk"], "helado": ["milk"],
+ "plato-mediano": ["gluten"], "plato-grande": ["gluten"],
+ "hamburguesa": ["gluten", "milk"], "menu-hamburguesa": ["gluten", "milk"],
+ "ensalada-ankara": ["fish"],
+ "option:Falafel": ["gluten"], "option:Atún": ["fish"], "option:Blanca": ["milk"], "option:Blanca y picante": ["milk"],
+ "option:Queso": ["milk"], "option:Extra de queso": ["milk"], "option:Pan extra": ["gluten"]
+}

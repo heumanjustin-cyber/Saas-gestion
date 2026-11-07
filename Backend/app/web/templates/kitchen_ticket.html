@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Comanda {{ o.display_number }}</title>
+<style>
+  @page { size: 80mm auto; margin: 0; }
+  * { box-sizing: border-box; }
+  body { width: 72mm; margin: 0 auto; padding: 4mm 0 8mm; color: #000; background: #fff;
+         font: 14px/1.3 "Courier New", ui-monospace, Menlo, monospace; }
+  .num { font-size: 42px; font-weight: 700; text-align: center; line-height: 1; }
+  .where { font-size: 20px; font-weight: 700; text-align: center; margin: 4px 0; text-transform: uppercase; }
+  .meta { text-align: center; }
+  hr { border: 0; border-top: 2px dashed #000; margin: 8px 0; }
+  .line { font-size: 18px; font-weight: 700; margin-top: 6px; }
+  .mod { padding-left: 6mm; }
+  .no { padding-left: 6mm; font-weight: 700; text-transform: uppercase; }
+  .note { border: 2px solid #000; padding: 4px; margin-top: 6px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="meta">{{ venue_name }} · {{ created }}</div>
+  <div class="num">{{ o.display_number }}</div>
+  <div class="where">
+    {% if o.fulfillment == 'dine_in' %}{{ o.table_label or 'En sala' }}
+    {% elif o.fulfillment == 'delivery' %}Domicilio
+    {% else %}Para recoger{% endif %}
+  </div>
+  {% if o.customer_name %}<div class="meta">{{ o.customer_name }}</div>{% endif %}
+  {% if scheduled %}<div class="where">Para las {{ scheduled }}</div>{% endif %}
+  <hr>
+  {% for l in o.lines %}
+    <div class="line">{{ l.quantity }} x {{ l.name }}</div>
+    {% for m in l.modifiers %}<div class="mod">· {{ m.name }}</div>{% endfor %}
+    {% for r in l.removed %}<div class="no">{{ r }}</div>{% endfor %}
+    {% if l.note %}<div class="mod">«{{ l.note }}»</div>{% endif %}
+  {% endfor %}
+  {% if o.customer_note %}<div class="note">{{ o.customer_note }}</div>{% endif %}
+  {% if o.fulfillment == 'delivery' %}<hr><div>{{ o.delivery_address }}</div><div>{{ o.customer_phone or '' }}</div>{% endif %}
+</body>
+</html>

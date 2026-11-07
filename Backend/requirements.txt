@@ -1,0 +1,14 @@
+fastapi>=0.115
+# 2.0.x: el proyecto usa URLs postgresql:// con psycopg2 (SQLAlchemy 2.1 pasa a psycopg 3 por defecto)
+SQLAlchemy>=2.0.30,<2.1
+psycopg2-binary>=2.9.10
+python-jose[cryptography]>=3.3
+python-dotenv>=1.0
+uvicorn[standard]>=0.30
+jinja2>=3.1
+# Códigos QR en SVG (mesas, displays y QR tributario de Verifactu), Python puro
+segno>=1.6
+
+# Desarrollo y pruebas
+pytest>=8
+httpx>=0.27

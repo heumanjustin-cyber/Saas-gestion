@@ -35,6 +35,17 @@ from app.models.resource_booking import (
     ResourceBooking
 )
 
+# Hostelería: carta QR, pedidos, TPV y Verifactu (solo tablas nuevas)
+from app.models.venue import VenueProfile, VenueFeedback
+from app.models.menu import MenuCategory, MenuProduct, ModifierGroup, ModifierOption
+from app.models.dining import DiningTable, QrCode, QrScan
+from app.models.order import Order, OrderLine, SequenceCounter
+from app.models.pos import (
+    PosRegister, PosPairingCode, PosDevice, StaffPin, CashSession, CashMovement,
+    Invoice, InvoiceLine, Payment, AuditEvent,
+)
+from app.models.fiscal import FiscalProfile, FiscalChainHead, FiscalRecord
+
 
 def create_tables() -> None:
     Base.metadata.create_all(bind=engine)

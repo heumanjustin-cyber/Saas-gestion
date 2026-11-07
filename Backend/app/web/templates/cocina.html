@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0e1015">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Cocina · BUHOS</title>
+<link rel="stylesheet" href="/static/staff.css?v=1">
+<style>
+  .board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 12px; height: calc(100dvh - 64px); }
+  .col { display: flex; flex-direction: column; min-height: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; }
+  .col > h2 { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; font-size: 1rem; border-bottom: 1px solid var(--border); }
+  .col > h2 span { background: var(--surface-3); border-radius: 99px; padding: 2px 10px; font-size: .85rem; }
+  .col .cards { overflow-y: auto; padding: 10px; display: grid; gap: 10px; align-content: start; }
+  .ticket { background: var(--surface-2); border-radius: 14px; border: 2px solid transparent; overflow: hidden; }
+  .ticket.new { border-color: var(--accent); animation: glow 1s ease-in-out 4; }
+  .ticket header { display: flex; align-items: baseline; gap: 10px; padding: 10px 12px; background: var(--surface-3); }
+  .ticket .n { font-size: 1.7rem; font-weight: 900; letter-spacing: -.02em; }
+  .ticket .where { font-weight: 800; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ticket .age { font-weight: 800; font-variant-numeric: tabular-nums; }
+  .age.warn { color: var(--warn); } .age.late { color: var(--danger); }
+  .ticket ul { list-style: none; padding: 10px 12px; display: grid; gap: 6px; }
+  .ticket li b { font-size: 1.08rem; }
+  .ticket li .mods { color: var(--muted); font-size: .9rem; }
+  .ticket li .no { color: #fca5a5; font-weight: 800; text-transform: uppercase; font-size: .85rem; }
+  .ticket .note { margin: 0 12px 10px; padding: 8px 10px; border-radius: 10px; background: rgba(245, 158, 11, .15); color: #fcd34d; font-weight: 700; }
+  .ticket .meta { padding: 0 12px 8px; color: var(--muted); font-size: .85rem; }
+  .ticket .acts { display: flex; gap: 6px; padding: 10px 12px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .ticket .acts .b { flex: 1; min-height: 52px; }
+  .eta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; width: 100%; }
+  .eta .b { min-height: 48px; }
+  .empty { color: var(--muted); text-align: center; padding: 30px 10px; }
+  @keyframes glow { 50% { box-shadow: 0 0 0 6px rgba(250, 132, 5, .35); } }
+  @media (max-width: 900px) {
+    .board { grid-template-columns: 1fr; height: auto; }
+    .col .cards { overflow: visible; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="/static/staff.js?v=1"></script>
+<script src="/static/cocina.js?v=1"></script>
+</body>
+</html>

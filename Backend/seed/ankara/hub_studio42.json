@@ -1,0 +1,57 @@
+{
+ "version": 2,
+ "nombre": "ANKARA KEBAB",
+ "subtitulo": "Auténtico Sabor Tradicional",
+ "colorPrincipal": "#0B0D14",
+ "colorAcento": "#FA8405",
+ "whatsapp": "https://wa.me/34602552973",
+ "secciones": [
+  {
+   "botones": [
+    {
+     "tipo": "info",
+     "tarjetas": [
+      {
+       "titulo": "🌾 Gluten",
+       "texto": "Pan de pita, dürüm, lahmacun, falafel, rebozados (nuggets, tiras, alitas, pop corn) y tarta de Oreo."
+      },
+      {
+       "titulo": "🥛 Lácteos",
+       "texto": "Salsa blanca (yogur), queso, helado y tarta."
+      },
+      {
+       "titulo": "🐟 Pescado",
+       "texto": "Atún de la ensalada Ankara y del lahmacun de atún."
+      },
+      {
+       "titulo": "🌶 Picante",
+       "texto": "Salsa picante. Pídela aparte si no estás seguro."
+      }
+     ],
+     "aviso": "Si tienes una alergia grave, díselo al personal antes de pedir."
+    },
+    {
+     "tipo": "opinion",
+     "urlGoogle": "https://search.google.com/local/writereview?placeid=ChIJUQUjoe1VRQ0RoEKpuucdgF0"
+    }
+   ]
+  }
+ ],
+ "ficha": {
+  "direccion": "Calle Carmen Medrano 1",
+  "cp": "26005",
+  "ciudad": "Logroño",
+  "provincia": "La Rioja",
+  "categoria": "Kebab",
+  "telefono": "+34 941 89 71 50",
+  "mapsUrl": "https://maps.google.com/?cid=6737417923652567712",
+  "lat": 42.463655,
+  "lng": -2.462476,
+  "horario": [
+   "Mo,We-Sa 13:30-23:59",
+   "Tu 19:00-01:30",
+   "Su 13:30-23:59"
+  ],
+  "precio": "€€"
+ }
+}

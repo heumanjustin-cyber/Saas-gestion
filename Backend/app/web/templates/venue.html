@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="{{ lang }}" data-theme="{{ v.theme }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ v.name }}{% if v.city %} · {{ v.city }}{% endif %} · {{ t.see_menu }}</title>
+<meta name="description" content="{{ v.tagline or v.name }}{% if v.address %} · {{ v.address }}{% endif %}{% if v.city %}, {{ v.city }}{% endif %}. {{ t.see_menu }}.">
+<meta name="theme-color" content="{{ v.brand_color }}">
+<link rel="canonical" href="{{ page_url }}{% if lang != 'es' %}?lang={{ lang }}{% endif %}">
+{% for code, href in alternates %}<link rel="alternate" hreflang="{{ code }}" href="{{ href }}">
+{% endfor %}<meta property="og:type" content="restaurant.restaurant">
+<meta property="og:title" content="{{ v.name }}">
+<meta property="og:description" content="{{ v.tagline or t.see_menu }}">
+<meta property="og:url" content="{{ page_url }}">
+{% if v.cover_url or v.logo_url %}<meta property="og:image" content="{{ v.cover_url or v.logo_url }}">{% endif %}
+<link rel="stylesheet" href="/static/venue.css?v=1">
+<style>
+  :root { --brand: {{ v.brand_color }}; --accent: {{ v.accent_color }}; --accent-text: {{ v.accent_text }}; }
+</style>
+<script type="application/ld+json">{{ json_ld | safe }}</script>
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M22 3H2l8 9.5V19l4 2v-8.5z"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="m22 6-10 7L2 6"/></symbol>
+</svg>
+
+<header class="top" id="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#inicio">
+      {% if v.logo_url %}<img src="{{ v.logo_url }}" alt="{{ v.name }}" height="28">{% else %}<span>{{ v.name }}</span>{% endif %}
+    </a>
+    <span class="pill {{ 'open' if v.is_open else 'closed' }}" id="status-pill-short"><i></i><span>{{ v.status_short }}</span></span>
+    {% if v.languages | length > 1 %}
+    <nav class="langs" aria-label="{{ t.language }}">
+      {% for code, href in alternates %}<a href="?lang={{ code }}{% if qr %}&amp;q={{ qr.code }}{% endif %}" {% if code == lang %}aria-current="true"{% endif %} hreflang="{{ code }}">{{ code | upper }}</a>{% endfor %}
+    </nav>
+    {% endif %}
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero wrap">
+    {% if v.offer %}<div class="offer" role="note"><b>★</b><p>{{ v.offer }}</p></div>{% endif %}
+    <h1>{{ v.name }}</h1>
+    {% if v.tagline %}<p class="tagline">{{ v.tagline }}</p>{% endif %}
+    <p class="status-line {{ 'open' if v.is_open else 'closed' }}" id="status-pill"><i></i><span>{{ v.status_text }}</span></p>
+    <ul class="chips">
+      {% if 'halal' in v.tags %}<li class="chip halal">{{ t.halal }}</li>{% endif %}
+      {% for c in v.cuisine %}<li class="chip">{{ c }}</li>{% endfor %}
+      {% if v.price_range %}<li class="chip">{{ v.price_range }}</li>{% endif %}
+      {% if v.city %}<li class="chip">{{ v.city }}</li>{% endif %}
+    </ul>
+    <div class="actions">
+      {% if v.phone %}<a class="act" href="tel:{{ v.phone | replace(' ', '') }}"><svg><use href="#i-phone"/></svg><span>{{ t.call }}</span></a>{% endif %}
+      {% if v.whatsapp_url %}<a class="act" href="{{ v.whatsapp_url }}" target="_blank" rel="noopener"><svg><use href="#i-chat"/></svg><span>{{ t.whatsapp }}</span></a>{% endif %}
+      {% if v.maps_url %}<a class="act" href="{{ v.maps_url }}" target="_blank" rel="noopener"><svg><use href="#i-pin"/></svg><span>{{ t.directions }}</span></a>{% endif %}
+      <a class="act" href="/api/public/venues/{{ v.slug }}/vcard"><svg><use href="#i-user"/></svg><span>{{ t.save_contact }}</span></a>
+      <button class="act js-only" type="button" data-share><svg><use href="#i-share"/></svg><span>{{ t.share }}</span></button>
+    </div>
+  </section>
+
+  <div class="wrap banners" id="banners">
+    {% if qr and qr.table %}<p class="banner table">{{ t.table_banner | replace('{table}', qr.table) }}</p>{% endif %}
+    {% if v.ordering.paused %}<p class="banner warn">{{ t.paused_banner }}</p>
+    {% elif not v.is_open %}<p class="banner warn">{{ t.closed_banner | replace('{status}', v.status_text) }}</p>{% endif %}
+  </div>
+  <button class="active-order js-only" type="button" id="active-order" hidden></button>
+
+  <nav class="cats" id="cats" aria-label="{{ t.menu }}">
+    <div class="wrap cats-in">
+      <button class="filter js-only" type="button" data-filter aria-label="{{ t.filter_title }}"><svg><use href="#i-filter"/></svg><span id="filter-count"></span></button>
+      {% for c in menu %}<a href="#c-{{ c.id }}" data-cat="{{ c.id }}">{{ c.name }}</a>{% endfor %}
+    </div>
+  </nav>
+  <p class="wrap filter-banner" id="filter-banner" hidden></p>
+
+  <section class="wrap menu" id="carta" aria-label="{{ t.menu }}">
+    {% if unverified %}<p class="unv-note">ⓘ {{ t.unverified_note }} <a href="#alergenos">{{ t.allergens }}</a></p>{% endif %}
+    {% for c in menu %}
+    <section class="cat" id="c-{{ c.id }}" data-cat-section="{{ c.id }}">
+      <h2>{{ c.name }}</h2>
+      {% if c.note or c.description %}<p class="cat-note">{{ c.note or c.description }}</p>{% endif %}
+      {% for p in c.products %}
+      <article class="item{% if not p.available %} out{% endif %}" id="p-{{ p.id }}" data-product="{{ p.id }}" data-allergens="{{ p.allergens | join(' ') }}">
+        {% if p.image_url %}<img class="thumb" src="{{ p.image_url }}" alt="" loading="lazy" width="88" height="88">{% endif %}
+        <div class="item-main">
+          <h3>{{ p.name }}</h3>
+          {% if p.description %}<p class="desc">{{ p.description }}</p>{% endif %}
+          <p class="meta">
+            {% for tag in p.tags if tag != 'allergens_unverified' %}{% set key = 'tag_' ~ tag %}{% if t[key] %}<span class="tag tag-{{ tag }}">{{ t[key] }}</span>{% endif %}{% endfor %}
+            {% for a in p.allergens %}<span class="al" title="{{ allergen_map[a].name }}" aria-label="{{ t.contains }} {{ allergen_map[a].name }}">{{ allergen_map[a].icon }}</span>{% endfor %}
+            {% if 'allergens_unverified' in p.tags %}<span class="unv" title="{{ t.tag_allergens_unverified }}" aria-label="{{ t.tag_allergens_unverified }}">ⓘ</span>{% endif %}
+          </p>
+        </div>
+        <div class="item-side">
+          <span class="price">{{ p.price | eur }}</span>
+          {% if p.available %}<button class="add js-only" type="button" data-add="{{ p.id }}" aria-label="{{ t.add }}: {{ p.name }}">+</button>
+          {% else %}<span class="soldout">{{ t.sold_out }}</span>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </section>
+    {% endfor %}
+    <p class="legal">{{ t.all_prices }}{% if v.free_tap_water %} {{ t.free_water }}{% endif %}</p>
+  </section>
+
+  <section class="wrap block" id="alergenos">
+    <h2>{{ t.allergens }}</h2>
+    <p>{{ v.allergen_notice or t.allergen_legal }}</p>
+    <ul class="legend">
+      {% for a in allergens %}<li><span>{{ a.icon }}</span>{{ a.name }}</li>{% endfor %}
+    </ul>
+  </section>
+
+  <section class="wrap block two" id="donde">
+    <div>
+      <h2>{{ t.where }}</h2>
+      {% if v.address %}<p class="addr">{{ v.address }}{% if v.postal_code or v.city %}<br>{{ v.postal_code or '' }} {{ v.city or '' }}{% endif %}</p>{% endif %}
+      {% if v.maps_url %}<a class="btn ghost" href="{{ v.maps_url }}" target="_blank" rel="noopener">{{ t.directions }}</a>{% endif %}
+      {% if v.phone %}<a class="btn ghost" href="tel:{{ v.phone | replace(' ', '') }}">{{ v.phone }}</a>{% endif %}
+    </div>
+    <div>
+      <h2>{{ t.hours }}</h2>
+      <table class="hours">
+        {% for row in v.hours %}<tr><th>{{ row.days }}</th><td>{{ row.hours }}</td></tr>{% endfor %}
+      </table>
+    </div>
+  </section>
+
+  <section class="wrap block center" id="opinion">
+    <h2>{{ t.reviews }}</h2>
+    <p>{{ t.reviews_sub }}</p>
+    <div class="twin">
+      {% if v.review_url %}<a class="btn twin-btn" href="{{ v.review_url }}" target="_blank" rel="noopener"><svg><use href="#i-star"/></svg>{{ t.review_google }}</a>{% endif %}
+      <button class="btn twin-btn js-only" type="button" data-feedback><svg><use href="#i-mail"/></svg>{{ t.review_private }}</button>
+    </div>
+    <form class="feedback" id="feedback" hidden>
+      <label class="field"><span class="sr">{{ t.review_private }}</span><textarea name="message" rows="4" maxlength="2000" required placeholder="{{ t.private_placeholder }}"></textarea></label>
+      <label class="field"><span class="sr">{{ t.contact_optional }}</span><input name="contact" maxlength="255" placeholder="{{ t.contact_optional }}"></label>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn primary" type="submit">{{ t.send }}</button>
+      <p class="form-msg" role="status"></p>
+    </form>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><strong>{{ v.name }}</strong>{% if v.address %} · {{ v.address }}{% endif %}{% if v.city %}, {{ v.city }}{% endif %}</p>
+    <p class="small">{{ t.privacy }}</p>
+    <p class="small by">{{ t.made_with }}</p>
+  </div>
+</footer>
+
+<button class="cartbar js-only" type="button" id="cartbar" hidden>
+  <svg><use href="#i-bag"/></svg>
+  <span class="cb-count" id="cb-count"></span>
+  <span class="cb-label">{{ t.view_cart }}</span>
+  <span class="cb-total" id="cb-total"></span>
+</button>
+
+<div class="sheet-wrap" id="sheet" hidden>
+  <div class="backdrop" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <button class="sheet-x" type="button" data-close aria-label="{{ t.close }}">×</button>
+    <div class="sheet-body" id="sheet-body"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script id="buhos-config" type="application/json">{{ config_json | safe }}</script>
+<script src="/static/venue.js?v=1" defer></script>
+</body>
+</html>

@@ -32,6 +32,8 @@ DEFAULT_PERMISSIONS = [
     ("analytics.view", "Ver estadísticas"),
     ("billing.view", "Ver facturación"),
     ("billing.manage", "Gestionar facturación"),
+    ("orders.view", "Ver pedidos (cocina y barra)"),
+    ("orders.manage", "Gestionar pedidos y agotados"),
 ]
 
 
@@ -56,11 +58,15 @@ DEFAULT_ROLES = {
         "appointments.create",
         "appointments.edit",
         "analytics.view",
+        "orders.view",
+        "orders.manage",
     ],
     "EMPLOYEE": [
         "appointments.view",
         "appointments.create",
         "clients.view",
+        "orders.view",
+        "orders.manage",
     ],
     "RECEPTIONIST": [
         "appointments.view",
@@ -69,6 +75,8 @@ DEFAULT_ROLES = {
         "clients.view",
         "clients.create",
         "clients.edit",
+        "orders.view",
+        "orders.manage",
     ],
     "ACCOUNTANT": [
         "billing.view",
