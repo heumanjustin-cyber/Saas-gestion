@@ -1,0 +1,11 @@
+{
+ "cuadros": 233,
+ "w": 600,
+ "h": 1066,
+ "planos": {
+  "fachada": 0,
+  "puerta": 77,
+  "pasillo": 132,
+  "dentro": 170
+ }
+}

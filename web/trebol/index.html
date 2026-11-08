@@ -12,207 +12,257 @@
 <meta property="og:description" content="Trébol Barber, barbería en la calle Portillejo, 11 (Logroño). Degradados, diseños a navaja, barba y color. Entra en el local y pide tu cita online.">
 <meta property="og:image" content="fotos/fachada.webp">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A0C0B'/%3E%3Cg fill='%233FD46F'%3E%3Ccircle cx='16' cy='10' r='5.4'/%3E%3Ccircle cx='10' cy='16.4' r='5.4'/%3E%3Ccircle cx='22' cy='16.4' r='5.4'/%3E%3C/g%3E%3Cpath d='M16.4 18c.6 4 2 7.4 4.6 10' fill='none' stroke='%233FD46F' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
-<link rel="preload" href="cine/poster.webp" as="image">
+<link rel="preload" href="peli/000.webp" as="image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@400;500;600;700;800&display=swap">
 <style>
-/* La barbería es negra con neón verde. La portada es una película que se reproduce sola: de la calle al sillón;
-   al sentarte, el marco de luz del espejo se convierte en la reserva. Un solo tema oscuro, a propósito: el del local. */
+/* Una película que avanza con el scroll (de la calle al sillón) y bloques de color a pantalla completa con frases
+   enormes. Colores del local: negro, verde trébol y luz blanca; cada bloque fija sus propios colores a propósito. */
 :root {
   color-scheme: dark;
-  --cuerpo: #0A0C0B; --capa: #111513; --capa-2: #171C19; --capa-3: #212923;
-  --tinta: #F1F5F2; --tinta-2: #A9B4AD; --tinta-3: #7D8981; --linea: rgba(241, 245, 242, .10); --linea-2: rgba(241, 245, 242, .24);
-  --acento: #3FD46F; --sobre-acento: #04140A; --mal: #F2A391; --led: #FFFFFF;
-  --rotulo: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --negro: #0A0C0B; --carbon: #121614; --hueso: #F3F1EA; --menta: #DDF5E6; --bosque: #0B3B22; --bosque-2: #08331D;
+  --neon: #3FD46F; --tinta: #F1F5F2; --tinta-2: #B3BDB6; --gris: #6E7A72; --linea: rgba(241, 245, 242, .14); --mal: #F2A391;
+  --grande: "Anton", "Arial Narrow", "Roboto Condensed", Impact, system-ui, sans-serif;
   --sans: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --salida: cubic-bezier(.16, 1, .3, 1); --suave: cubic-bezier(.45, 0, .2, 1);
+  --suave: cubic-bezier(.45, 0, .2, 1); --salida: cubic-bezier(.16, 1, .3, 1);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--cuerpo); color: var(--tinta); font: 17px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--negro); color: var(--tinta); font: 17px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: #000; }
-h1, h2, h3 { font-family: var(--rotulo); font-weight: 800; text-transform: uppercase; letter-spacing: .01em; line-height: .92; margin: 0; text-wrap: balance; }
+/* Anton sube los acentos de las mayúsculas hasta 1,11 em: con menos interlineado, la Á y la Ó pisan la línea de arriba */
+h1, h2, h3 { font-family: var(--grande); font-weight: 400; text-transform: uppercase; letter-spacing: .005em; line-height: 1.1; margin: 0; text-wrap: balance; }
 p { margin: 0; }
 a { color: inherit; }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
-:focus-visible { outline: 3px solid var(--acento); outline-offset: 3px; border-radius: 8px; }
+:focus-visible { outline: 3px solid var(--neon); outline-offset: 3px; border-radius: 8px; }
 [hidden] { display: none !important; }
-.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.ante { font: 700 .74rem/1.2 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--acento); }
-.lead { color: var(--tinta-2); font-size: 1.1rem; max-width: 56ch; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 20px; border-radius: 999px; border: 1px solid var(--linea-2);
-       background: transparent; color: var(--tinta); font-weight: 700; text-decoration: none; transition: transform .2s var(--salida), box-shadow .3s, opacity .3s; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
+.ante { font: 700 .76rem/1.2 var(--sans); letter-spacing: .2em; text-transform: uppercase; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 12px 24px; border-radius: 999px; border: 1.5px solid currentColor;
+       background: transparent; font-weight: 800; text-decoration: none; letter-spacing: .02em; transition: transform .2s var(--salida), box-shadow .3s; }
 .btn:active { transform: scale(.97); }
-.btn.acento { background: var(--acento); border-color: var(--acento); color: var(--sobre-acento); }
-.btn.acento:hover { box-shadow: 0 0 28px rgba(63, 212, 111, .45); }
-.btn:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; }
-.trebol { width: 26px; height: 26px; color: var(--acento); flex-shrink: 0; filter: drop-shadow(0 0 6px rgba(63, 212, 111, .6)); }
+.btn.lleno { background: var(--neon); border-color: var(--neon); color: #04140A; }
+.btn.lleno:hover { box-shadow: 0 0 30px rgba(63, 212, 111, .5); }
+.trebol { width: 24px; height: 24px; color: var(--neon); flex-shrink: 0; filter: drop-shadow(0 0 6px rgba(63, 212, 111, .55)); }
 
 /* Cabecera */
-.top { position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 25; transition: background .35s, border-color .35s; border-bottom: 1px solid transparent; }
+.top { position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 25; transition: background .35s; }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; }
-.top.solido { background: rgba(10, 12, 11, .86); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-color: var(--linea); }
-.marca { display: flex; align-items: center; gap: 9px; text-decoration: none; font: 800 1.45rem/1 var(--rotulo); text-transform: uppercase; letter-spacing: .02em; text-shadow: 0 1px 12px rgba(0, 0, 0, .6); }
-.marca b { font-weight: 700; color: var(--tinta-2); font-size: .8em; letter-spacing: .2em; }
-.top .btn { min-height: 42px; padding: 8px 18px; }
+.top.solido { background: rgba(10, 12, 11, .88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.marca { display: flex; align-items: center; gap: 8px; text-decoration: none; font: 400 1.35rem/1 var(--grande); text-transform: uppercase; letter-spacing: .02em; text-shadow: 0 1px 12px rgba(0, 0, 0, .6); }
+.top .der { display: flex; align-items: center; gap: 8px; }
+.top .btn { min-height: 42px; padding: 8px 18px; font-size: .92rem; }
+.ig { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--linea); text-decoration: none; }
+.ig svg { width: 18px; height: 18px; }
 
-/* La película */
-.cine { position: relative; height: 100vh; height: 100svh; min-height: 560px; background: #000; overflow: hidden; }
-.amb { position: absolute; inset: -60px; background: #000 center / cover no-repeat; filter: blur(34px) brightness(.36) saturate(1.25); display: none; transition: background-image .6s; }
-.marco { position: absolute; inset: 0; overflow: hidden; container-type: size; }
-@media (min-aspect-ratio: 3/4) {
-  .amb { display: block; }
-  .marco { left: 50%; right: auto; width: calc(100svh * 9 / 16); translate: -50% 0; box-shadow: 0 0 140px rgba(0, 0, 0, .9); }
-}
-.marco video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
-/* La foto del sillón cubre el marco igual que el vídeo (mismo encuadre), para poder animarla y medir el espejo */
-.sit { position: absolute; left: 50%; top: 50%; width: max(100cqw, 100cqh * 9 / 16); height: max(100cqh, 100cqw * 16 / 9); translate: -50% -50%;
-       transform-origin: 52.9% 35.2%; transition: transform 1.9s var(--suave); }
-.sit img { width: 100%; height: 100%; display: block; }
-.sit.sentado { transform: translateY(-3%) scale(1.75); }
-.sit.ya { transition: none; }
-.ancla { position: absolute; left: 38.4%; top: 16.7%; width: 29%; height: 37%; }
-.velo { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1.6s ease;
-        background: radial-gradient(70% 56% at 50% 40%, rgba(0, 0, 0, .25), rgba(0, 0, 0, .86)); }
-.cine.sentado .velo { opacity: 1; }
-.sombra { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(0, 0, 0, .6), transparent 24%, transparent 58%, rgba(0, 0, 0, .78)); }
-.titulo { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; padding: 0 20px 40px; pointer-events: none;
-          transition: opacity .9s ease, translate .9s ease; }
-.titulo.fuera { opacity: 0; translate: 0 -16px; }
-.titulo h1 { font-size: clamp(4.4rem, 21vw, 10.5rem); font-weight: 900; line-height: .82; }
-.titulo h1 .neon { color: var(--tinta); text-shadow: 0 0 12px rgba(255, 255, 255, .55), 0 0 42px rgba(63, 212, 111, .55); }
-.titulo h1 .barber { display: block; font-size: .3em; font-weight: 700; letter-spacing: .5em; margin-top: .35em; padding-left: .5em; }
-.titulo .ante { margin-bottom: 16px; text-shadow: 0 1px 10px rgba(0, 0, 0, .95), 0 0 3px rgba(0, 0, 0, .9); padding: 5px 10px; border-radius: 999px; background: rgba(0, 0, 0, .35); }
-.titulo .nota { margin-top: 18px; display: inline-flex; gap: 8px; padding: 7px 14px; border-radius: 999px; background: rgba(0, 0, 0, .45); border: 1px solid var(--linea-2);
-                font-size: .92rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.titulo .nota b { color: var(--acento); }
-.sub { position: absolute; left: 0; right: 0; bottom: calc(70px + env(safe-area-inset-bottom, 0px)); text-align: center; pointer-events: none;
-       font: 800 clamp(1.5rem, 6vw, 2.2rem)/1 var(--rotulo); text-transform: uppercase; letter-spacing: .06em; text-shadow: 0 2px 18px rgba(0, 0, 0, .8);
-       opacity: 0; translate: 0 10px; transition: opacity .7s ease, translate .7s ease; }
-.sub.on { opacity: 1; translate: 0 0; }
-.sub small { display: block; margin-top: 8px; font: 600 .8rem/1 var(--sans); letter-spacing: .18em; color: var(--acento); }
-.mandos { position: absolute; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 8px; z-index: 3; }
-.mando { min-height: 40px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--linea-2); background: rgba(0, 0, 0, .45); font-size: .86rem; font-weight: 700;
-         -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+/* ============ La película: avanza con el scroll ============ */
+.peli { position: relative; height: 820vh; background: var(--negro); }
+.fija { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.lienzo { position: absolute; inset: 0; background: #000 url(peli/000.webp) center 35% / cover no-repeat; }
+.lienzo canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.sombra { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(0, 0, 0, .55), transparent 22%, transparent 42%, rgba(0, 0, 0, .82)); }
+.velo { position: absolute; inset: 0; pointer-events: none; opacity: 0; background: radial-gradient(70% 55% at 50% 40%, rgba(0, 0, 0, .2), rgba(0, 0, 0, .85)); }
+.texto { position: absolute; inset: 0; pointer-events: none; }
+.cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 max(20px, env(safe-area-inset-right, 0px)) calc(92px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+       opacity: var(--k, 0); visibility: hidden; }
+.cap.vivo { visibility: visible; }
+.cap > * { translate: 0 calc((1 - var(--k, 0)) * 26px); }
+.cap h2 { font-size: clamp(3.3rem, 15vw, 6.4rem); text-shadow: 0 4px 34px rgba(0, 0, 0, .55); }
+.cap p { margin-top: 14px; max-width: 30rem; color: rgba(241, 245, 242, .9); text-shadow: 0 2px 14px rgba(0, 0, 0, .8); }
+.cap .datos { display: flex; gap: 22px; margin-top: 18px; flex-wrap: wrap; }
+.cap .datos div { display: grid; gap: 2px; }
+.cap .datos b { font: 400 1.9rem/1 var(--grande); color: var(--neon); text-shadow: 0 0 18px rgba(63, 212, 111, .45); }
+.cap .datos span { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-2); }
+.cap-hola { bottom: auto; top: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+.cap-hola .saludo { font: 600 1.05rem/1 var(--sans); margin-bottom: 6px; text-shadow: 0 1px 12px rgba(0, 0, 0, .8); }
+.cap-hola h1 { font-size: clamp(5rem, 26vw, 12rem); line-height: .84; margin-top: .2em; text-shadow: 0 6px 40px rgba(0, 0, 0, .55); }
+.cap-hola h1 span { display: block; color: var(--neon); text-shadow: 0 0 26px rgba(63, 212, 111, .55), 0 6px 40px rgba(0, 0, 0, .5); }
+.cap-hola .pie-hola { margin-top: 22px; display: grid; gap: 10px; max-width: 26rem; }
+.cap-hola .pie-hola small { font: 700 .72rem/1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--tinta-2); text-shadow: 0 1px 10px rgba(0, 0, 0, .9); }
+.baja { position: absolute; left: max(20px, env(safe-area-inset-left, 0px)); bottom: calc(26px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 10px;
+        font-size: .82rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--tinta-2); pointer-events: none; transition: opacity .4s; }
+.baja i { width: 2px; height: 34px; background: linear-gradient(var(--neon), transparent); animation: baja 1.6s var(--salida) infinite; }
+@keyframes baja { from { transform: scaleY(.2); transform-origin: top; } to { transform: scaleY(1); transform-origin: top; } }
+.ir { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 4; min-height: 40px; padding: 8px 14px;
+      border-radius: 999px; border: 1px solid var(--linea); background: rgba(0, 0, 0, .45); font-size: .84rem; font-weight: 700; text-decoration: none; transition: opacity .3s;
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .barra { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, .08); }
-.barra i { display: block; height: 100%; width: 0; background: var(--acento); box-shadow: 0 0 12px var(--acento); }
-.entrar { position: absolute; left: 50%; top: 62%; translate: -50% 0; z-index: 4; }
-.entrar .btn { min-height: 58px; padding: 14px 30px; font-size: 1.1rem; background: rgba(0, 0, 0, .55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.barra i { display: block; height: 100%; width: 0; background: var(--neon); box-shadow: 0 0 12px var(--neon); }
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+  .lienzo { left: 44%; }
+  .sombra { left: 44%; background: linear-gradient(to right, rgba(10, 12, 11, .9), transparent 18%), linear-gradient(to bottom, rgba(0, 0, 0, .4), transparent 20%); }
+  .velo { left: 44%; }
+  .cap { right: auto; width: 44%; top: 0; display: flex; flex-direction: column; justify-content: center; padding: 70px 40px 70px max(48px, 4vw); }
+  .cap h2 { font-size: clamp(4rem, 6.4vw, 7.4rem); text-shadow: none; }
+  .cap p, .cap-hola .saludo, .cap-hola .pie-hola small { text-shadow: none; }
+  .cap-hola h1 { font-size: clamp(6rem, 11vw, 12.5rem); text-shadow: none; }
+}
 
-/* El marco de luz del espejo, que crece hasta ser la reserva */
-.led { position: absolute; z-index: 5; pointer-events: none; border: 3px solid var(--led); border-radius: 6px; opacity: 0;
+/* El marco de luz del espejo y la reserva */
+.led { position: absolute; z-index: 5; pointer-events: none; border: 3px solid #fff; border-radius: 6px; opacity: 0;
        box-shadow: 0 0 10px rgba(255, 255, 255, .9), 0 0 34px rgba(255, 255, 255, .55), 0 0 90px rgba(255, 255, 255, .25), inset 0 0 16px rgba(255, 255, 255, .35); }
-.led.on { opacity: 1; transition: opacity .5s ease; }
-.led.crece { transition: left .9s var(--suave), top .9s var(--suave), width .9s var(--suave), height .9s var(--suave), border-radius .9s var(--suave), opacity .5s; border-radius: 22px; }
-.panel { position: absolute; z-index: 6; left: 50%; translate: -50% 0; top: calc(74px + env(safe-area-inset-top, 0px)); bottom: calc(70px + env(safe-area-inset-bottom, 0px));
-         width: min(calc(100% - 28px), 440px); max-height: 720px; margin-block: auto;
-         border-radius: 22px; background: rgba(6, 8, 7, .74); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2);
-         display: grid; grid-template-rows: auto minmax(0, 1fr) auto; opacity: 0; visibility: hidden; transition: opacity .55s ease, visibility 0s .55s; }
-.panel.on { opacity: 1; visibility: visible; transition: opacity .55s ease .05s, visibility 0s; }
+.panel { position: absolute; z-index: 6; top: calc(74px + env(safe-area-inset-top, 0px)); bottom: calc(64px + env(safe-area-inset-bottom, 0px)); left: 50%; translate: -50% 0;
+         width: min(calc(100% - 28px), 440px); max-height: 720px; margin-block: auto; border-radius: 22px; background: rgba(6, 8, 7, .76);
+         -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+         opacity: 0; visibility: hidden; }
+.panel.vivo { visibility: visible; }
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) { .panel { left: 72%; } }
 .p-cab { padding: 22px 22px 12px; display: grid; gap: 8px; }
-.p-cab h2 { font-size: clamp(2rem, 8vw, 2.6rem); }
+.p-cab .ante { color: var(--neon); }
+.p-cab h2 { font-size: clamp(2.2rem, 8vw, 2.8rem); }
 .p-cab h2:focus { outline: none; }
 .puntos { display: flex; gap: 6px; }
-.puntos i { width: 22px; height: 4px; border-radius: 4px; background: var(--linea-2); transition: background .3s, width .3s; }
-.puntos i.hecho { background: var(--acento); }
+.puntos i { width: 22px; height: 4px; border-radius: 4px; background: var(--linea); transition: background .3s, width .3s; }
+.puntos i.hecho { background: var(--neon); }
 .puntos i.ahora { background: var(--tinta); width: 34px; }
-.p-cuerpo { overflow-y: auto; overscroll-behavior: contain; padding: 6px 22px 16px; scrollbar-width: thin; }
-.p-pie { padding: 12px 22px 18px; border-top: 1px solid var(--linea); display: flex; align-items: center; gap: 12px; min-height: 64px; }
+.p-cuerpo { overflow-y: auto; padding: 6px 22px 16px; scrollbar-width: thin; }
+.p-pie { padding: 12px 22px 18px; border-top: 1px solid var(--linea); display: flex; align-items: center; gap: 12px; min-height: 62px; }
 .p-pie .res { flex: 1; min-width: 0; font-size: .86rem; color: var(--tinta-2); }
 .p-pie .res b { color: var(--tinta); }
 .atras { border: 0; background: none; color: var(--tinta-2); font-weight: 700; padding: 8px 4px; }
 .paso { display: grid; gap: 10px; animation: entra .45s var(--salida); }
 @keyframes entra { from { opacity: 0; translate: 14px 0; } }
 .op { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; text-align: left; padding: 14px 16px; border-radius: 14px;
-      border: 1px solid var(--linea); background: rgba(255, 255, 255, .04); transition: border-color .2s, background .2s; min-height: 58px; }
-.op:hover { border-color: var(--linea-2); }
+      border: 1px solid var(--linea); background: rgba(255, 255, 255, .04); min-height: 58px; transition: border-color .2s; }
+.op:hover { border-color: rgba(241, 245, 242, .3); }
 .op b { display: block; font-weight: 700; }
-.op small { display: block; color: var(--tinta-3); font-size: .84rem; }
+.op small { display: block; color: var(--gris); font-size: .84rem; }
 .op .dur { color: var(--tinta-2); font-size: .88rem; white-space: nowrap; }
-.op[aria-pressed="true"] { border-color: var(--acento); background: rgba(63, 212, 111, .1); }
-.nota { color: var(--tinta-3); font-size: .84rem; }
+.op[aria-pressed="true"] { border-color: var(--neon); background: rgba(63, 212, 111, .1); }
+.nota { color: var(--gris); font-size: .84rem; }
 .dias { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 8px; scrollbar-width: thin; }
 .dia { flex: 0 0 auto; width: 60px; display: grid; justify-items: center; gap: 2px; padding: 9px 4px; border-radius: 14px; border: 1px solid var(--linea); background: rgba(255, 255, 255, .04); }
-.dia span { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--tinta-3); }
-.dia b { font: 800 1.45rem/1 var(--rotulo); }
-.dia small { font-size: .66rem; color: var(--tinta-3); }
+.dia span { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gris); }
+.dia b { font: 400 1.45rem/1 var(--grande); }
+.dia small { font-size: .66rem; color: var(--gris); }
 .dia:disabled { opacity: .32; cursor: not-allowed; }
-.dia[aria-pressed="true"] { border-color: var(--acento); background: rgba(63, 212, 111, .12); }
-.dia[aria-pressed="true"] span, .dia[aria-pressed="true"] small { color: var(--acento); }
+.dia[aria-pressed="true"] { border-color: var(--neon); background: rgba(63, 212, 111, .12); }
+.dia[aria-pressed="true"] span, .dia[aria-pressed="true"] small { color: var(--neon); }
 .huecos { font-size: .88rem; color: var(--tinta-2); }
 .horas { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
 .hora { min-height: 44px; border-radius: 12px; border: 1px solid var(--linea); background: rgba(255, 255, 255, .04); font-weight: 700; font-variant-numeric: tabular-nums; }
 .hora:disabled { opacity: .28; text-decoration: line-through; cursor: not-allowed; }
-.hora[aria-pressed="true"] { background: var(--acento); border-color: var(--acento); color: var(--sobre-acento); }
+.hora[aria-pressed="true"] { background: var(--neon); border-color: var(--neon); color: #04140A; }
 .campo { display: grid; gap: 6px; font-weight: 600; font-size: .95rem; }
-.campo input, .campo textarea { background: rgba(0, 0, 0, .45); border: 1px solid var(--linea-2); border-radius: 12px; padding: 12px 14px; min-height: 50px; font-weight: 400; }
+.campo input, .campo textarea { background: rgba(0, 0, 0, .45); border: 1px solid rgba(241, 245, 242, .28); border-radius: 12px; padding: 12px 14px; min-height: 50px; font-weight: 400; }
 .campo textarea { min-height: 72px; resize: vertical; }
 .campo [aria-invalid="true"] { border-color: var(--mal); }
 .err { color: var(--mal); font-size: .84rem; min-height: 1.1em; }
-.muestra { font-size: .85rem; color: var(--tinta-2); border-left: 3px solid var(--acento); padding: 2px 0 2px 10px; }
+.muestra { font-size: .85rem; color: var(--tinta-2); border-left: 3px solid var(--neon); padding: 2px 0 2px 10px; }
 .ok { justify-items: center; text-align: center; }
-.ok .trebol { width: 58px; height: 58px; animation: brota .8s var(--salida); }
+.ok .trebol { width: 56px; height: 56px; animation: brota .8s var(--salida); }
 @keyframes brota { from { scale: .4; opacity: 0; rotate: -30deg; } }
 .ok dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; text-align: left; width: 100%; padding: 14px; border-radius: 14px; background: rgba(255, 255, 255, .05); }
-.ok dt { color: var(--tinta-3); font-size: .86rem; }
+.ok dt { color: var(--gris); font-size: .86rem; }
 .ok dd { margin: 0; font-weight: 700; }
 .ok .fila { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-.otra-vez { position: absolute; z-index: 7; left: max(14px, env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
-.bajar { position: absolute; z-index: 7; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); text-decoration: none; }
 
-/* El local */
-section { scroll-margin-top: 72px; }
-.local { padding-block: clamp(64px, 9vw, 110px); }
-.local .cab { display: grid; gap: 14px; margin-bottom: 28px; }
-.local h2, .opiniones h2, .donde h2 { font-size: clamp(2.8rem, 7.4vw, 4.6rem); }
-.tira { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px max(16px, env(safe-area-inset-left, 0px)) 18px; scroll-padding-inline: max(16px, env(safe-area-inset-left, 0px)); scrollbar-width: thin; }
-@media (min-width: 1152px) { .tira { padding-inline: calc((100vw - 1120px) / 2 + 16px); scroll-padding-inline: calc((100vw - 1120px) / 2 + 16px); } }
-.foto { flex: 0 0 auto; width: min(74vw, 300px); margin: 0; scroll-snap-align: start; display: grid; gap: 10px; }
-.foto.ancha { width: min(88vw, 560px); }
-.foto img { width: 100%; aspect-ratio: 9 / 14; object-fit: cover; border-radius: 18px; display: block; background: var(--capa-2); }
-.foto.ancha img { aspect-ratio: 16 / 9; }
-.foto figcaption { font-size: .93rem; color: var(--tinta-2); }
-.foto figcaption b { display: block; color: var(--tinta); font: 800 1.15rem/1.1 var(--rotulo); text-transform: uppercase; letter-spacing: .03em; margin-bottom: 4px; }
-.tira-nav { display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 4px; flex-wrap: wrap; }
-.tira-nav .flechas { display: flex; gap: 8px; }
-.tira-nav .flechas button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--linea-2); background: transparent; font-size: 1.2rem; }
+/* ============ Bloques de color ============ */
+.bloque { padding-block: clamp(80px, 12vw, 150px); position: relative; overflow: hidden; }
+.bloque h2 { font-size: clamp(3.4rem, 11vw, 9rem); }
+.carta { background: var(--menta); color: var(--bosque-2); }
+.carta .ante { color: var(--bosque); }
+.carta-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(28px, 6vw, 90px); align-items: end; }
+@media (max-width: 860px) { .carta-grid { grid-template-columns: 1fr; } }
+.carta .intro { display: grid; gap: 18px; }
+.carta .intro p { font-size: 1.12rem; max-width: 34ch; }
+.lista { list-style: none; margin: 0; padding: 0; display: grid; }
+.lista li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 18px 0; border-bottom: 1.5px solid rgba(8, 51, 29, .18); }
+.lista b { font: 400 1.6rem/1 var(--grande); text-transform: uppercase; letter-spacing: .01em; }
+.lista span { font-size: .95rem; color: rgba(8, 51, 29, .75); grid-column: 1; }
+.lista em { font-style: normal; font: 400 1.6rem/1 var(--grande); grid-row: 1 / span 2; grid-column: 2; align-self: center; font-variant-numeric: tabular-nums; }
+.carta .nota { color: rgba(8, 51, 29, .72); margin-top: 16px; }
+.carta .btn { color: var(--bosque-2); margin-top: 26px; }
+.carta .btn.lleno { background: var(--bosque-2); border-color: var(--bosque-2); color: var(--menta); }
 
-/* Opiniones */
-.opiniones { padding-block: clamp(64px, 9vw, 110px); border-top: 1px solid var(--linea); }
-.nota-media { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
-.nota-media b { font: 900 4.4rem/1 var(--rotulo); color: var(--acento); text-shadow: 0 0 30px rgba(63, 212, 111, .35); }
-.estrellas { color: var(--acento); letter-spacing: .12em; font-size: 1.1rem; }
-.citas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 30px; }
+.barrio { background: var(--hueso); color: var(--negro); }
+.barrio .ante { color: var(--bosque); }
+.barrio .cab { display: grid; gap: 18px; max-width: 980px; }
+.barrio .cab p { font-size: 1.12rem; max-width: 46ch; color: #3a413d; }
+.collage { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; margin-top: clamp(36px, 6vw, 70px); }
+.collage figure { margin: 0; display: grid; gap: 8px; align-content: start; }
+.collage img { width: 100%; height: auto; object-fit: cover; display: block; border-radius: 6px; box-shadow: 0 30px 60px rgba(10, 12, 11, .18); }
+.collage figcaption { font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; color: #59625c; }
+.c1 { grid-column: 1 / span 7; } .c1 img { aspect-ratio: 16 / 9; }
+.c2 { grid-column: 9 / span 4; margin-top: 18%; } .c2 img { aspect-ratio: 3 / 4; }
+.c3 { grid-column: 2 / span 4; margin-top: -6%; } .c3 img { aspect-ratio: 3 / 4; }
+.c4 { grid-column: 7 / span 5; margin-top: 4%; } .c4 img { aspect-ratio: 4 / 5; }
+@media (max-width: 700px) { .c1 { grid-column: 1 / -1; } .c2 { grid-column: 6 / -1; margin-top: -10%; } .c3 { grid-column: 1 / span 6; margin-top: -24%; } .c4 { grid-column: 3 / -1; margin-top: 4%; } }
+.rincones { margin-top: clamp(50px, 8vw, 90px); }
+.rincones h3 { font-size: clamp(2rem, 6vw, 3.4rem); margin-bottom: 18px; }
+.tira { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 0 18px; scrollbar-width: thin; }
+.foto { flex: 0 0 auto; width: min(68vw, 280px); margin: 0; scroll-snap-align: start; display: grid; gap: 10px; }
+.foto img { width: 100%; aspect-ratio: 9 / 14; object-fit: cover; border-radius: 6px; display: block; }
+.foto figcaption { font-size: .92rem; color: #3a413d; }
+.foto figcaption b { display: block; color: var(--negro); font: 400 1.2rem/1.05 var(--grande); text-transform: uppercase; margin-bottom: 4px; }
+.flechas { display: flex; gap: 8px; justify-content: flex-end; }
+.flechas button { width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid var(--negro); background: transparent; font-size: 1.1rem; color: var(--negro); }
+
+.silla { background: var(--negro); color: var(--tinta); padding-block: 0; }
+.silla-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 100vh; }
+@media (max-width: 860px) { .silla-grid { grid-template-columns: 1fr; } }
+.silla .foto-silla { position: relative; min-height: 70vh; }
+.silla .foto-silla img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.silla .tarjeta { align-self: center; margin: clamp(-120px, -10vw, -40px) clamp(18px, 4vw, 70px) clamp(60px, 8vw, 100px); background: var(--hueso); color: var(--negro); padding: clamp(26px, 4vw, 48px);
+                  border-radius: 4px; position: relative; z-index: 1; display: grid; gap: 18px; box-shadow: 0 40px 80px rgba(0, 0, 0, .45); }
+@media (min-width: 861px) { .silla .tarjeta { margin: 0 clamp(30px, 5vw, 80px) 0 calc(-1 * clamp(60px, 8vw, 140px)); } }
+.silla .tarjeta .ante { color: var(--bosque); }
+.silla .tarjeta h2 { font-size: clamp(3rem, 7vw, 6rem); }
+.silla .tarjeta p { color: #3a413d; max-width: 40ch; }
+.cifras { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; border-top: 1.5px solid rgba(10, 12, 11, .14); padding-top: 18px; }
+.cifras b { display: block; font: 400 clamp(1.8rem, 4vw, 2.6rem)/1 var(--grande); color: var(--bosque); font-variant-numeric: tabular-nums; }
+.cifras span { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: #59625c; }
+
+.opiniones { background: var(--bosque); color: var(--tinta); }
+.opiniones .ante { color: var(--neon); }
+.opiniones h2 b { color: var(--neon); font-weight: 400; }
+.citas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); margin-top: clamp(36px, 6vw, 70px); }
 @media (max-width: 760px) { .citas { grid-template-columns: 1fr; } }
-.cita { margin: 0; padding: 20px; border-radius: 18px; background: var(--capa); border: 1px solid var(--linea); display: grid; gap: 10px; }
-.cita p { font-size: 1.05rem; }
-.cita .de { color: var(--tinta-3); font-size: .85rem; }
+.cita { margin: 0; display: grid; gap: 12px; padding-top: 18px; border-top: 1.5px solid rgba(241, 245, 242, .2); }
+.cita p { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.45; }
+.cita .de { font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(241, 245, 242, .62); }
 
-/* Horario y dónde */
-.donde { padding-block: clamp(64px, 9vw, 110px); border-top: 1px solid var(--linea); }
-.donde-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 48px); margin-top: 26px; align-items: start; }
-@media (max-width: 760px) { .donde-grid { grid-template-columns: 1fr; } }
-.estado { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: var(--capa); border: 1px solid var(--linea); font-weight: 700; margin-top: 14px; }
-.estado i { width: 9px; height: 9px; border-radius: 50%; background: var(--tinta-3); }
-.estado.abierto i { background: var(--acento); box-shadow: 0 0 10px var(--acento); animation: late 2s ease-in-out infinite; }
-@keyframes late { 50% { opacity: .35; } }
+.visita { background: var(--neon); color: #04140A; }
+.visita .ante { color: #04140A; }
+.visita-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(28px, 6vw, 80px); align-items: center; }
+@media (max-width: 860px) { .visita-grid { grid-template-columns: 1fr; } }
+.visita .datos-v { display: grid; gap: 22px; margin-top: 28px; }
+.estado { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid #04140A; font-weight: 800; width: max-content; max-width: 100%; }
+.estado i { width: 9px; height: 9px; border-radius: 50%; background: #04140A; flex-shrink: 0; }
+.estado.abierto i { animation: late 2s ease-in-out infinite; }
+@keyframes late { 50% { opacity: .3; } }
 .semana { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-.semana td { padding: 11px 0; border-bottom: 1px solid var(--linea); }
-.semana td:last-child { text-align: right; color: var(--tinta-2); }
-.semana tr.hoy td { color: var(--acento); font-weight: 700; }
-.ficha { display: grid; gap: 14px; }
-.ficha .linea { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.ficha code { font: 700 1.05rem/1 var(--sans); user-select: all; }
-.det { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 8px; color: var(--tinta-2); font-size: .95rem; }
-.det li::before { content: "✓ "; color: var(--acento); font-weight: 800; }
-.pie { border-top: 1px solid var(--linea); padding-block: 34px calc(40px + env(safe-area-inset-bottom, 0px)); color: var(--tinta-3); font-size: .86rem; }
-.pie .wrap { display: grid; gap: 8px; }
+.semana td { padding: 9px 0; border-bottom: 1.5px solid rgba(4, 20, 10, .18); }
+.semana td:last-child { text-align: right; }
+.semana tr.hoy td { font-weight: 800; }
+.visita .fila { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.visita .btn { color: #04140A; }
+.visita .btn.oscuro { background: #04140A; border-color: #04140A; color: var(--neon); }
+.visita code { font: 800 1.05rem/1 var(--sans); user-select: all; }
+.visita .foto-v img { width: 100%; aspect-ratio: 9 / 13; object-fit: cover; border-radius: 6px; display: block; box-shadow: 0 30px 60px rgba(4, 20, 10, .35); }
 
-@keyframes rv { from { opacity: 0; translate: 0 30px; } }
+.final { background: var(--negro); color: var(--tinta); padding-top: clamp(70px, 10vw, 120px); padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px)); overflow: hidden; }
+.final .fila { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 22px; align-items: start; }
+.final .fila p { font-size: 1.1rem; }
+.final nav { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: .92rem; }
+.final nav a, .final nav button { background: none; border: 0; padding: 0; color: var(--tinta-2); text-decoration: none; font-weight: 600; }
+.final .wrap { container-type: inline-size; }
+/* «Trébol Barber» mide 5,69 em en Anton: a 17,2 cqi ocupa justo el ancho de la columna */
+.gigante { font: 400 16vw/.82 var(--grande); font-size: 17.2cqi; text-transform: uppercase; letter-spacing: -.005em; margin-top: clamp(40px, 7vw, 90px); white-space: nowrap; color: var(--tinta); }
+.gigante span { color: var(--neon); }
+.creditos { margin-top: 26px; color: var(--gris); font-size: .82rem; display: grid; gap: 6px; }
+
+/* Entradas al bajar (solo con CSS; sin soporte, todo se ve quieto) */
+@keyframes sube { from { opacity: 0; translate: 0 60px; } }
+@keyframes lado { from { opacity: 0; translate: 60px 0; } }
 @supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) { .rv { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% entry 85%; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .rv { animation: sube linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
+    .rv-lado { animation: lado linear both; animation-timeline: view(); animation-range: entry 0% entry 90%; }
+  }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
@@ -224,98 +274,138 @@ section { scroll-margin-top: 72px; }
     <g fill="currentColor"><circle cx="16" cy="9.2" r="6.2"/><circle cx="9.2" cy="16.4" r="6.2"/><circle cx="22.8" cy="16.4" r="6.2"/><circle cx="16" cy="15" r="3.4"/></g>
     <path d="M16.4 17.5c.6 4.6 2.2 8.6 5.4 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
   </symbol>
+  <symbol id="ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></symbol>
 </svg>
 
 <header class="top" id="top">
   <div class="wrap">
-    <a class="marca" href="#entrada"><svg class="trebol" aria-hidden="true"><use href="#trebol"/></svg>Trébol <b>Barber</b></a>
-    <button class="btn acento" type="button" id="cab-reservar">Reservar</button>
+    <a class="marca" href="#entrada"><svg class="trebol" aria-hidden="true"><use href="#trebol"/></svg>Trébol Barber</a>
+    <div class="der">
+      <a class="ig" href="https://www.instagram.com/trebol__barber/" target="_blank" rel="noopener" aria-label="Instagram de Trébol Barber"><svg aria-hidden="true"><use href="#ig"/></svg></a>
+      <button class="btn lleno" type="button" id="cab-reservar">Reservar</button>
+    </div>
   </div>
 </header>
 
 <main>
-  <section class="cine" id="entrada" aria-label="Entrada a la barbería y reserva">
-    <div class="amb" id="amb" aria-hidden="true"></div>
-    <div class="marco" id="marco">
-      <video id="video" muted playsinline preload="auto" poster="cine/poster.webp" aria-hidden="true" disablepictureinpicture>
-        <source src="cine/entrada.mp4" type="video/mp4">
-        <source src="cine/entrada.webm" type="video/webm">
-      </video>
-      <div class="sit" id="sit" hidden><img src="cine/sillon.webp" alt="" width="1080" height="1920"><i class="ancla" id="ancla"></i></div>
-      <div class="velo"></div>
+  <section class="peli" id="entrada" aria-label="Entrada a la barbería: baja para avanzar">
+    <div class="fija" id="fija">
+      <div class="lienzo" id="lienzo"><canvas id="cv" role="img" aria-label="Recorrido grabado en el local: de la calle Portillejo, por la puerta y el pasillo, hasta el sillón del espejo de luz"></canvas></div>
+      <div class="velo" id="velo"></div>
       <div class="sombra"></div>
-    </div>
-    <div class="titulo" id="titulo">
-      <p class="ante">Barbería · Calle Portillejo, 11 · Logroño</p>
-      <h1><span class="neon">Trébol</span><span class="barber">Barber</span></h1>
-      <p class="nota"><b>★ 5,0</b> · 48 reseñas en Google</p>
-    </div>
-    <p class="sub" id="sub" aria-live="polite"></p>
-    <div class="entrar" id="entrar" hidden><button class="btn" type="button" id="btn-entrar">▶ Entrar en la barbería</button></div>
-    <div class="mandos" id="mandos"><button class="mando" type="button" id="saltar">Saltar y reservar</button></div>
-    <div class="barra" aria-hidden="true"><i id="prog"></i></div>
-    <div class="led" id="led" aria-hidden="true"></div>
-
-    <div class="panel" id="panel" role="region" aria-labelledby="p-titulo">
-      <div class="p-cab">
-        <p class="ante">Trébol Barber · Reserva</p>
-        <h2 id="p-titulo" tabindex="-1">¿Qué te hacemos?</h2>
-        <div class="puntos" id="puntos" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="p-cuerpo" id="p-cuerpo">
-        <div class="paso" data-paso="1"><div class="ops" id="servicios" style="display:grid;gap:8px"></div>
-          <p class="nota">Sin carta pública: el precio se confirma en la barbería. Según sus clientes en Google, un degradado cuesta entre 15 y 20 €.</p></div>
-        <div class="paso" data-paso="2" hidden><div id="barberos" style="display:grid;gap:8px"></div></div>
-        <div class="paso" data-paso="3" hidden><div class="dias" id="dias"></div><p class="huecos" id="huecos"></p><div class="horas" id="horas"></div></div>
-        <form class="paso" data-paso="4" id="form" novalidate hidden>
-          <label class="campo" for="f-nombre">Nombre<input id="f-nombre" name="nombre" autocomplete="given-name" maxlength="60" placeholder="Cómo te llamas"></label>
-          <p class="err" id="e-nombre"></p>
-          <label class="campo" for="f-tel">Móvil<input id="f-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="600 000 000"></label>
-          <p class="err" id="e-tel"></p>
-          <label class="campo" for="f-nota">¿Algo que debamos saber? <span class="nota">(opcional)</span><textarea id="f-nota" maxlength="300" placeholder="Ej.: degradado bajo y la barba solo perfilar"></textarea></label>
-          <button class="btn acento" type="submit" style="min-height:54px">Confirmar cita</button>
-          <p class="muestra">Web de muestra: la reserva funciona entera, pero todavía no llega a la agenda de la barbería y no se envía nada.</p>
-        </form>
-        <div class="paso ok" data-paso="5" hidden>
-          <svg class="trebol" aria-hidden="true"><use href="#trebol"/></svg>
-          <dl id="ok-datos"></dl>
-          <p class="muestra" style="text-align:left">Es una muestra: todavía no llega a la barbería. Cuando esté conectada, la confirmación te llegará por WhatsApp con un botón para cambiar la hora.</p>
-          <div class="fila"><button class="btn" type="button" id="copiar">Copiar resumen</button><button class="btn acento" type="button" id="otra">Otra cita</button></div>
-          <p class="nota" id="copiado" role="status"></p>
+      <div class="texto">
+        <div class="cap cap-hola" data-de="0" data-a="0.06">
+          <p class="saludo">Buenas noches.</p>
+          <h1>Trébol <span>Barber</span></h1>
+          <div class="pie-hola">
+            <p>Degradados, diseños a navaja, barba y color en la calle Portillejo, 11. Baja y entra.</p>
+            <small id="hola-estado">C. Portillejo, 11 · Logroño</small>
+          </div>
         </div>
+        <div class="cap" data-de="0.085" data-a="0.215"><h2>La calle va con prisa.</h2></div>
+        <div class="cap" data-de="0.24" data-a="0.38"><h2>Aquí dentro, no.</h2><p>La puerta se abre y al fondo ya brilla el espejo.</p></div>
+        <div class="cap" data-de="0.405" data-a="0.5"><h2>Paredes negras. Luz blanca.</h2><p>Y el trébol en verde, para que sepas dónde estás.</p></div>
+        <div class="cap" data-de="0.53" data-a="0.69"><h2>Tu hora. Tu sillón.</h2>
+          <div class="datos"><div><b>30 min</b><span>Degradado</span></div><div><b>45 min</b><span>Corte y barba</span></div><div><b>5,0</b><span>48 reseñas</span></div></div></div>
+        <div class="cap" data-de="0.72" data-a="0.84"><h2>Esta es la parte que no corremos.</h2></div>
       </div>
-      <div class="p-pie"><button class="atras" type="button" id="atras" hidden>← Atrás</button><p class="res" id="p-res">Elige lo que te hacemos.</p></div>
+      <div class="baja" id="baja" aria-hidden="true"><i></i>Baja para entrar</div>
+      <a class="ir" href="#entrada" id="ir">Ir a la reserva</a>
+      <div class="barra" aria-hidden="true"><i id="prog"></i></div>
+      <div class="led" id="led" aria-hidden="true"></div>
+
+      <div class="panel" id="panel" role="region" aria-labelledby="p-titulo" inert>
+        <div class="p-cab">
+          <p class="ante">Trébol Barber · Reserva</p>
+          <h2 id="p-titulo" tabindex="-1">¿Qué te hacemos?</h2>
+          <div class="puntos" id="puntos" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="p-cuerpo" id="p-cuerpo">
+          <div class="paso" data-paso="1"><div id="servicios" style="display:grid;gap:8px"></div>
+            <p class="nota">Sin carta pública: el precio se confirma en la barbería. Según sus clientes en Google, un degradado cuesta entre 15 y 20 €.</p></div>
+          <div class="paso" data-paso="2" hidden><div id="barberos" style="display:grid;gap:8px"></div></div>
+          <div class="paso" data-paso="3" hidden><div class="dias" id="dias"></div><p class="huecos" id="huecos"></p><div class="horas" id="horas"></div></div>
+          <form class="paso" data-paso="4" id="form" novalidate hidden>
+            <label class="campo" for="f-nombre">Nombre<input id="f-nombre" name="nombre" autocomplete="given-name" maxlength="60" placeholder="Cómo te llamas"></label>
+            <p class="err" id="e-nombre"></p>
+            <label class="campo" for="f-tel">Móvil<input id="f-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="600 000 000"></label>
+            <p class="err" id="e-tel"></p>
+            <label class="campo" for="f-nota">¿Algo que debamos saber? <span class="nota">(opcional)</span><textarea id="f-nota" maxlength="300" placeholder="Ej.: degradado bajo y la barba solo perfilar"></textarea></label>
+            <button class="btn lleno" type="submit" style="min-height:54px">Confirmar cita</button>
+            <p class="muestra">Web de muestra: la reserva funciona entera, pero todavía no llega a la agenda de la barbería y no se envía nada.</p>
+          </form>
+          <div class="paso ok" data-paso="5" hidden>
+            <svg class="trebol" aria-hidden="true"><use href="#trebol"/></svg>
+            <dl id="ok-datos"></dl>
+            <p class="muestra" style="text-align:left">Es una muestra: todavía no llega a la barbería. Cuando esté conectada, la confirmación te llegará por WhatsApp con un botón para cambiar la hora.</p>
+            <div class="fila"><button class="btn" type="button" id="copiar">Copiar resumen</button><button class="btn lleno" type="button" id="otra">Otra cita</button></div>
+            <p class="nota" id="copiado" role="status"></p>
+          </div>
+        </div>
+        <div class="p-pie"><button class="atras" type="button" id="atras" hidden>← Atrás</button><p class="res" id="p-res">Elige lo que te hacemos.</p></div>
+      </div>
     </div>
-    <button class="mando otra-vez" type="button" id="otra-vez" hidden>↺ Ver la entrada</button>
-    <a class="mando bajar" href="#local" id="bajar" hidden>Conoce el local ↓</a>
   </section>
 
-  <section class="local" id="local" aria-labelledby="h-local">
-    <div class="wrap cab rv">
-      <p class="ante">El local</p>
-      <h2 id="h-local">Conócelo antes de venir</h2>
-      <p class="lead">Fotos sacadas del vídeo grabado en el propio local, una noche de noviembre.</p>
-    </div>
-    <div class="tira" id="tira" tabindex="0" aria-label="Fotos del local; desliza para ver más">
-      <figure class="foto ancha"><img src="fotos/fachada.webp" alt="Fachada de ladrillo con el letrero Trébol Barber en neón blanco y el trébol verde, de noche" loading="lazy" width="1600" height="900"><figcaption><b>La fachada</b>Calle Portillejo, 11. El letrero en neón y la luz verde dentro del escaparate.</figcaption></figure>
-      <figure class="foto"><img src="fotos/puerta.webp" alt="La puerta de cristal abierta, con el pasillo, el espejo de luz y las estanterías al fondo" loading="lazy" width="900" height="1600"><figcaption><b>La puerta</b>Desde la entrada ya se ve el espejo de luz del primer puesto.</figcaption></figure>
-      <figure class="foto"><img src="fotos/espera.webp" alt="Sofá gris con cojines de rayas sobre césped artificial, junto al ventanal que da a la calle" loading="lazy" width="900" height="1600"><figcaption><b>La espera</b>Sofá sobre césped junto al ventanal, con la calle de fondo.</figcaption></figure>
-      <figure class="foto"><img src="fotos/puesto.webp" alt="Sillón de barbero negro frente a un espejo con marco de LED, bajo el techo de hexágonos de luz, con el barbero trabajando" loading="lazy" width="900" height="1600"><figcaption><b>El primer puesto</b>Espejo con marco de luz bajo el techo de hexágonos.</figcaption></figure>
-      <figure class="foto"><img src="fotos/rotulo.webp" alt="Segundo sillón negro con la tele en la pared y estanterías con productos" loading="lazy" width="900" height="1600"><figcaption><b>El segundo puesto</b>Con la tele en la pared y los productos a la vista.</figcaption></figure>
-      <figure class="foto"><img src="fotos/carro.webp" alt="Sillón de barbero, espejo alto y el carro de herramientas negro con las máquinas colgadas" loading="lazy" width="900" height="1600"><figcaption><b>El carro</b>Máquinas, navajas y productos, todo al alcance de la mano.</figcaption></figure>
-      <figure class="foto"><img src="fotos/cafe.webp" alt="Rincón con mesa alta de madera, cafetera y un perchero con camisetas, junto a un bambú" loading="lazy" width="900" height="1600"><figcaption><b>El rincón del café</b>Mesa alta, cafetera y un perchero con camisetas.</figcaption></figure>
-      <figure class="foto"><img src="fotos/vuelta.webp" alt="Vista hacia la entrada con un bambú en primer plano y el reflejo verde del neón en el cristal" loading="lazy" width="900" height="1600"><figcaption><b>De vuelta</b>El bambú, la nevera y el verde del neón en el cristal.</figcaption></figure>
-    </div>
-    <div class="wrap tira-nav"><button class="btn acento" type="button" id="local-reservar">Reservar cita</button><div class="flechas"><button type="button" id="tira-ant" aria-label="Fotos anteriores">←</button><button type="button" id="tira-sig" aria-label="Más fotos">→</button></div></div>
-  </section>
-
-  <section class="opiniones" id="opiniones" aria-labelledby="h-op">
-    <div class="wrap">
+  <section class="bloque carta" id="carta" aria-labelledby="h-carta">
+    <div class="wrap carta-grid">
+      <div class="intro rv">
+        <p class="ante">La carta</p>
+        <h2 id="h-carta">Mismo corte a las 10 y a las 8.</h2>
+        <p>Sin prisas a primera hora ni al cierre. Elige lo tuyo y te guardamos el sillón.</p>
+      </div>
       <div class="rv">
-        <p class="ante">Lo que dicen</p>
-        <h2 id="h-op">5,0 en Google</h2>
-        <div class="nota-media"><b>5,0</b><span class="estrellas" aria-hidden="true">★★★★★</span><span class="lead" style="font-size:1rem">48 reseñas</span></div>
+        <ul class="lista" id="lista"></ul>
+        <p class="nota">Sin carta pública: el precio se confirma en la barbería. Según sus clientes en Google, un degradado cuesta entre 15 y 20 €.</p>
+        <button class="btn lleno" type="button" id="carta-reservar">Pedir cita</button>
       </div>
+    </div>
+  </section>
+
+  <section class="bloque barrio" id="local" aria-labelledby="h-barrio">
+    <div class="wrap">
+      <div class="cab rv">
+        <p class="ante">El local</p>
+        <h2 id="h-barrio">Una barbería de barrio, no una cadena.</h2>
+        <p>En la calle Portillejo, junto a la avenida de Burgos. Un sillón, un espejo de luz y alguien que se toma el tiempo que haga falta contigo.</p>
+      </div>
+      <div class="collage">
+        <figure class="c1 rv"><img src="fotos/fachada.webp" alt="La fachada de noche con el letrero Trébol Barber en neón" loading="lazy" width="1600" height="900"><figcaption>La fachada · Portillejo, 11</figcaption></figure>
+        <figure class="c2 rv-lado"><img src="fotos/espera.webp" alt="Sofá sobre césped junto al ventanal" loading="lazy" width="900" height="1600"><figcaption>La espera, junto al ventanal</figcaption></figure>
+        <figure class="c3 rv"><img src="fotos/cafe.webp" alt="Rincón del café con mesa alta y un perchero con camisetas" loading="lazy" width="900" height="1600"><figcaption>El rincón del café</figcaption></figure>
+        <figure class="c4 rv-lado"><img src="fotos/carro.webp" alt="El carro de herramientas junto al segundo sillón" loading="lazy" width="900" height="1600"><figcaption>El carro, todo a mano</figcaption></figure>
+      </div>
+      <div class="rincones">
+        <h3 class="rv">Cada rincón</h3>
+        <div class="tira" id="tira" tabindex="0" aria-label="Fotos del local; desliza para ver más">
+          <figure class="foto"><img src="fotos/puerta.webp" alt="La puerta de cristal abierta, con el espejo de luz al fondo" loading="lazy" width="900" height="1600"><figcaption><b>La puerta</b>Desde la entrada ya se ve el espejo de luz.</figcaption></figure>
+          <figure class="foto"><img src="fotos/espera.webp" alt="Sofá gris sobre césped artificial junto al ventanal" loading="lazy" width="900" height="1600"><figcaption><b>La espera</b>Sofá sobre césped y la calle de fondo.</figcaption></figure>
+          <figure class="foto"><img src="fotos/puesto.webp" alt="Sillón negro frente al espejo con marco de LED, bajo el techo de hexágonos" loading="lazy" width="900" height="1600"><figcaption><b>El primer puesto</b>Espejo de luz y techo de hexágonos.</figcaption></figure>
+          <figure class="foto"><img src="fotos/rotulo.webp" alt="Segundo sillón con la tele en la pared" loading="lazy" width="900" height="1600"><figcaption><b>El segundo puesto</b>Con la tele y los productos a la vista.</figcaption></figure>
+          <figure class="foto"><img src="fotos/carro.webp" alt="Sillón, espejo alto y el carro de herramientas" loading="lazy" width="900" height="1600"><figcaption><b>El carro</b>Máquinas y navajas al alcance.</figcaption></figure>
+          <figure class="foto"><img src="fotos/cafe.webp" alt="Mesa alta con cafetera y un perchero con camisetas" loading="lazy" width="900" height="1600"><figcaption><b>El café</b>Mesa alta, cafetera y camisetas.</figcaption></figure>
+          <figure class="foto"><img src="fotos/vuelta.webp" alt="Bambú en primer plano y el verde del neón reflejado en el cristal" loading="lazy" width="900" height="1600"><figcaption><b>De vuelta</b>El bambú y el neón en el cristal.</figcaption></figure>
+        </div>
+        <div class="flechas"><button type="button" id="tira-ant" aria-label="Fotos anteriores">←</button><button type="button" id="tira-sig" aria-label="Más fotos">→</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque silla" aria-labelledby="h-silla">
+    <div class="silla-grid">
+      <div class="foto-silla"><img src="fotos/puesto.webp" alt="El sillón frente al espejo con marco de luz, con el barbero preparando el carro" loading="lazy" width="900" height="1600"></div>
+      <div class="tarjeta rv-lado">
+        <p class="ante">El sillón</p>
+        <h2 id="h-silla">Lento en la silla. Rápido en la calle.</h2>
+        <p>El corte lleva el tiempo que lleva. Luego sales a la calle Portillejo como nuevo.</p>
+        <div class="cifras"><div><b>30 min</b><span>Degradado</span></div><div><b>45 min</b><span>Corte y barba</span></div><div><b>90 min</b><span>Color y platino</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque opiniones" aria-labelledby="h-op">
+    <div class="wrap">
+      <div class="rv"><p class="ante">Lo que dicen</p><h2 id="h-op"><b>5,0</b> en Google.</h2></div>
       <div class="citas">
         <blockquote class="cita rv"><p>«Trabajo impecable tanto en cabello como en barba. Álvaro es amable, delicado y paciente con el trabajo que realiza.»</p><p class="de">Reseña en Google · mayo de 2026</p></blockquote>
         <blockquote class="cita rv"><p>«Excelente lugar, excelente ambiente, excelente barbero.»</p><p class="de">Reseña en Google · febrero de 2026</p></blockquote>
@@ -325,31 +415,38 @@ section { scroll-margin-top: 72px; }
     </div>
   </section>
 
-  <section class="donde" id="donde" aria-labelledby="h-donde">
-    <div class="wrap">
+  <section class="bloque visita" id="visita" aria-labelledby="h-visita">
+    <div class="wrap visita-grid">
       <div class="rv">
-        <p class="ante">Horario y dirección</p>
-        <h2 id="h-donde">Calle Portillejo, 11</h2>
-        <p class="estado" id="estado"><i></i><span id="estado-txt">Horario</span></p>
-      </div>
-      <div class="donde-grid">
-        <table class="semana rv" aria-label="Horario de la semana"><tbody id="semana"></tbody></table>
-        <div class="ficha rv">
-          <p class="lead" style="color:var(--tinta)">C. Portillejo, 11 · 26007 Logroño<br><span style="color:var(--tinta-2)">Junto a la avenida de Burgos</span></p>
-          <div class="linea"><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Trebol%20barber%20Portillejo%2011%20Logro%C3%B1o&amp;query_place_id=ChIJ1QmA8S5VRQ0Rj0CM5_xQYk4" target="_blank" rel="noopener">Cómo llegar</a>
-            <a class="btn" href="https://www.instagram.com/trebol__barber/" target="_blank" rel="noopener">@trebol__barber</a></div>
-          <div class="linea"><span class="nota">Teléfono</span><code>+34 941 64 10 71</code><button class="btn" type="button" id="tel-copiar" style="min-height:40px;padding:6px 14px">Copiar</button></div>
-          <ul class="det"><li>Entrada y aseo accesibles en silla de ruedas</li><li>Tarjeta y pago con el móvil</li><li>Aparcamiento gratis en la calle</li><li>Ideal para ir con niños</li></ul>
+        <p class="ante">Ven a vernos</p>
+        <h2 id="h-visita">Ven con cita. Sal nuevo.</h2>
+        <div class="datos-v">
+          <p class="estado" id="estado"><i></i><span id="estado-txt">Horario</span></p>
+          <p style="font-size:1.15rem;font-weight:700">C. Portillejo, 11 · 26007 Logroño<br><span style="font-weight:500">Junto a la avenida de Burgos</span></p>
+          <table class="semana" aria-label="Horario de la semana"><tbody id="semana"></tbody></table>
+          <div class="fila">
+            <a class="btn oscuro" href="https://www.google.com/maps/search/?api=1&amp;query=Trebol%20barber%20Portillejo%2011%20Logro%C3%B1o&amp;query_place_id=ChIJ1QmA8S5VRQ0Rj0CM5_xQYk4" target="_blank" rel="noopener">Cómo llegar</a>
+            <button class="btn" type="button" id="visita-reservar">Reservar</button>
+          </div>
+          <div class="fila"><span>Teléfono</span><code>+34 941 64 10 71</code><button class="btn" type="button" id="tel-copiar" style="min-height:40px;padding:6px 14px">Copiar</button></div>
         </div>
       </div>
+      <div class="foto-v rv-lado"><img src="fotos/vuelta.webp" alt="El interior visto hacia la entrada, con el bambú y el neón verde reflejado en el cristal" loading="lazy" width="900" height="1600"></div>
     </div>
   </section>
 </main>
 
-<footer class="pie">
+<footer class="final">
   <div class="wrap">
-    <p>Web de muestra hecha por BUHOSS para Trébol Barber. La película y las fotos salen de un vídeo grabado en el local el 3 de noviembre de 2026; las opiniones son reseñas públicas de Google.</p>
-    <p>La reserva todavía no está conectada a la agenda de la barbería.</p>
+    <div class="fila">
+      <p>Abrimos a las diez.</p>
+      <nav aria-label="Enlaces"><button type="button" id="pie-reservar">Reservar</button><a href="https://www.instagram.com/trebol__barber/" target="_blank" rel="noopener">Instagram</a><a href="#visita">Cómo llegar</a><a href="#carta">La carta</a></nav>
+    </div>
+    <p class="gigante" aria-hidden="true">Trébol <span>Barber</span></p>
+    <div class="creditos">
+      <p>Web de muestra hecha por BUHOSS para Trébol Barber. La película y las fotos salen de un vídeo grabado en el local el 3 de noviembre de 2026; las opiniones son reseñas públicas de Google.</p>
+      <p>La reserva todavía no está conectada a la agenda de la barbería.</p>
+    </div>
   </div>
 </footer>
 
@@ -360,100 +457,147 @@ section { scroll-margin-top: 72px; }
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
-  const cuadro = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const lim = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const suave = (t) => t * t * (3 - 2 * t);
 
-  /* ================================================================ la película */
-  // Tramos del vídeo (segundos): fuera, la puerta y dentro hasta el sillón
-  const TRAMOS = [[0, 2.5, "Calle Portillejo, 11", "Logroño"], [2.6, 5.6, "Pasa", "La puerta siempre abierta"], [5.7, 99, "Tu sillón te espera", "Siéntate"]];
-  const cine = $("#entrada"), video = $("#video"), sit = $("#sit"), led = $("#led"), panel = $("#panel"), amb = $("#amb");
-  let estado = "inicio";   // inicio · viendo · sentado
-  amb.style.backgroundImage = "url(cine/poster.webp)";
+  /* ================================================================ la película con el scroll */
+  // Fases del recorrido (fracción del scroll de la sección):
+  //   0 – 0.70     los 233 cuadros: fachada, puerta, pasillo y el giro hasta el sillón
+  //   0.70 – 0.84  te sientas: la foto del sillón se acerca al espejo
+  //   0.84 – 0.93  el marco de luz del espejo crece hasta ser la reserva
+  //   0.93 – 1     la reserva, quieta, para usarla
+  const N = 233, F_PELI = 0.70, F_SENTAR = 0.84, F_LED = 0.93;
+  const ESPEJO = { x0: 415, y0: 320, x1: 728, y1: 1030 };   // marco de LED en sillon.webp (1080×1920)
+  const CENTRO = { x: 571.5, y: 675 };
+  const src = (i) => `peli/${String(i).padStart(3, "0")}.webp`;
+  const peli = $("#entrada"), fija = $("#fija"), lienzo = $("#lienzo"), cv = $("#cv"), ctx = cv.getContext("2d");
+  const led = $("#led"), panel = $("#panel");
+  const imgs = new Array(N), listo = new Uint8Array(N);
+  const sillon = new Image();
+  let sillonOk = false;
+  sillon.onload = () => { sillonOk = true; pintado = ""; pedir(); };
+  sillon.src = "peli/sillon.webp";
 
-  function rotulo(t) {
-    if (estado === "sentado") return;
-    $("#titulo").classList.toggle("fuera", t > 2.3);
-    const tr = TRAMOS.find(([a, b]) => t >= a && t < b);
-    const sub = $("#sub");
-    const html = tr && t > 2.6 ? `${esc(tr[2])}<small>${esc(tr[3])}</small>` : "";
-    if (sub.dataset.txt !== html) { sub.classList.remove("on"); sub.dataset.txt = html; setTimeout(() => { sub.innerHTML = html; if (html) sub.classList.add("on"); }, html ? 250 : 0); }
-    $("#prog").style.width = Math.min(100, (t / (video.duration || 7.8)) * 100) + "%";
+  // Carga entrelazada: un cuadro de cada 64, luego de cada 32, 16, 8, 4, 2 y todos
+  const orden = [], visto = new Uint8Array(N);
+  for (const paso of [64, 32, 16, 8, 4, 2, 1]) for (let i = 0; i < N; i += paso) if (!visto[i]) { visto[i] = 1; orden.push(i); }
+  if (!visto[N - 1]) orden.push(N - 1);
+  let activos = 0, cola = 0, pintado = "";
+  function siguiente() {
+    while (activos < 6 && cola < orden.length) {
+      const i = orden[cola++], im = new Image();
+      im.decoding = "async"; activos++;
+      im.onload = () => { listo[i] = 1; activos--; pintado = ""; pedir(); siguiente(); };
+      im.onerror = () => { activos--; siguiente(); };
+      im.src = src(i); imgs[i] = im;
+    }
   }
-  video.addEventListener("timeupdate", () => rotulo(video.currentTime));
-  video.addEventListener("ended", () => sentarse(false));
-  // Si el navegador no puede con ninguno de los dos vídeos, se pasa directamente al sillón
-  $$("#video source").pop().addEventListener("error", () => sentarse(true));
+  if (!reduced) siguiente();
+  function cercano(f) { for (let d = 0; d < N; d++) { if (f - d >= 0 && listo[f - d]) return f - d; if (f + d < N && listo[f + d]) return f + d; } return -1; }
 
-  async function reproducir() {
-    estado = "viendo";
-    $("#entrar").hidden = true; $("#otra-vez").hidden = true; $("#bajar").hidden = true; $("#mandos").hidden = false;
-    try { await video.play(); }
-    catch (e) { estado = "inicio"; $("#entrar").hidden = false; }   // sin reproducción automática (p. ej. ahorro de batería)
+  let dpr = 1, cw = 0, ch = 0, fy = 0.5;
+  function medir() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    const r = lienzo.getBoundingClientRect();
+    cw = Math.round(r.width * dpr); ch = Math.round(r.height * dpr);
+    cv.width = cw; cv.height = ch;
+    fy = r.width / r.height > 0.7 ? 0.35 : 0.5;   // en pantallas anchas se recorta más abajo que arriba: el espejo queda dentro
+    pintado = "";
   }
+  // Coloca una imagen vertical «cubriendo» el lienzo; z y ty acercan hacia el espejo (solo la foto del sillón)
+  function colocacion(iw, ih, z = 1, ty = 0) {
+    const s0 = Math.max(cw / iw, ch / ih);
+    const ox = (cw - iw * s0) / 2, oy = (ch - ih * s0) * fy;
+    const cx = CENTRO.x * (iw / 1080), cy = CENTRO.y * (ih / 1920);
+    return { s: s0 * z, x: ox + s0 * (cx - z * cx), y: oy + s0 * (cy - z * cy) + s0 * ty * ih };
+  }
+  function dibujar(im, z = 1, ty = 0) {
+    const c = colocacion(im.naturalWidth, im.naturalHeight, z, ty);
+    ctx.setTransform(c.s, 0, 0, c.s, c.x, c.y);
+    ctx.drawImage(im, 0, 0);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+  }
+  function rectEspejo(z, ty) {
+    const c = colocacion(1080, 1920, z, ty), lr = lienzo.getBoundingClientRect(), fr = fija.getBoundingClientRect();
+    return { left: (c.x + ESPEJO.x0 * c.s) / dpr + lr.left - fr.left, top: (c.y + ESPEJO.y0 * c.s) / dpr + lr.top - fr.top,
+             width: (ESPEJO.x1 - ESPEJO.x0) * c.s / dpr, height: (ESPEJO.y1 - ESPEJO.y0) * c.s / dpr };
+  }
+  function rectPanel() {
+    const r = panel.getBoundingClientRect(), fr = fija.getBoundingClientRect();
+    return { left: r.left - fr.left, top: r.top - fr.top, width: r.width, height: r.height };
+  }
+  const mezcla = (a, b, t) => ({ left: a.left + (b.left - a.left) * t, top: a.top + (b.top - a.top) * t, width: a.width + (b.width - a.width) * t, height: a.height + (b.height - a.height) * t });
 
-  function sitioDe(el) {
-    const r = el.getBoundingClientRect(), c = cine.getBoundingClientRect();
-    return { left: r.left - c.left, top: r.top - c.top, width: r.width, height: r.height };
+  const caps = $$(".cap").map((el) => ({ el, de: +el.dataset.de, a: +el.dataset.a }));
+  let raf = 0, panelVivo = false;
+  function pedir() { if (!raf) raf = requestAnimationFrame(actualizar); }
+  function progreso() {
+    if (reduced) return 1;
+    const r = peli.getBoundingClientRect();
+    return lim(-r.top / Math.max(1, peli.offsetHeight - fija.clientHeight));
   }
-  function colocar(el, s) { Object.assign(el.style, { left: s.left + "px", top: s.top + "px", width: s.width + "px", height: s.height + "px" }); }
+  function actualizar() {
+    raf = 0;
+    const p = progreso();
+    // 1) la imagen
+    if (p < F_PELI) {
+      const k = cercano(Math.round((p / F_PELI) * (N - 1)));
+      const clave = "f" + k;
+      if (k >= 0 && clave !== pintado) { ctx.clearRect(0, 0, cw, ch); dibujar(imgs[k]); pintado = clave; }
+    } else if (sillonOk) {
+      const t = suave(lim((p - F_PELI) / (F_SENTAR - F_PELI)));
+      const z = 1 + 0.75 * t, ty = -0.03 * t;
+      const clave = "s" + z.toFixed(4);
+      if (clave !== pintado) { ctx.clearRect(0, 0, cw, ch); dibujar(sillon, z, ty); pintado = clave; }
+    }
+    $("#velo").style.opacity = lim((p - F_PELI) / 0.1).toFixed(3);
+    // 2) las frases
+    for (const c of caps) {
+      const ent = c.de === 0 ? 1 : (p - c.de) / 0.025, sal = (c.a - p) / 0.025;
+      const v = reduced ? 0 : lim(Math.min(ent, sal));
+      c.el.style.setProperty("--k", v.toFixed(3));
+      c.el.classList.toggle("vivo", v > 0.01);
+    }
+    // 3) el marco de luz: del espejo a la reserva
+    const tl = suave(lim((p - F_SENTAR) / (F_LED - F_SENTAR)));
+    const vLed = lim((p - (F_SENTAR - 0.012)) / 0.012);
+    led.style.opacity = vLed.toFixed(3);
+    if (vLed > 0) {
+      const r = mezcla(rectEspejo(1.75, -0.03), rectPanel(), tl);
+      Object.assign(led.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px", borderRadius: (6 + 16 * tl) + "px" });
+    }
+    const vp = lim((p - (F_LED - 0.015)) / 0.03);
+    panel.style.opacity = vp.toFixed(3);
+    const vivo = vp > 0.5;
+    panel.classList.toggle("vivo", vp > 0);
+    if (vivo !== panelVivo) { panelVivo = vivo; panel.inert = !vivo; }
+    // 4) barra, aviso de bajar y cabecera
+    $("#prog").style.width = (p * 100).toFixed(2) + "%";
+    $("#baja").style.opacity = p < 0.02 ? "1" : "0";
+    $("#ir").style.opacity = p < F_SENTAR ? "1" : "0";
+    $("#ir").style.pointerEvents = p < F_SENTAR ? "auto" : "none";
+    $("#top").classList.toggle("solido", peli.getBoundingClientRect().bottom < 80);
+  }
+  if (reduced) peli.style.height = "100vh";
+  addEventListener("scroll", pedir, { passive: true });
+  addEventListener("resize", () => { medir(); pedir(); });
+  medir(); actualizar();
 
-  // Te sientas: la foto del sillón (el último cuadro) se acerca al espejo y su marco de luz crece hasta ser la reserva
-  async function sentarse(rapido) {
-    if (estado === "sentado") return;
-    estado = "sentado";
-    video.pause();
-    $("#mandos").hidden = true; $("#entrar").hidden = true;
-    $("#titulo").classList.add("fuera"); $("#sub").classList.remove("on");
-    $("#prog").style.width = "100%";
-    amb.style.backgroundImage = "url(cine/sillon.webp)";
-    sit.hidden = false;
-    const sin = rapido || reduced;
-    sit.classList.toggle("ya", sin);
-    await cuadro();
-    sit.classList.add("sentado");
-    cine.classList.add("sentado");
-    if (!sin) await esperar(1900);
-    colocar(led, sitioDe($("#ancla")));
-    led.classList.remove("crece");
-    led.classList.add("on");
-    if (!sin) await esperar(450);
-    led.classList.add("crece");
-    colocar(led, sitioDe(panel));
-    if (!sin) await esperar(900);
-    panel.classList.add("on");
-    $("#otra-vez").hidden = false; $("#bajar").hidden = false;
-    $("#p-titulo").focus({ preventScroll: true });
+  // Ir a la reserva: al punto del scroll donde la reserva está quieta
+  function irReserva(e) {
+    if (e) e.preventDefault();
+    const y = peli.getBoundingClientRect().top + scrollY + (peli.offsetHeight - fija.clientHeight) * 0.965;
+    scrollTo({ top: y, behavior: reduced ? "auto" : "smooth" });
+    setTimeout(() => $("#p-titulo").focus({ preventScroll: true }), reduced ? 0 : 900);
   }
-  function reiniciar() {
-    panel.classList.remove("on");
-    led.classList.remove("on", "crece");
-    sit.classList.add("ya"); sit.classList.remove("sentado"); cine.classList.remove("sentado");
-    sit.hidden = true;
-    amb.style.backgroundImage = "url(cine/poster.webp)";
-    video.currentTime = 0; rotulo(0);
-    reproducir();
-  }
-  addEventListener("resize", () => { if (estado === "sentado") colocar(led, sitioDe(panel)); });
-
-  $("#saltar").addEventListener("click", () => sentarse(false));
-  $("#btn-entrar").addEventListener("click", reproducir);
-  $("#otra-vez").addEventListener("click", reiniciar);
-  function abrirReserva() {
-    scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
-    if (estado !== "sentado") sentarse(true); else $("#p-titulo").focus({ preventScroll: true });
-  }
-  $("#cab-reservar").addEventListener("click", abrirReserva);
-  $("#local-reservar").addEventListener("click", abrirReserva);
-  addEventListener("scroll", () => { $("#top").classList.toggle("solido", scrollY > innerHeight * 0.6); }, { passive: true });
-
-  if (reduced) sentarse(true);
-  else reproducir();
+  ["#cab-reservar", "#carta-reservar", "#visita-reservar", "#pie-reservar"].forEach((s) => $(s).addEventListener("click", irReserva));
+  $("#ir").addEventListener("click", irReserva);
 
   /* ================================================================ la reserva, paso a paso dentro del espejo */
   const HORARIO = [[[600, 840], [960, 1200]], [[600, 840], [960, 1200]], [[600, 1200]], [[600, 840], [960, 1200]], [[600, 1200]], [[600, 840]], []];
   const SERVICIOS = [
     { id: "degradado", nombre: "Corte con degradado", min: 30, sub: "Lo más pedido" },
-    { id: "corte-barba", nombre: "Corte y barba", min: 45, sub: "" },
+    { id: "corte-barba", nombre: "Corte y barba", min: 45, sub: "Las dos cosas en una cita" },
     { id: "barba", nombre: "Barba", min: 20, sub: "Perfilado y arreglo" },
     { id: "diseno", nombre: "Corte con diseño a navaja", min: 45, sub: "Líneas sobre el degradado" },
     { id: "color", nombre: "Color y platino", min: 90, sub: "Decoloración con el corte a juego" },
@@ -468,8 +612,9 @@ section { scroll-margin-top: 72px; }
   const clave = (d) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
   const st = { paso: 1, servicio: null, barbero: null, dia: null, hora: null };
 
-  $("#servicios").innerHTML = SERVICIOS.map((s) => `<button type="button" class="op" data-s="${s.id}" aria-pressed="false"><span><b>${esc(s.nombre)}</b>${s.sub ? `<small>${esc(s.sub)}</small>` : ""}</span><span class="dur">${s.min} min</span></button>`).join("");
+  $("#servicios").innerHTML = SERVICIOS.map((s) => `<button type="button" class="op" data-s="${s.id}" aria-pressed="false"><span><b>${esc(s.nombre)}</b><small>${esc(s.sub)}</small></span><span class="dur">${s.min} min</span></button>`).join("");
   $("#barberos").innerHTML = BARBEROS.map((b) => `<button type="button" class="op" data-b="${b.id}" aria-pressed="false"><span><b>${esc(b.nombre)}</b><small>${esc(b.sub)}</small></span><span class="dur">→</span></button>`).join("");
+  $("#lista").innerHTML = SERVICIOS.map((s) => `<li><b>${esc(s.nombre)}</b><span>${esc(s.sub)}</span><em>${s.min} min</em></li>`).join("");
 
   function dias() {
     const hoy = ahoraMadrid(); hoy.setHours(0, 0, 0, 0);
@@ -478,7 +623,7 @@ section { scroll-margin-top: 72px; }
   // Ocupación de ejemplo, estable para cada día y hora (la agenda real llegará al conectarla)
   function ocupado(d, m, quien) {
     let h = 2166136261;
-    for (const ch of `${clave(d)}|${m}|${quien}`) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+    for (const c of `${clave(d)}|${m}|${quien}`) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
     return (h % 100) < (quien === "igual" ? 22 : 40);
   }
   function horasDe(d) {
@@ -507,7 +652,7 @@ section { scroll-margin-top: 72px; }
     const s = SERVICIOS.find((x) => x.id === st.servicio), b = BARBEROS.find((x) => x.id === st.barbero), d = dias().find((x) => clave(x) === st.dia);
     return { s, b, cuando: d && st.hora != null ? `${DIAS[lun0(d)]} ${d.getDate()} de ${MESES[d.getMonth()]} a las ${hhmm(st.hora)}` : "" };
   }
-  function irPaso(n) {
+  function irPaso(n, foco = true) {
     st.paso = n;
     $$("[data-paso]").forEach((el) => { el.hidden = +el.dataset.paso !== n; });
     $("#p-titulo").textContent = TITULOS[n - 1];
@@ -521,7 +666,7 @@ section { scroll-margin-top: 72px; }
     $("#p-res").innerHTML = n === 5 ? "Te esperamos en la calle Portillejo, 11." : !s ? "Elige lo que te hacemos." :
       `<b>${esc(s.nombre)}</b> · ${s.min} min${b ? ` · ${b.id === "igual" ? "con quien esté libre" : "con " + esc(b.nombre)}` : ""}${cuando ? `<br><b>${esc(cuando)}</b>` : ""}`;
     $("#p-cuerpo").scrollTop = 0;
-    if (estado === "sentado") $("#p-titulo").focus({ preventScroll: true });
+    if (foco) $("#p-titulo").focus({ preventScroll: true });
   }
   $("#servicios").addEventListener("click", (e) => { const b = e.target.closest("[data-s]"); if (!b) return; st.servicio = b.dataset.s; st.hora = null; irPaso(2); });
   $("#barberos").addEventListener("click", (e) => {
@@ -558,14 +703,14 @@ section { scroll-margin-top: 72px; }
     const filas = $$("#ok-datos dt").map((dt) => `${dt.textContent}: ${dt.nextElementSibling.textContent}`).join("\n");
     copiar(`Cita en Trébol Barber\n${filas}`, (t) => { $("#copiado").textContent = t + "."; });
   });
-  irPaso(1);
+  irPaso(1, false);
 
   /* ================================================================ horario, abierto ahora */
   const ahora = ahoraMadrid(), hoyI = lun0(ahora), mins = ahora.getHours() * 60 + ahora.getMinutes();
   $("#semana").innerHTML = DIAS.map((d, i) => `<tr class="${i === hoyI ? "hoy" : ""}"><td>${d[0].toUpperCase() + d.slice(1)}${i === hoyI ? " · hoy" : ""}</td><td>${HORARIO[i].length ? HORARIO[i].map(([a, b]) => `${hhmm(a)}–${hhmm(b)}`).join(" y ") : "Cerrado"}</td></tr>`).join("");
   const tramo = HORARIO[hoyI].find(([a, b]) => mins >= a && mins < b);
   let est;
-  if (tramo) est = `Abierto ahora · cierra a las ${hhmm(tramo[1])}`;
+  if (tramo) est = `Abierto ahora · hasta las ${hhmm(tramo[1])}`;
   else {
     const luego = HORARIO[hoyI].find(([a]) => a > mins);
     if (luego) est = `Cerrado ahora · abre hoy a las ${hhmm(luego[0])}`;
@@ -573,11 +718,12 @@ section { scroll-margin-top: 72px; }
   }
   $("#estado-txt").textContent = est;
   $("#estado").classList.toggle("abierto", !!tramo);
+  $("#hola-estado").textContent = `C. Portillejo, 11 · Logroño · ${est}`;
   $("#tel-copiar").addEventListener("click", (e) => copiar("+34 941 64 10 71", (t) => { e.target.textContent = t; }));
 
-  /* ================================================================ fotos del local */
+  /* ================================================================ rincones */
   const tira = $("#tira");
-  const paso = () => (tira.querySelector(".foto:not(.ancha)") || tira.firstElementChild).getBoundingClientRect().width + 14;
+  const paso = () => tira.firstElementChild.getBoundingClientRect().width + 14;
   $("#tira-ant").addEventListener("click", () => tira.scrollBy({ left: -paso(), behavior: reduced ? "auto" : "smooth" }));
   $("#tira-sig").addEventListener("click", () => tira.scrollBy({ left: paso(), behavior: reduced ? "auto" : "smooth" }));
 })();
