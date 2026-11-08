@@ -1,4 +1,3 @@
 videos/
-stab.mp4
-transforms.trf
-film_tmp/
+cine_tmp/
+__pycache__/

@@ -12,156 +12,162 @@
 <meta property="og:description" content="Trébol Barber, barbería en la calle Portillejo, 11 (Logroño). Degradados, diseños a navaja, barba y color. Entra en el local y pide tu cita online.">
 <meta property="og:image" content="fotos/fachada.webp">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A0C0B'/%3E%3Cg fill='%233FD46F'%3E%3Ccircle cx='16' cy='10' r='5.4'/%3E%3Ccircle cx='10' cy='16.4' r='5.4'/%3E%3Ccircle cx='22' cy='16.4' r='5.4'/%3E%3C/g%3E%3Cpath d='M16.4 18c.6 4 2 7.4 4.6 10' fill='none' stroke='%233FD46F' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
-<link rel="preload" href="film/000.webp" as="image">
+<link rel="preload" href="cine/poster.webp" as="image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:wght@400;500;600;700;800&display=swap">
 <style>
-/* La barbería es negra con neón verde: la página entra por la puerta del local (la película se mueve con el scroll)
-   y termina en la reserva. Un solo tema oscuro, a propósito: es el del local. */
+/* La barbería es negra con neón verde. La portada es una película que se reproduce sola: de la calle al sillón;
+   al sentarte, el marco de luz del espejo se convierte en la reserva. Un solo tema oscuro, a propósito: el del local. */
 :root {
   color-scheme: dark;
   --cuerpo: #0A0C0B; --capa: #111513; --capa-2: #171C19; --capa-3: #212923;
-  --tinta: #F1F5F2; --tinta-2: #A9B4AD; --tinta-3: #78847D; --linea: rgba(241, 245, 242, .10); --linea-2: rgba(241, 245, 242, .24);
-  --acento: #3FD46F; --acento-hondo: #2BB35A; --sobre-acento: #04140A; --mal: #F2A391;
+  --tinta: #F1F5F2; --tinta-2: #A9B4AD; --tinta-3: #7D8981; --linea: rgba(241, 245, 242, .10); --linea-2: rgba(241, 245, 242, .24);
+  --acento: #3FD46F; --sobre-acento: #04140A; --mal: #F2A391; --led: #FFFFFF;
   --rotulo: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
   --sans: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --r: 18px; --salida: cubic-bezier(.16, 1, .3, 1);
+  --salida: cubic-bezier(.16, 1, .3, 1); --suave: cubic-bezier(.45, 0, .2, 1);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--cuerpo); color: var(--tinta); font: 17px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--cuerpo); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: #000; }
 h1, h2, h3 { font-family: var(--rotulo); font-weight: 800; text-transform: uppercase; letter-spacing: .01em; line-height: .92; margin: 0; text-wrap: balance; }
 p { margin: 0; }
 a { color: inherit; }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 :focus-visible { outline: 3px solid var(--acento); outline-offset: 3px; border-radius: 8px; }
+[hidden] { display: none !important; }
 .wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.ante { font: 700 .76rem/1.2 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--acento); }
+.ante { font: 700 .74rem/1.2 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--acento); }
 .lead { color: var(--tinta-2); font-size: 1.1rem; max-width: 56ch; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 20px; border-radius: 999px; border: 1px solid var(--linea-2);
-       background: transparent; color: var(--tinta); font-weight: 700; text-decoration: none; transition: transform .2s var(--salida), box-shadow .3s; }
+       background: transparent; color: var(--tinta); font-weight: 700; text-decoration: none; transition: transform .2s var(--salida), box-shadow .3s, opacity .3s; }
 .btn:active { transform: scale(.97); }
-.btn.acento { background: var(--acento); border-color: var(--acento); color: var(--sobre-acento); box-shadow: 0 0 0 0 rgba(63, 212, 111, 0); }
+.btn.acento { background: var(--acento); border-color: var(--acento); color: var(--sobre-acento); }
 .btn.acento:hover { box-shadow: 0 0 28px rgba(63, 212, 111, .45); }
-.btn.grande { min-height: 56px; padding: 14px 28px; font-size: 1.08rem; }
+.btn:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; }
 .trebol { width: 26px; height: 26px; color: var(--acento); flex-shrink: 0; filter: drop-shadow(0 0 6px rgba(63, 212, 111, .6)); }
 
 /* Cabecera */
 .top { position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 25; transition: background .35s, border-color .35s; border-bottom: 1px solid transparent; }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; }
 .top.solido { background: rgba(10, 12, 11, .86); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-color: var(--linea); }
-.marca { display: flex; align-items: center; gap: 9px; text-decoration: none; font: 800 1.45rem/1 var(--rotulo); text-transform: uppercase; letter-spacing: .02em; }
+.marca { display: flex; align-items: center; gap: 9px; text-decoration: none; font: 800 1.45rem/1 var(--rotulo); text-transform: uppercase; letter-spacing: .02em; text-shadow: 0 1px 12px rgba(0, 0, 0, .6); }
 .marca b { font-weight: 700; color: var(--tinta-2); font-size: .8em; letter-spacing: .2em; }
 .top .btn { min-height: 42px; padding: 8px 18px; }
 
-/* La película: la entrada al local se mueve con el scroll */
-.peli { position: relative; height: 560vh; background: #000; }
-.peli-fija { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #000 center / cover no-repeat; }
-.peli canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.peli-fondo { filter: blur(26px) brightness(.4) saturate(1.25); transform: scale(1.12); }
-.peli-sombra { position: absolute; inset: 0; pointer-events: none;
-               background: linear-gradient(to bottom, rgba(0, 0, 0, .55), transparent 22%, transparent 38%, rgba(0, 0, 0, .86)); }
-.capas { position: absolute; inset: 0; pointer-events: none; }
-.cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 max(20px, env(safe-area-inset-right, 0px)) calc(104px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
-       opacity: var(--k, 0); visibility: hidden; }
-.cap.vivo { visibility: visible; }
-.cap > * { translate: 0 calc((1 - var(--k, 0)) * 22px); }
-.cap .num { font: 700 .8rem/1 var(--sans); letter-spacing: .2em; color: var(--acento); margin-bottom: 10px; text-shadow: 0 1px 10px rgba(0, 0, 0, .95), 0 0 2px rgba(0, 0, 0, .9); }
-.cap h2 { font-size: clamp(2.6rem, 11vw, 5.2rem); text-shadow: 0 4px 30px rgba(0, 0, 0, .6); }
-.cap p.t { margin-top: 12px; font-size: 1.08rem; color: rgba(241, 245, 242, .9); max-width: 27rem; text-shadow: 0 2px 16px rgba(0, 0, 0, .7); }
-.cap-titulo { inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; padding-bottom: 40px; }
-.cap-titulo h1 { font-size: clamp(4.4rem, 22vw, 11rem); font-weight: 900; line-height: .82; text-shadow: 0 0 40px rgba(0, 0, 0, .55); }
-.cap-titulo h1 .barber { display: block; font-size: .3em; font-weight: 700; letter-spacing: .5em; margin-top: .35em; padding-left: .5em; color: var(--tinta); }
-.cap-titulo h1 .neon { color: var(--tinta); text-shadow: 0 0 12px rgba(255, 255, 255, .55), 0 0 42px rgba(63, 212, 111, .55); }
-.cap-titulo .ante { margin-bottom: 16px; text-shadow: 0 2px 12px rgba(0, 0, 0, .8); }
-.cap-titulo .nota { margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: rgba(0, 0, 0, .45);
-                    border: 1px solid var(--linea-2); font-size: .92rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.cap-titulo .nota b { color: var(--acento); }
-.baja { position: absolute; left: 50%; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); translate: -50% 0; display: grid; justify-items: center; gap: 6px;
-        font-size: .84rem; color: var(--tinta-2); }
-.baja i { width: 22px; height: 34px; border: 2px solid var(--linea-2); border-radius: 12px; position: relative; }
-.baja i::after { content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 7px; margin-left: -2px; border-radius: 2px; background: var(--acento); animation: rueda 1.6s var(--salida) infinite; }
-@keyframes rueda { from { opacity: 1; translate: 0 0; } to { opacity: 0; translate: 0 12px; } }
-.cap-fin { inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; padding-bottom: 60px;
-           background: radial-gradient(70% 42% at 50% 46%, rgba(0, 0, 0, .66), transparent 78%); }
-.cap-fin .ante, .cap-titulo .ante { text-shadow: 0 1px 10px rgba(0, 0, 0, .95); }
-.cap-fin .btn { pointer-events: auto; margin-top: 22px; }
-.peli-barra { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, .08); }
-.peli-barra i { display: block; height: 100%; width: 0; background: var(--acento); box-shadow: 0 0 12px var(--acento); }
-.saltar { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); pointer-events: auto;
-          font-size: .84rem; color: var(--tinta-2); text-decoration: none; padding: 8px 12px; border-radius: 999px; background: rgba(0, 0, 0, .4); }
-@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
-  .cap { right: auto; top: 0; width: min(30rem, 32vw); display: flex; flex-direction: column; justify-content: center; padding: 0 0 0 max(56px, 5vw); }
-  .cap-titulo, .cap-fin { width: auto; right: 0; padding: 0; display: grid; place-content: center; justify-items: center; }
-  .cap h2 { font-size: clamp(3.4rem, 5.6vw, 5.6rem); }
+/* La película */
+.cine { position: relative; height: 100vh; height: 100svh; min-height: 560px; background: #000; overflow: hidden; }
+.amb { position: absolute; inset: -60px; background: #000 center / cover no-repeat; filter: blur(34px) brightness(.36) saturate(1.25); display: none; transition: background-image .6s; }
+.marco { position: absolute; inset: 0; overflow: hidden; container-type: size; }
+@media (min-aspect-ratio: 3/4) {
+  .amb { display: block; }
+  .marco { left: 50%; right: auto; width: calc(100svh * 9 / 16); translate: -50% 0; box-shadow: 0 0 140px rgba(0, 0, 0, .9); }
 }
+.marco video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+/* La foto del sillón cubre el marco igual que el vídeo (mismo encuadre), para poder animarla y medir el espejo */
+.sit { position: absolute; left: 50%; top: 50%; width: max(100cqw, 100cqh * 9 / 16); height: max(100cqh, 100cqw * 16 / 9); translate: -50% -50%;
+       transform-origin: 52.9% 35.2%; transition: transform 1.9s var(--suave); }
+.sit img { width: 100%; height: 100%; display: block; }
+.sit.sentado { transform: translateY(-3%) scale(1.75); }
+.sit.ya { transition: none; }
+.ancla { position: absolute; left: 38.4%; top: 16.7%; width: 29%; height: 37%; }
+.velo { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1.6s ease;
+        background: radial-gradient(70% 56% at 50% 40%, rgba(0, 0, 0, .25), rgba(0, 0, 0, .86)); }
+.cine.sentado .velo { opacity: 1; }
+.sombra { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(0, 0, 0, .6), transparent 24%, transparent 58%, rgba(0, 0, 0, .78)); }
+.titulo { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; padding: 0 20px 40px; pointer-events: none;
+          transition: opacity .9s ease, translate .9s ease; }
+.titulo.fuera { opacity: 0; translate: 0 -16px; }
+.titulo h1 { font-size: clamp(4.4rem, 21vw, 10.5rem); font-weight: 900; line-height: .82; }
+.titulo h1 .neon { color: var(--tinta); text-shadow: 0 0 12px rgba(255, 255, 255, .55), 0 0 42px rgba(63, 212, 111, .55); }
+.titulo h1 .barber { display: block; font-size: .3em; font-weight: 700; letter-spacing: .5em; margin-top: .35em; padding-left: .5em; }
+.titulo .ante { margin-bottom: 16px; text-shadow: 0 1px 10px rgba(0, 0, 0, .95), 0 0 3px rgba(0, 0, 0, .9); padding: 5px 10px; border-radius: 999px; background: rgba(0, 0, 0, .35); }
+.titulo .nota { margin-top: 18px; display: inline-flex; gap: 8px; padding: 7px 14px; border-radius: 999px; background: rgba(0, 0, 0, .45); border: 1px solid var(--linea-2);
+                font-size: .92rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.titulo .nota b { color: var(--acento); }
+.sub { position: absolute; left: 0; right: 0; bottom: calc(70px + env(safe-area-inset-bottom, 0px)); text-align: center; pointer-events: none;
+       font: 800 clamp(1.5rem, 6vw, 2.2rem)/1 var(--rotulo); text-transform: uppercase; letter-spacing: .06em; text-shadow: 0 2px 18px rgba(0, 0, 0, .8);
+       opacity: 0; translate: 0 10px; transition: opacity .7s ease, translate .7s ease; }
+.sub.on { opacity: 1; translate: 0 0; }
+.sub small { display: block; margin-top: 8px; font: 600 .8rem/1 var(--sans); letter-spacing: .18em; color: var(--acento); }
+.mandos { position: absolute; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 8px; z-index: 3; }
+.mando { min-height: 40px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--linea-2); background: rgba(0, 0, 0, .45); font-size: .86rem; font-weight: 700;
+         -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.barra { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, .08); }
+.barra i { display: block; height: 100%; width: 0; background: var(--acento); box-shadow: 0 0 12px var(--acento); }
+.entrar { position: absolute; left: 50%; top: 62%; translate: -50% 0; z-index: 4; }
+.entrar .btn { min-height: 58px; padding: 14px 30px; font-size: 1.1rem; background: rgba(0, 0, 0, .55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 
-/* Reserva */
-section { scroll-margin-top: 72px; }
-.reserva { padding-block: clamp(72px, 10vw, 120px); background: radial-gradient(900px 500px at 85% 0%, rgba(63, 212, 111, .09), transparent 70%); }
-.res-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
-@media (max-width: 880px) { .res-grid { grid-template-columns: 1fr; } }
-.res-intro { display: grid; gap: 16px; position: sticky; top: 96px; }
-@media (max-width: 880px) { .res-intro { position: static; } }
-.res-intro h2 { font-size: clamp(3rem, 8vw, 5rem); }
-.muestra { font-size: .92rem; color: var(--tinta-2); border-left: 3px solid var(--acento); padding: 4px 0 4px 12px; max-width: 46ch; }
-.mini { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; color: var(--tinta-2); font-size: .95rem; }
-.mini li { display: flex; gap: 10px; align-items: center; }
-.mini li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--acento); box-shadow: 0 0 8px var(--acento); flex-shrink: 0; }
-.tarjeta { background: var(--capa); border: 1px solid var(--linea); border-radius: 24px; padding: clamp(18px, 3vw, 28px); display: grid; gap: 22px; min-width: 0; }
-.paso { border: 0; margin: 0; padding: 0; display: grid; gap: 12px; min-width: 0; transition: opacity .3s; }
-.paso[disabled] { opacity: .38; }
-.paso legend { padding: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font: 800 1.3rem/1 var(--rotulo); text-transform: uppercase; letter-spacing: .03em; }
-.paso legend b { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--acento); color: var(--acento); font: 700 .85rem/1 var(--sans); }
-.ops { display: grid; gap: 8px; }
-.ops.dos { grid-template-columns: 1fr 1fr; }
+/* El marco de luz del espejo, que crece hasta ser la reserva */
+.led { position: absolute; z-index: 5; pointer-events: none; border: 3px solid var(--led); border-radius: 6px; opacity: 0;
+       box-shadow: 0 0 10px rgba(255, 255, 255, .9), 0 0 34px rgba(255, 255, 255, .55), 0 0 90px rgba(255, 255, 255, .25), inset 0 0 16px rgba(255, 255, 255, .35); }
+.led.on { opacity: 1; transition: opacity .5s ease; }
+.led.crece { transition: left .9s var(--suave), top .9s var(--suave), width .9s var(--suave), height .9s var(--suave), border-radius .9s var(--suave), opacity .5s; border-radius: 22px; }
+.panel { position: absolute; z-index: 6; left: 50%; translate: -50% 0; top: calc(74px + env(safe-area-inset-top, 0px)); bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+         width: min(calc(100% - 28px), 440px); max-height: 720px; margin-block: auto;
+         border-radius: 22px; background: rgba(6, 8, 7, .74); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2);
+         display: grid; grid-template-rows: auto minmax(0, 1fr) auto; opacity: 0; visibility: hidden; transition: opacity .55s ease, visibility 0s .55s; }
+.panel.on { opacity: 1; visibility: visible; transition: opacity .55s ease .05s, visibility 0s; }
+.p-cab { padding: 22px 22px 12px; display: grid; gap: 8px; }
+.p-cab h2 { font-size: clamp(2rem, 8vw, 2.6rem); }
+.p-cab h2:focus { outline: none; }
+.puntos { display: flex; gap: 6px; }
+.puntos i { width: 22px; height: 4px; border-radius: 4px; background: var(--linea-2); transition: background .3s, width .3s; }
+.puntos i.hecho { background: var(--acento); }
+.puntos i.ahora { background: var(--tinta); width: 34px; }
+.p-cuerpo { overflow-y: auto; overscroll-behavior: contain; padding: 6px 22px 16px; scrollbar-width: thin; }
+.p-pie { padding: 12px 22px 18px; border-top: 1px solid var(--linea); display: flex; align-items: center; gap: 12px; min-height: 64px; }
+.p-pie .res { flex: 1; min-width: 0; font-size: .86rem; color: var(--tinta-2); }
+.p-pie .res b { color: var(--tinta); }
+.atras { border: 0; background: none; color: var(--tinta-2); font-weight: 700; padding: 8px 4px; }
+.paso { display: grid; gap: 10px; animation: entra .45s var(--salida); }
+@keyframes entra { from { opacity: 0; translate: 14px 0; } }
 .op { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; text-align: left; padding: 14px 16px; border-radius: 14px;
-      border: 1px solid var(--linea); background: var(--capa-2); transition: border-color .2s, background .2s; min-height: 56px; }
-.op:hover:not(:disabled) { border-color: var(--linea-2); }
+      border: 1px solid var(--linea); background: rgba(255, 255, 255, .04); transition: border-color .2s, background .2s; min-height: 58px; }
+.op:hover { border-color: var(--linea-2); }
 .op b { display: block; font-weight: 700; }
-.op small { display: block; color: var(--tinta-3); font-size: .85rem; }
-.op .dur { color: var(--tinta-2); font-size: .9rem; white-space: nowrap; }
-.op[aria-pressed="true"] { border-color: var(--acento); background: rgba(63, 212, 111, .08); box-shadow: inset 0 0 0 1px var(--acento); }
-.nota { color: var(--tinta-3); font-size: .86rem; }
-.dias { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 8px; scroll-snap-type: x proximity; scrollbar-width: thin; }
-.dia { flex: 0 0 auto; width: 62px; display: grid; justify-items: center; gap: 2px; padding: 10px 4px; border-radius: 14px; border: 1px solid var(--linea); background: var(--capa-2); scroll-snap-align: start; }
-.dia span { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--tinta-3); }
-.dia b { font: 800 1.5rem/1 var(--rotulo); }
-.dia small { font-size: .68rem; color: var(--tinta-3); }
-.dia:disabled { opacity: .35; cursor: not-allowed; }
-.dia[aria-pressed="true"] { border-color: var(--acento); background: rgba(63, 212, 111, .1); }
+.op small { display: block; color: var(--tinta-3); font-size: .84rem; }
+.op .dur { color: var(--tinta-2); font-size: .88rem; white-space: nowrap; }
+.op[aria-pressed="true"] { border-color: var(--acento); background: rgba(63, 212, 111, .1); }
+.nota { color: var(--tinta-3); font-size: .84rem; }
+.dias { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 8px; scrollbar-width: thin; }
+.dia { flex: 0 0 auto; width: 60px; display: grid; justify-items: center; gap: 2px; padding: 9px 4px; border-radius: 14px; border: 1px solid var(--linea); background: rgba(255, 255, 255, .04); }
+.dia span { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--tinta-3); }
+.dia b { font: 800 1.45rem/1 var(--rotulo); }
+.dia small { font-size: .66rem; color: var(--tinta-3); }
+.dia:disabled { opacity: .32; cursor: not-allowed; }
+.dia[aria-pressed="true"] { border-color: var(--acento); background: rgba(63, 212, 111, .12); }
 .dia[aria-pressed="true"] span, .dia[aria-pressed="true"] small { color: var(--acento); }
-.horas { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; }
-.hora { min-height: 44px; border-radius: 12px; border: 1px solid var(--linea); background: var(--capa-2); font-weight: 700; font-variant-numeric: tabular-nums; }
-.hora:disabled { opacity: .3; text-decoration: line-through; cursor: not-allowed; }
-.hora[aria-pressed="true"] { background: var(--acento); border-color: var(--acento); color: var(--sobre-acento); }
 .huecos { font-size: .88rem; color: var(--tinta-2); }
+.horas { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+.hora { min-height: 44px; border-radius: 12px; border: 1px solid var(--linea); background: rgba(255, 255, 255, .04); font-weight: 700; font-variant-numeric: tabular-nums; }
+.hora:disabled { opacity: .28; text-decoration: line-through; cursor: not-allowed; }
+.hora[aria-pressed="true"] { background: var(--acento); border-color: var(--acento); color: var(--sobre-acento); }
 .campo { display: grid; gap: 6px; font-weight: 600; font-size: .95rem; }
-.campo input, .campo textarea { background: var(--cuerpo); border: 1px solid var(--linea-2); border-radius: 12px; padding: 12px 14px; min-height: 50px; font-weight: 400; }
-.campo textarea { min-height: 76px; resize: vertical; }
+.campo input, .campo textarea { background: rgba(0, 0, 0, .45); border: 1px solid var(--linea-2); border-radius: 12px; padding: 12px 14px; min-height: 50px; font-weight: 400; }
+.campo textarea { min-height: 72px; resize: vertical; }
 .campo [aria-invalid="true"] { border-color: var(--mal); }
-.err { color: var(--mal); font-size: .85rem; min-height: 1.2em; }
-.resumen { padding: 14px 16px; border-radius: 14px; background: var(--capa-2); border: 1px dashed var(--linea-2); color: var(--tinta-2); font-size: .95rem; }
-.resumen b { color: var(--tinta); }
-.btn:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; }
-.ok { text-align: center; justify-items: center; }
-.ok .trebol { width: 64px; height: 64px; animation: brota .8s var(--salida); }
+.err { color: var(--mal); font-size: .84rem; min-height: 1.1em; }
+.muestra { font-size: .85rem; color: var(--tinta-2); border-left: 3px solid var(--acento); padding: 2px 0 2px 10px; }
+.ok { justify-items: center; text-align: center; }
+.ok .trebol { width: 58px; height: 58px; animation: brota .8s var(--salida); }
 @keyframes brota { from { scale: .4; opacity: 0; rotate: -30deg; } }
-.ok h3 { font-size: 2.6rem; }
-.ok dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; text-align: left; width: 100%; max-width: 380px; padding: 16px; border-radius: 14px; background: var(--capa-2); }
-.ok dt { color: var(--tinta-3); font-size: .88rem; }
+.ok dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; text-align: left; width: 100%; padding: 14px; border-radius: 14px; background: rgba(255, 255, 255, .05); }
+.ok dt { color: var(--tinta-3); font-size: .86rem; }
 .ok dd { margin: 0; font-weight: 700; }
 .ok .fila { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.otra-vez { position: absolute; z-index: 7; left: max(14px, env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+.bajar { position: absolute; z-index: 7; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); text-decoration: none; }
 
 /* El local */
-.local { padding-block: clamp(64px, 9vw, 110px); border-top: 1px solid var(--linea); }
+section { scroll-margin-top: 72px; }
+.local { padding-block: clamp(64px, 9vw, 110px); }
 .local .cab { display: grid; gap: 14px; margin-bottom: 28px; }
 .local h2, .opiniones h2, .donde h2 { font-size: clamp(2.8rem, 7.4vw, 4.6rem); }
-.tira { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px max(16px, env(safe-area-inset-left, 0px)) 18px; scroll-padding-inline: max(16px, env(safe-area-inset-left, 0px));
-        scrollbar-width: thin; }
+.tira { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px max(16px, env(safe-area-inset-left, 0px)) 18px; scroll-padding-inline: max(16px, env(safe-area-inset-left, 0px)); scrollbar-width: thin; }
 @media (min-width: 1152px) { .tira { padding-inline: calc((100vw - 1120px) / 2 + 16px); scroll-padding-inline: calc((100vw - 1120px) / 2 + 16px); } }
 .foto { flex: 0 0 auto; width: min(74vw, 300px); margin: 0; scroll-snap-align: start; display: grid; gap: 10px; }
 .foto.ancha { width: min(88vw, 560px); }
@@ -169,8 +175,9 @@ section { scroll-margin-top: 72px; }
 .foto.ancha img { aspect-ratio: 16 / 9; }
 .foto figcaption { font-size: .93rem; color: var(--tinta-2); }
 .foto figcaption b { display: block; color: var(--tinta); font: 800 1.15rem/1.1 var(--rotulo); text-transform: uppercase; letter-spacing: .03em; margin-bottom: 4px; }
-.tira-nav { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
-.tira-nav button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--linea-2); background: transparent; font-size: 1.2rem; }
+.tira-nav { display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 4px; flex-wrap: wrap; }
+.tira-nav .flechas { display: flex; gap: 8px; }
+.tira-nav .flechas button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--linea-2); background: transparent; font-size: 1.2rem; }
 
 /* Opiniones */
 .opiniones { padding-block: clamp(64px, 9vw, 110px); border-top: 1px solid var(--linea); }
@@ -181,7 +188,7 @@ section { scroll-margin-top: 72px; }
 @media (max-width: 760px) { .citas { grid-template-columns: 1fr; } }
 .cita { margin: 0; padding: 20px; border-radius: 18px; background: var(--capa); border: 1px solid var(--linea); display: grid; gap: 10px; }
 .cita p { font-size: 1.05rem; }
-.cita footer { color: var(--tinta-3); font-size: .85rem; }
+.cita .de { color: var(--tinta-3); font-size: .85rem; }
 
 /* Horario y dónde */
 .donde { padding-block: clamp(64px, 9vw, 110px); border-top: 1px solid var(--linea); }
@@ -203,12 +210,9 @@ section { scroll-margin-top: 72px; }
 .pie { border-top: 1px solid var(--linea); padding-block: 34px calc(40px + env(safe-area-inset-bottom, 0px)); color: var(--tinta-3); font-size: .86rem; }
 .pie .wrap { display: grid; gap: 8px; }
 
-/* Aparecer al bajar (solo con CSS; sin soporte, todo se ve quieto) */
 @keyframes rv { from { opacity: 0; translate: 0 30px; } }
 @supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .rv { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% entry 85%; }
-  }
+  @media (prefers-reduced-motion: no-preference) { .rv { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% entry 85%; } }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
@@ -225,69 +229,65 @@ section { scroll-margin-top: 72px; }
 <header class="top" id="top">
   <div class="wrap">
     <a class="marca" href="#entrada"><svg class="trebol" aria-hidden="true"><use href="#trebol"/></svg>Trébol <b>Barber</b></a>
-    <a class="btn acento" href="#reservar">Reservar</a>
+    <button class="btn acento" type="button" id="cab-reservar">Reservar</button>
   </div>
 </header>
 
 <main>
-  <section class="peli" id="entrada" aria-label="Entrada a la barbería">
-    <div class="peli-fija" id="fija">
-      <canvas class="peli-fondo" id="fondo" aria-hidden="true"></canvas>
-      <canvas id="lienzo" role="img" aria-label="Recorrido grabado en el local: de la calle Portillejo, por la puerta, hasta la sala de espera y los puestos"></canvas>
-      <div class="peli-sombra"></div>
-      <div class="capas">
-        <div class="cap cap-titulo" data-de="0" data-a="12">
-          <p class="ante">Barbería · Calle Portillejo, 11 · Logroño</p>
-          <h1><span class="neon">Trébol</span><span class="barber">Barber</span></h1>
-          <p class="nota"><b>★ 5,0</b> · 48 reseñas en Google</p>
-        </div>
-        <div class="cap" data-de="18" data-a="56"><p class="num">01 · La puerta</p><h2>Pasa sin llamar</h2><p class="t">Escaparate con el trébol en neón, el poste de barbero junto a la entrada y, al cruzar, un felpudo lleno de tréboles.</p></div>
-        <div class="cap" data-de="60" data-a="79"><p class="num">02 · Al entrar</p><h2>Agua fresca y los puestos al fondo</h2><p class="t">El pasillo deja ver el espejo de luz y los productos antes de dar dos pasos.</p></div>
-        <div class="cap" data-de="84" data-a="97"><p class="num">03 · La espera</p><h2>Sofá, césped y la calle de fondo</h2><p class="t">Si llegas antes, esperas junto al ventanal. Con cita, casi nunca hace falta.</p></div>
-        <div class="cap" data-de="103" data-a="138"><p class="num">04 · Los puestos</p><h2>Negro, luz y nada más</h2><p class="t">Paredes negras, techo de hexágonos de luz, espejos con marco de LED y el carro con todas las máquinas a mano.</p></div>
-        <div class="cap cap-fin" data-de="142" data-a="152"><p class="ante">Tu sitio te espera</p><h2>¿Te cogemos hueco?</h2><a class="btn acento grande" href="#reservar">Reservar cita</a></div>
-      </div>
-      <div class="baja" id="baja" aria-hidden="true"><i></i>Desliza para entrar</div>
-      <div class="peli-barra" aria-hidden="true"><i id="prog"></i></div>
-      <a class="saltar" href="#reservar">Saltar la entrada</a>
+  <section class="cine" id="entrada" aria-label="Entrada a la barbería y reserva">
+    <div class="amb" id="amb" aria-hidden="true"></div>
+    <div class="marco" id="marco">
+      <video id="video" muted playsinline preload="auto" poster="cine/poster.webp" aria-hidden="true" disablepictureinpicture>
+        <source src="cine/entrada.mp4" type="video/mp4">
+        <source src="cine/entrada.webm" type="video/webm">
+      </video>
+      <div class="sit" id="sit" hidden><img src="cine/sillon.webp" alt="" width="1080" height="1920"><i class="ancla" id="ancla"></i></div>
+      <div class="velo"></div>
+      <div class="sombra"></div>
     </div>
-  </section>
+    <div class="titulo" id="titulo">
+      <p class="ante">Barbería · Calle Portillejo, 11 · Logroño</p>
+      <h1><span class="neon">Trébol</span><span class="barber">Barber</span></h1>
+      <p class="nota"><b>★ 5,0</b> · 48 reseñas en Google</p>
+    </div>
+    <p class="sub" id="sub" aria-live="polite"></p>
+    <div class="entrar" id="entrar" hidden><button class="btn" type="button" id="btn-entrar">▶ Entrar en la barbería</button></div>
+    <div class="mandos" id="mandos"><button class="mando" type="button" id="saltar">Saltar y reservar</button></div>
+    <div class="barra" aria-hidden="true"><i id="prog"></i></div>
+    <div class="led" id="led" aria-hidden="true"></div>
 
-  <section class="reserva" id="reservar" aria-labelledby="h-res">
-    <div class="wrap res-grid">
-      <div class="res-intro rv">
-        <p class="ante">Reserva online</p>
-        <h2 id="h-res">Pide tu cita</h2>
-        <p class="lead">Elige el corte, con quién y a qué hora. En un minuto lo tienes.</p>
-        <ul class="mini"><li>Mejor con cita: así no esperas</li><li>Tarjeta y pago con el móvil</li><li>Aparcamiento gratis en la calle</li><li>Entrada accesible en silla de ruedas</li></ul>
-        <p class="muestra">Web de muestra: la reserva funciona entera, pero todavía no llega a la agenda de la barbería y no se envía nada.</p>
+    <div class="panel" id="panel" role="region" aria-labelledby="p-titulo">
+      <div class="p-cab">
+        <p class="ante">Trébol Barber · Reserva</p>
+        <h2 id="p-titulo" tabindex="-1">¿Qué te hacemos?</h2>
+        <div class="puntos" id="puntos" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
       </div>
-      <div>
-        <form class="tarjeta" id="form" novalidate>
-          <fieldset class="paso" id="p1"><legend><b>1</b>Servicio</legend><div class="ops" id="servicios"></div>
-            <p class="nota">Sin carta pública: el precio se confirma en la barbería y las duraciones son orientativas. Según sus clientes en Google, un corte con degradado cuesta entre 15 y 20 €.</p></fieldset>
-          <fieldset class="paso" id="p2" disabled><legend><b>2</b>Con quién</legend><div class="ops dos" id="barberos"></div></fieldset>
-          <fieldset class="paso" id="p3" disabled><legend><b>3</b>Día y hora</legend><div class="dias" id="dias"></div><p class="huecos" id="huecos" aria-live="polite"></p><div class="horas" id="horas"></div></fieldset>
-          <fieldset class="paso" id="p4" disabled><legend><b>4</b>Tus datos</legend>
-            <label class="campo" for="f-nombre">Nombre<input id="f-nombre" name="nombre" autocomplete="given-name" maxlength="60" placeholder="Cómo te llamas"></label>
-            <p class="err" id="e-nombre"></p>
-            <label class="campo" for="f-tel">Móvil<input id="f-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="600 000 000"></label>
-            <p class="err" id="e-tel"></p>
-            <label class="campo" for="f-nota">¿Algo que debamos saber? <span class="nota">(opcional)</span><textarea id="f-nota" name="nota" maxlength="300" placeholder="Ej.: degradado bajo y la barba solo perfilar"></textarea></label>
-          </fieldset>
-          <div class="resumen" id="resumen" aria-live="polite">Elige un servicio para empezar.</div>
-          <button class="btn acento grande" id="confirmar" type="submit" disabled>Confirmar cita</button>
+      <div class="p-cuerpo" id="p-cuerpo">
+        <div class="paso" data-paso="1"><div class="ops" id="servicios" style="display:grid;gap:8px"></div>
+          <p class="nota">Sin carta pública: el precio se confirma en la barbería. Según sus clientes en Google, un degradado cuesta entre 15 y 20 €.</p></div>
+        <div class="paso" data-paso="2" hidden><div id="barberos" style="display:grid;gap:8px"></div></div>
+        <div class="paso" data-paso="3" hidden><div class="dias" id="dias"></div><p class="huecos" id="huecos"></p><div class="horas" id="horas"></div></div>
+        <form class="paso" data-paso="4" id="form" novalidate hidden>
+          <label class="campo" for="f-nombre">Nombre<input id="f-nombre" name="nombre" autocomplete="given-name" maxlength="60" placeholder="Cómo te llamas"></label>
+          <p class="err" id="e-nombre"></p>
+          <label class="campo" for="f-tel">Móvil<input id="f-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="600 000 000"></label>
+          <p class="err" id="e-tel"></p>
+          <label class="campo" for="f-nota">¿Algo que debamos saber? <span class="nota">(opcional)</span><textarea id="f-nota" maxlength="300" placeholder="Ej.: degradado bajo y la barba solo perfilar"></textarea></label>
+          <button class="btn acento" type="submit" style="min-height:54px">Confirmar cita</button>
+          <p class="muestra">Web de muestra: la reserva funciona entera, pero todavía no llega a la agenda de la barbería y no se envía nada.</p>
         </form>
-        <div class="tarjeta ok" id="ok" hidden tabindex="-1">
+        <div class="paso ok" data-paso="5" hidden>
           <svg class="trebol" aria-hidden="true"><use href="#trebol"/></svg>
-          <h3>Cita apartada</h3>
           <dl id="ok-datos"></dl>
           <p class="muestra" style="text-align:left">Es una muestra: todavía no llega a la barbería. Cuando esté conectada, la confirmación te llegará por WhatsApp con un botón para cambiar la hora.</p>
-          <div class="fila"><button class="btn" type="button" id="copiar">Copiar resumen</button><button class="btn acento" type="button" id="otra">Hacer otra reserva</button></div>
+          <div class="fila"><button class="btn" type="button" id="copiar">Copiar resumen</button><button class="btn acento" type="button" id="otra">Otra cita</button></div>
           <p class="nota" id="copiado" role="status"></p>
         </div>
       </div>
+      <div class="p-pie"><button class="atras" type="button" id="atras" hidden>← Atrás</button><p class="res" id="p-res">Elige lo que te hacemos.</p></div>
     </div>
+    <button class="mando otra-vez" type="button" id="otra-vez" hidden>↺ Ver la entrada</button>
+    <a class="mando bajar" href="#local" id="bajar" hidden>Conoce el local ↓</a>
   </section>
 
   <section class="local" id="local" aria-labelledby="h-local">
@@ -306,7 +306,7 @@ section { scroll-margin-top: 72px; }
       <figure class="foto"><img src="fotos/cafe.webp" alt="Rincón con mesa alta de madera, cafetera y un perchero con camisetas, junto a un bambú" loading="lazy" width="900" height="1600"><figcaption><b>El rincón del café</b>Mesa alta, cafetera y un perchero con camisetas.</figcaption></figure>
       <figure class="foto"><img src="fotos/vuelta.webp" alt="Vista hacia la entrada con un bambú en primer plano y el reflejo verde del neón en el cristal" loading="lazy" width="900" height="1600"><figcaption><b>De vuelta</b>El bambú, la nevera y el verde del neón en el cristal.</figcaption></figure>
     </div>
-    <div class="wrap tira-nav"><button type="button" id="tira-ant" aria-label="Fotos anteriores">←</button><button type="button" id="tira-sig" aria-label="Más fotos">→</button></div>
+    <div class="wrap tira-nav"><button class="btn acento" type="button" id="local-reservar">Reservar cita</button><div class="flechas"><button type="button" id="tira-ant" aria-label="Fotos anteriores">←</button><button type="button" id="tira-sig" aria-label="Más fotos">→</button></div></div>
   </section>
 
   <section class="opiniones" id="opiniones" aria-labelledby="h-op">
@@ -317,10 +317,10 @@ section { scroll-margin-top: 72px; }
         <div class="nota-media"><b>5,0</b><span class="estrellas" aria-hidden="true">★★★★★</span><span class="lead" style="font-size:1rem">48 reseñas</span></div>
       </div>
       <div class="citas">
-        <blockquote class="cita rv"><p>«Trabajo impecable tanto en cabello como en barba. Álvaro es amable, delicado y paciente con el trabajo que realiza.»</p><footer>Reseña en Google · mayo de 2026</footer></blockquote>
-        <blockquote class="cita rv"><p>«Excelente lugar, excelente ambiente, excelente barbero.»</p><footer>Reseña en Google · febrero de 2026</footer></blockquote>
-        <blockquote class="cita rv"><p>«Corte profesional a muy buen precio. Se le nota la dedicación y el esfuerzo por su trabajo.»</p><footer>Reseña en Google · mayo de 2026</footer></blockquote>
-        <blockquote class="cita rv"><p>«De todas a las que he ido en Logroño, sin duda la mejor.»</p><footer>Reseña en Google · junio de 2025</footer></blockquote>
+        <blockquote class="cita rv"><p>«Trabajo impecable tanto en cabello como en barba. Álvaro es amable, delicado y paciente con el trabajo que realiza.»</p><p class="de">Reseña en Google · mayo de 2026</p></blockquote>
+        <blockquote class="cita rv"><p>«Excelente lugar, excelente ambiente, excelente barbero.»</p><p class="de">Reseña en Google · febrero de 2026</p></blockquote>
+        <blockquote class="cita rv"><p>«Corte profesional a muy buen precio. Se le nota la dedicación y el esfuerzo por su trabajo.»</p><p class="de">Reseña en Google · mayo de 2026</p></blockquote>
+        <blockquote class="cita rv"><p>«De todas a las que he ido en Logroño, sin duda la mejor.»</p><p class="de">Reseña en Google · junio de 2025</p></blockquote>
       </div>
     </div>
   </section>
@@ -338,7 +338,7 @@ section { scroll-margin-top: 72px; }
           <p class="lead" style="color:var(--tinta)">C. Portillejo, 11 · 26007 Logroño<br><span style="color:var(--tinta-2)">Junto a la avenida de Burgos</span></p>
           <div class="linea"><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Trebol%20barber%20Portillejo%2011%20Logro%C3%B1o&amp;query_place_id=ChIJ1QmA8S5VRQ0Rj0CM5_xQYk4" target="_blank" rel="noopener">Cómo llegar</a>
             <a class="btn" href="https://www.instagram.com/trebol__barber/" target="_blank" rel="noopener">@trebol__barber</a></div>
-          <div class="linea"><span class="nota">Teléfono</span><code id="tel">+34 941 64 10 71</code><button class="btn" type="button" id="tel-copiar" style="min-height:40px;padding:6px 14px">Copiar</button></div>
+          <div class="linea"><span class="nota">Teléfono</span><code>+34 941 64 10 71</code><button class="btn" type="button" id="tel-copiar" style="min-height:40px;padding:6px 14px">Copiar</button></div>
           <ul class="det"><li>Entrada y aseo accesibles en silla de ruedas</li><li>Tarjeta y pago con el móvil</li><li>Aparcamiento gratis en la calle</li><li>Ideal para ir con niños</li></ul>
         </div>
       </div>
@@ -360,101 +360,96 @@ section { scroll-margin-top: 72px; }
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
+  const cuadro = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 
   /* ================================================================ la película */
-  const N = 153;
-  const CLAVES = [0, 40, 70, 90, 120, 152];          // con movimiento reducido: un cuadro fijo por capítulo
-  const src = (i) => `film/${String(i).padStart(3, "0")}.webp`;
-  const peli = $("#entrada"), fija = $("#fija"), lienzo = $("#lienzo"), fondo = $("#fondo");
-  const ctx = lienzo.getContext("2d"), bctx = fondo.getContext("2d");
-  const imgs = new Array(N), listo = new Uint8Array(N);
-  let quiero = 0, pintado = -1, ancho = 0, alto = 0, horizontal = false;
-  fija.style.backgroundImage = "url(film/poster-xs.webp)";
+  // Tramos del vídeo (segundos): fuera, la puerta y dentro hasta el sillón
+  const TRAMOS = [[0, 2.5, "Calle Portillejo, 11", "Logroño"], [2.6, 5.6, "Pasa", "La puerta siempre abierta"], [5.7, 99, "Tu sillón te espera", "Siéntate"]];
+  const cine = $("#entrada"), video = $("#video"), sit = $("#sit"), led = $("#led"), panel = $("#panel"), amb = $("#amb");
+  let estado = "inicio";   // inicio · viendo · sentado
+  amb.style.backgroundImage = "url(cine/poster.webp)";
 
-  // Carga entrelazada: primero un cuadro de cada 32, luego de cada 16, 8, 4, 2 y todos.
-  const orden = [];
-  const visto = new Uint8Array(N);
-  for (const paso of [64, 32, 16, 8, 4, 2, 1]) for (let i = 0; i < N; i += paso) if (!visto[i]) { visto[i] = 1; orden.push(i); }
-  if (!visto[N - 1]) orden.push(N - 1);
-  let activos = 0, cola = 0;
-  function siguiente() {
-    while (activos < 6 && cola < orden.length) {
-      const i = orden[cola++];
-      const im = new Image();
-      im.decoding = "async";
-      activos++;
-      im.onload = () => { listo[i] = 1; activos--; if (pintado < 0 || Math.abs(i - quiero) <= Math.abs(pintado - quiero)) pedir(); siguiente(); };
-      im.onerror = () => { activos--; siguiente(); };
-      im.src = src(i);
-      imgs[i] = im;
-    }
+  function rotulo(t) {
+    if (estado === "sentado") return;
+    $("#titulo").classList.toggle("fuera", t > 2.3);
+    const tr = TRAMOS.find(([a, b]) => t >= a && t < b);
+    const sub = $("#sub");
+    const html = tr && t > 2.6 ? `${esc(tr[2])}<small>${esc(tr[3])}</small>` : "";
+    if (sub.dataset.txt !== html) { sub.classList.remove("on"); sub.dataset.txt = html; setTimeout(() => { sub.innerHTML = html; if (html) sub.classList.add("on"); }, html ? 250 : 0); }
+    $("#prog").style.width = Math.min(100, (t / (video.duration || 7.8)) * 100) + "%";
   }
-  siguiente();
+  video.addEventListener("timeupdate", () => rotulo(video.currentTime));
+  video.addEventListener("ended", () => sentarse(false));
+  // Si el navegador no puede con ninguno de los dos vídeos, se pasa directamente al sillón
+  $$("#video source").pop().addEventListener("error", () => sentarse(true));
 
-  function cercano(f) {
-    for (let d = 0; d < N; d++) {
-      if (f - d >= 0 && listo[f - d]) return f - d;
-      if (f + d < N && listo[f + d]) return f + d;
-    }
-    return -1;
+  async function reproducir() {
+    estado = "viendo";
+    $("#entrar").hidden = true; $("#otra-vez").hidden = true; $("#bajar").hidden = true; $("#mandos").hidden = false;
+    try { await video.play(); }
+    catch (e) { estado = "inicio"; $("#entrar").hidden = false; }   // sin reproducción automática (p. ej. ahorro de batería)
   }
-  function medir() {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    ancho = innerWidth; alto = fija.clientHeight || innerHeight;
-    lienzo.width = Math.round(ancho * dpr); lienzo.height = Math.round(alto * dpr);
-    fondo.width = Math.max(1, Math.round(ancho / 8)); fondo.height = Math.max(1, Math.round(alto / 8));
-    horizontal = ancho / alto > 0.75;
-    fondo.style.display = horizontal ? "block" : "none";
-    pintado = -1;
-  }
-  // En pantallas anchas la película (vertical) va algo a la derecha y deja sitio a los textos de la izquierda.
-  function encajar(c, g, im, cubrir, centro = 0.5) {
-    const cw = c.width, ch = c.height, iw = im.naturalWidth, ih = im.naturalHeight;
-    const s = cubrir ? Math.max(cw / iw, ch / ih) : Math.min(cw / iw, ch / ih);
-    const w = iw * s, h = ih * s;
-    const x = cubrir ? (cw - w) / 2 : Math.max(0, Math.min(cw - w, cw * centro - w / 2));
-    g.drawImage(im, x, (ch - h) / 2, w, h);
-  }
-  function pintar() {
-    const k = cercano(quiero);
-    if (k < 0 || k === pintado) return;
-    const im = imgs[k];
-    ctx.clearRect(0, 0, lienzo.width, lienzo.height);
-    encajar(lienzo, ctx, im, !horizontal, ancho >= 900 ? 0.6 : 0.5);
-    if (horizontal) encajar(fondo, bctx, im, true);
-    pintado = k;
-  }
-  const caps = $$(".cap").map((el) => ({ el, de: +el.dataset.de, a: +el.dataset.a }));
-  function capas(f) {
-    for (const c of caps) {
-      const entra = c.de === 0 ? 1 : (f - (c.de - 4)) / 6;
-      const sale = c.a >= N - 1 ? 1 : ((c.a + 4) - f) / 6;
-      const v = Math.max(0, Math.min(1, entra, sale));
-      c.el.style.setProperty("--k", v.toFixed(3));
-      c.el.classList.toggle("vivo", v > 0.01);
-    }
-  }
-  let rafId = 0;
-  function pedir() { if (!rafId) rafId = requestAnimationFrame(actualizar); }
-  function actualizar() {
-    rafId = 0;
-    const r = peli.getBoundingClientRect();
-    const recorrido = peli.offsetHeight - alto;
-    const p = Math.max(0, Math.min(1, -r.top / Math.max(1, recorrido)));
-    let f = Math.round(p * (N - 1));
-    if (reduced) f = CLAVES.reduce((a, b) => (Math.abs(b - f) < Math.abs(a - f) ? b : a));
-    quiero = f;
-    if (r.bottom > 0 && r.top < innerHeight) { pintar(); capas(p * (N - 1)); }
-    $("#prog").style.width = (p * 100).toFixed(2) + "%";
-    $("#baja").style.opacity = p < 0.03 ? "1" : "0";
-    $("#top").classList.toggle("solido", r.bottom < innerHeight * 0.5);
-  }
-  addEventListener("scroll", pedir, { passive: true });
-  addEventListener("resize", () => { medir(); pedir(); });
-  medir(); actualizar();
 
-  /* ================================================================ la reserva */
-  // Horario en minutos desde medianoche, de lunes a domingo (C. Portillejo, 11)
+  function sitioDe(el) {
+    const r = el.getBoundingClientRect(), c = cine.getBoundingClientRect();
+    return { left: r.left - c.left, top: r.top - c.top, width: r.width, height: r.height };
+  }
+  function colocar(el, s) { Object.assign(el.style, { left: s.left + "px", top: s.top + "px", width: s.width + "px", height: s.height + "px" }); }
+
+  // Te sientas: la foto del sillón (el último cuadro) se acerca al espejo y su marco de luz crece hasta ser la reserva
+  async function sentarse(rapido) {
+    if (estado === "sentado") return;
+    estado = "sentado";
+    video.pause();
+    $("#mandos").hidden = true; $("#entrar").hidden = true;
+    $("#titulo").classList.add("fuera"); $("#sub").classList.remove("on");
+    $("#prog").style.width = "100%";
+    amb.style.backgroundImage = "url(cine/sillon.webp)";
+    sit.hidden = false;
+    const sin = rapido || reduced;
+    sit.classList.toggle("ya", sin);
+    await cuadro();
+    sit.classList.add("sentado");
+    cine.classList.add("sentado");
+    if (!sin) await esperar(1900);
+    colocar(led, sitioDe($("#ancla")));
+    led.classList.remove("crece");
+    led.classList.add("on");
+    if (!sin) await esperar(450);
+    led.classList.add("crece");
+    colocar(led, sitioDe(panel));
+    if (!sin) await esperar(900);
+    panel.classList.add("on");
+    $("#otra-vez").hidden = false; $("#bajar").hidden = false;
+    $("#p-titulo").focus({ preventScroll: true });
+  }
+  function reiniciar() {
+    panel.classList.remove("on");
+    led.classList.remove("on", "crece");
+    sit.classList.add("ya"); sit.classList.remove("sentado"); cine.classList.remove("sentado");
+    sit.hidden = true;
+    amb.style.backgroundImage = "url(cine/poster.webp)";
+    video.currentTime = 0; rotulo(0);
+    reproducir();
+  }
+  addEventListener("resize", () => { if (estado === "sentado") colocar(led, sitioDe(panel)); });
+
+  $("#saltar").addEventListener("click", () => sentarse(false));
+  $("#btn-entrar").addEventListener("click", reproducir);
+  $("#otra-vez").addEventListener("click", reiniciar);
+  function abrirReserva() {
+    scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    if (estado !== "sentado") sentarse(true); else $("#p-titulo").focus({ preventScroll: true });
+  }
+  $("#cab-reservar").addEventListener("click", abrirReserva);
+  $("#local-reservar").addEventListener("click", abrirReserva);
+  addEventListener("scroll", () => { $("#top").classList.toggle("solido", scrollY > innerHeight * 0.6); }, { passive: true });
+
+  if (reduced) sentarse(true);
+  else reproducir();
+
+  /* ================================================================ la reserva, paso a paso dentro del espejo */
   const HORARIO = [[[600, 840], [960, 1200]], [[600, 840], [960, 1200]], [[600, 1200]], [[600, 840], [960, 1200]], [[600, 1200]], [[600, 840]], []];
   const SERVICIOS = [
     { id: "degradado", nombre: "Corte con degradado", min: 30, sub: "Lo más pedido" },
@@ -464,21 +459,22 @@ section { scroll-margin-top: 72px; }
     { id: "color", nombre: "Color y platino", min: 90, sub: "Decoloración con el corte a juego" },
   ];
   const BARBEROS = [{ id: "alvaro", nombre: "Álvaro", sub: "Barbero" }, { id: "igual", nombre: "Me da igual", sub: "El primer hueco libre" }];
+  const TITULOS = ["¿Qué te hacemos?", "¿Con quién?", "¿Cuándo te viene bien?", "Tus datos", "Cita apartada"];
   const DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
   const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
   const hhmm = (m) => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
   const ahoraMadrid = () => { try { return new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" })); } catch (e) { return new Date(); } };
   const lun0 = (d) => (d.getDay() + 6) % 7;
-  const st = { servicio: null, barbero: null, dia: null, hora: null };
+  const clave = (d) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  const st = { paso: 1, servicio: null, barbero: null, dia: null, hora: null };
 
   $("#servicios").innerHTML = SERVICIOS.map((s) => `<button type="button" class="op" data-s="${s.id}" aria-pressed="false"><span><b>${esc(s.nombre)}</b>${s.sub ? `<small>${esc(s.sub)}</small>` : ""}</span><span class="dur">${s.min} min</span></button>`).join("");
-  $("#barberos").innerHTML = BARBEROS.map((b) => `<button type="button" class="op" data-b="${b.id}" aria-pressed="false"><span><b>${esc(b.nombre)}</b><small>${esc(b.sub)}</small></span></button>`).join("");
+  $("#barberos").innerHTML = BARBEROS.map((b) => `<button type="button" class="op" data-b="${b.id}" aria-pressed="false"><span><b>${esc(b.nombre)}</b><small>${esc(b.sub)}</small></span><span class="dur">→</span></button>`).join("");
 
   function dias() {
     const hoy = ahoraMadrid(); hoy.setHours(0, 0, 0, 0);
     return Array.from({ length: 14 }, (_, k) => { const d = new Date(hoy); d.setDate(hoy.getDate() + k); return d; });
   }
-  const clave = (d) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
   // Ocupación de ejemplo, estable para cada día y hora (la agenda real llegará al conectarla)
   function ocupado(d, m, quien) {
     let h = 2166136261;
@@ -487,117 +483,97 @@ section { scroll-margin-top: 72px; }
   }
   function horasDe(d) {
     const s = SERVICIOS.find((x) => x.id === st.servicio);
-    if (!s) return [];
-    const ahora = ahoraMadrid();
-    const esHoy = clave(d) === clave(ahora);
-    const minAhora = ahora.getHours() * 60 + ahora.getMinutes() + 30;
+    if (!s || !d) return [];
+    const ahora = ahoraMadrid(), esHoy = clave(d) === clave(ahora), minAhora = ahora.getHours() * 60 + ahora.getMinutes() + 30;
     const out = [];
-    for (const [a, b] of HORARIO[lun0(d)]) {
-      for (let m = a; m + s.min <= b; m += 30) {
-        if (esHoy && m < minAhora) continue;
-        out.push({ m, libre: !ocupado(d, m, st.barbero || "igual") });
-      }
-    }
+    for (const [a, b] of HORARIO[lun0(d)]) for (let m = a; m + s.min <= b; m += 30) { if (esHoy && m < minAhora) continue; out.push({ m, libre: !ocupado(d, m, st.barbero || "igual") }); }
     return out;
   }
   function pintarDias() {
     $("#dias").innerHTML = dias().map((d, k) => {
-      const libres = st.servicio ? horasDe(d).filter((x) => x.libre).length : 0;
-      const cerrado = !HORARIO[lun0(d)].length;
-      const etiqueta = k === 0 ? "hoy" : k === 1 ? "mañana" : DIAS[lun0(d)].slice(0, 3);
-      return `<button type="button" class="dia" data-d="${clave(d)}" aria-pressed="${st.dia === clave(d)}" ${cerrado || !libres ? "disabled" : ""} aria-label="${DIAS[lun0(d)]} ${d.getDate()} de ${MESES[d.getMonth()]}${cerrado ? ", cerrado" : !libres ? ", sin huecos" : ""}"><span>${etiqueta}</span><b>${d.getDate()}</b><small>${cerrado ? "cerrado" : libres ? libres + " libres" : "lleno"}</small></button>`;
+      const libres = horasDe(d).filter((x) => x.libre).length, cerrado = !HORARIO[lun0(d)].length;
+      const et = k === 0 ? "hoy" : k === 1 ? "mañana" : DIAS[lun0(d)].slice(0, 3);
+      return `<button type="button" class="dia" data-d="${clave(d)}" aria-pressed="${st.dia === clave(d)}" ${cerrado || !libres ? "disabled" : ""} aria-label="${DIAS[lun0(d)]} ${d.getDate()} de ${MESES[d.getMonth()]}${cerrado ? ", cerrado" : !libres ? ", sin huecos" : ""}"><span>${et}</span><b>${d.getDate()}</b><small>${cerrado ? "cerrado" : libres ? libres + " libres" : "lleno"}</small></button>`;
     }).join("");
   }
   function pintarHoras() {
     const d = dias().find((x) => clave(x) === st.dia);
     if (!d) { $("#horas").innerHTML = ""; $("#huecos").textContent = "Elige un día."; return; }
-    const hs = horasDe(d);
-    const libres = hs.filter((x) => x.libre).length;
+    const hs = horasDe(d), libres = hs.filter((x) => x.libre).length;
     $("#huecos").textContent = libres ? `${DIAS[lun0(d)]} ${d.getDate()}: ${libres} ${libres === 1 ? "hueco libre" : "huecos libres"}` : "Ese día ya no quedan huecos.";
     $("#horas").innerHTML = hs.map((x) => `<button type="button" class="hora" data-m="${x.m}" aria-pressed="${st.hora === x.m}" ${x.libre ? "" : "disabled"} aria-label="${hhmm(x.m)}${x.libre ? "" : ", ocupada"}">${hhmm(x.m)}</button>`).join("");
   }
   function texto() {
-    const s = SERVICIOS.find((x) => x.id === st.servicio), b = BARBEROS.find((x) => x.id === st.barbero);
-    const d = dias().find((x) => clave(x) === st.dia);
-    return { s, b, d, cuando: d && st.hora != null ? `${DIAS[lun0(d)]} ${d.getDate()} de ${MESES[d.getMonth()]} a las ${hhmm(st.hora)}` : "" };
+    const s = SERVICIOS.find((x) => x.id === st.servicio), b = BARBEROS.find((x) => x.id === st.barbero), d = dias().find((x) => clave(x) === st.dia);
+    return { s, b, cuando: d && st.hora != null ? `${DIAS[lun0(d)]} ${d.getDate()} de ${MESES[d.getMonth()]} a las ${hhmm(st.hora)}` : "" };
   }
-  function refrescar() {
-    $("#p2").disabled = !st.servicio;
-    $("#p3").disabled = !st.servicio || !st.barbero;
-    $("#p4").disabled = st.hora == null;
+  function irPaso(n) {
+    st.paso = n;
+    $$("[data-paso]").forEach((el) => { el.hidden = +el.dataset.paso !== n; });
+    $("#p-titulo").textContent = TITULOS[n - 1];
+    $$("#puntos i").forEach((i, k) => { i.className = k + 1 < n ? "hecho" : k + 1 === n ? "ahora" : ""; });
+    $("#puntos").hidden = n === 5;
+    $("#atras").hidden = n === 1 || n === 5;
     $$("#servicios .op").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.s === st.servicio)));
     $$("#barberos .op").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.b === st.barbero)));
-    pintarDias(); pintarHoras();
+    if (n === 3) { pintarDias(); pintarHoras(); }
     const { s, b, cuando } = texto();
-    $("#resumen").innerHTML = !s ? "Elige un servicio para empezar." :
+    $("#p-res").innerHTML = n === 5 ? "Te esperamos en la calle Portillejo, 11." : !s ? "Elige lo que te hacemos." :
       `<b>${esc(s.nombre)}</b> · ${s.min} min${b ? ` · ${b.id === "igual" ? "con quien esté libre" : "con " + esc(b.nombre)}` : ""}${cuando ? `<br><b>${esc(cuando)}</b>` : ""}`;
-    $("#confirmar").disabled = st.hora == null;
+    $("#p-cuerpo").scrollTop = 0;
+    if (estado === "sentado") $("#p-titulo").focus({ preventScroll: true });
   }
-  function irA(el) { if (matchMedia("(max-width: 880px)").matches) el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }); }
-  $("#servicios").addEventListener("click", (e) => {
-    const b = e.target.closest("[data-s]"); if (!b) return;
-    st.servicio = b.dataset.s; st.hora = null;
-    if (st.dia && !horasDe(dias().find((x) => clave(x) === st.dia) || new Date()).some((x) => x.libre)) st.dia = null;
-    refrescar(); if (!st.barbero) irA($("#p2"));
-  });
+  $("#servicios").addEventListener("click", (e) => { const b = e.target.closest("[data-s]"); if (!b) return; st.servicio = b.dataset.s; st.hora = null; irPaso(2); });
   $("#barberos").addEventListener("click", (e) => {
     const b = e.target.closest("[data-b]"); if (!b) return;
     st.barbero = b.dataset.b; st.hora = null;
-    if (!st.dia) { const primero = dias().find((d) => horasDe(d).some((x) => x.libre)); st.dia = primero ? clave(primero) : null; }
-    refrescar(); irA($("#p3"));
+    const actual = dias().find((d) => clave(d) === st.dia);
+    if (!actual || !horasDe(actual).some((x) => x.libre)) { const p = dias().find((d) => horasDe(d).some((x) => x.libre)); st.dia = p ? clave(p) : null; }
+    irPaso(3);
   });
-  $("#dias").addEventListener("click", (e) => { const b = e.target.closest("[data-d]"); if (!b || b.disabled) return; st.dia = b.dataset.d; st.hora = null; refrescar(); });
-  $("#horas").addEventListener("click", (e) => { const b = e.target.closest("[data-m]"); if (!b || b.disabled) return; st.hora = +b.dataset.m; refrescar(); irA($("#p4")); });
-
+  $("#dias").addEventListener("click", (e) => { const b = e.target.closest("[data-d]"); if (!b || b.disabled) return; st.dia = b.dataset.d; st.hora = null; pintarDias(); pintarHoras(); });
+  $("#horas").addEventListener("click", (e) => { const b = e.target.closest("[data-m]"); if (!b || b.disabled) return; st.hora = +b.dataset.m; irPaso(4); });
+  $("#atras").addEventListener("click", () => irPaso(Math.max(1, st.paso - 1)));
   $("#form").addEventListener("submit", (e) => {
     e.preventDefault();
     const nombre = $("#f-nombre").value.trim(), tel = $("#f-tel").value.replace(/[^\d+]/g, "");
-    let bien = true;
+    const telOk = /^(\+34)?[6789]\d{8}$/.test(tel) || /^\+\d{9,15}$/.test(tel);
     $("#e-nombre").textContent = nombre ? "" : "Escribe tu nombre para la cita.";
     $("#f-nombre").setAttribute("aria-invalid", String(!nombre));
-    const telOk = /^(\+34)?[6789]\d{8}$/.test(tel) || /^\+\d{9,15}$/.test(tel);
     $("#e-tel").textContent = telOk ? "" : "Pon un móvil válido, por ejemplo 600 000 000.";
     $("#f-tel").setAttribute("aria-invalid", String(!telOk));
-    if (!nombre) { $("#f-nombre").focus(); bien = false; } else if (!telOk) { $("#f-tel").focus(); bien = false; }
-    if (!bien || st.hora == null) return;
+    if (!nombre) { $("#f-nombre").focus(); return; }
+    if (!telOk) { $("#f-tel").focus(); return; }
     const { s, b, cuando } = texto();
     $("#ok-datos").innerHTML = [["Servicio", `${s.nombre} · ${s.min} min`], ["Con", b.id === "igual" ? "Quien esté libre" : b.nombre], ["Cuándo", cuando], ["A nombre de", nombre], ["Dónde", "C. Portillejo, 11 · Logroño"]]
       .map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("");
-    $("#form").hidden = true; $("#ok").hidden = false; $("#ok").focus();
-    $("#ok").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+    irPaso(5);
   });
-  $("#otra").addEventListener("click", () => {
-    Object.assign(st, { servicio: null, barbero: null, dia: null, hora: null });
-    $("#form").reset(); $("#ok").hidden = true; $("#form").hidden = false; $("#copiado").textContent = ""; refrescar();
-    $("#reservar").scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
-  });
+  $("#otra").addEventListener("click", () => { Object.assign(st, { servicio: null, barbero: null, dia: null, hora: null }); $("#form").reset(); $("#copiado").textContent = ""; irPaso(1); });
   async function copiar(txt, aviso) {
-    try { await navigator.clipboard.writeText(txt); aviso.textContent = "Copiado."; }
-    catch (e) { aviso.textContent = "No se pudo copiar solo: selecciónalo y cópialo a mano."; }
+    try { await navigator.clipboard.writeText(txt); aviso("Copiado"); }
+    catch (e) { aviso("Selecciónalo y cópialo a mano"); }
   }
   $("#copiar").addEventListener("click", () => {
     const filas = $$("#ok-datos dt").map((dt) => `${dt.textContent}: ${dt.nextElementSibling.textContent}`).join("\n");
-    copiar(`Cita en Trébol Barber\n${filas}`, $("#copiado"));
+    copiar(`Cita en Trébol Barber\n${filas}`, (t) => { $("#copiado").textContent = t + "."; });
   });
-  refrescar();
+  irPaso(1);
 
   /* ================================================================ horario, abierto ahora */
   const ahora = ahoraMadrid(), hoyI = lun0(ahora), mins = ahora.getHours() * 60 + ahora.getMinutes();
   $("#semana").innerHTML = DIAS.map((d, i) => `<tr class="${i === hoyI ? "hoy" : ""}"><td>${d[0].toUpperCase() + d.slice(1)}${i === hoyI ? " · hoy" : ""}</td><td>${HORARIO[i].length ? HORARIO[i].map(([a, b]) => `${hhmm(a)}–${hhmm(b)}`).join(" y ") : "Cerrado"}</td></tr>`).join("");
   const tramo = HORARIO[hoyI].find(([a, b]) => mins >= a && mins < b);
-  let estado;
-  if (tramo) estado = `Abierto ahora · cierra a las ${hhmm(tramo[1])}`;
+  let est;
+  if (tramo) est = `Abierto ahora · cierra a las ${hhmm(tramo[1])}`;
   else {
     const luego = HORARIO[hoyI].find(([a]) => a > mins);
-    if (luego) estado = `Cerrado ahora · abre hoy a las ${hhmm(luego[0])}`;
-    else {
-      let k = 1; while (k < 8 && !HORARIO[(hoyI + k) % 7].length) k++;
-      estado = `Cerrado ahora · abre ${k === 1 ? "mañana" : "el " + DIAS[(hoyI + k) % 7]} a las ${hhmm(HORARIO[(hoyI + k) % 7][0][0])}`;
-    }
+    if (luego) est = `Cerrado ahora · abre hoy a las ${hhmm(luego[0])}`;
+    else { let k = 1; while (k < 8 && !HORARIO[(hoyI + k) % 7].length) k++; est = `Cerrado ahora · abre ${k === 1 ? "mañana" : "el " + DIAS[(hoyI + k) % 7]} a las ${hhmm(HORARIO[(hoyI + k) % 7][0][0])}`; }
   }
-  $("#estado-txt").textContent = estado;
+  $("#estado-txt").textContent = est;
   $("#estado").classList.toggle("abierto", !!tramo);
-  $("#tel-copiar").addEventListener("click", (e) => copiar("+34 941 64 10 71", { set textContent(t) { e.target.textContent = t === "Copiado." ? "Copiado" : "Selecciónalo"; } }));
+  $("#tel-copiar").addEventListener("click", (e) => copiar("+34 941 64 10 71", (t) => { e.target.textContent = t; }));
 
   /* ================================================================ fotos del local */
   const tira = $("#tira");

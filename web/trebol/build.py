@@ -44,7 +44,7 @@ def build() -> Path:
 <meta property="og:description" content="{DESCRIPTION}">
 <meta property="og:image" content="fotos/fachada.webp">
 <link rel="icon" href="{FAVICON}">
-<link rel="preload" href="film/000.webp" as="image">
+<link rel="preload" href="cine/poster.webp" as="image">
 {head_links.strip()}
 {style}
 <style>[hidden]{{display:none!important}}</style>
